@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<!--
+    ╔══════════════════════════════════════════════════════════════════════════════╗
+    ║                                                                              ║
+    ║  "Privacy is not about having something to hide.                             ║
+    ║   Privacy is about having something to protect."                             ║
+    ║                                                        — Edward Snowden      ║
+    ║                                                                              ║
+    ║  Si estás leyendo esto, eres de los nuestros.                                ║
+    ║                                                                              ║
+    ╚══════════════════════════════════════════════════════════════════════════════╝
+-->
+<html lang="es">
+<head>
+    <!--
+        "Cypherpunks write code. We know that someone has to write software 
+        to defend privacy, and we're going to write it."
+                                                        — Eric Hughes, 1993
+        
+        "The Net treats censorship as damage and routes around it."
+                                                        — John Gilmore
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Llave y la Jaula</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            ████████████████████████████████████████████████████████████████████
+            
+            "Those who would give up essential Liberty, to purchase a little 
+            temporary Safety, deserve neither Liberty nor Safety."
+                                                        — Benjamin Franklin
+            
+            "The only way to deal with an unfree world is to become so 
+            absolutely free that your very existence is an act of rebellion."
+                                                        — Albert Camus
+            
+            ████████████████████████████████████████████████████████████████████
+        */
+        
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0a0;
+            --text-muted: #606060;
+            --accent-cyan: #00d4ff;
+            --accent-green: #00ff88;
+            --accent-red: #ff4444;
+            --accent-orange: #ff8844;
+            --accent-purple: #aa88ff;
+            --glow-cyan: rgba(0, 212, 255, 0.3);
+            --glow-green: rgba(0, 255, 136, 0.2);
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-active: rgba(0, 212, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Noise overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Grid background */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-subtle);
+            padding: 2rem 0;
+            overflow-y: auto;
+            z-index: 100;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .nav.open {
+            transform: translateX(0);
+        }
+
+        .nav-toggle {
+            position: fixed;
+            left: 1rem;
+            top: 1rem;
+            width: 48px;
+            height: 48px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 101;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .nav-toggle:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px var(--glow-cyan);
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--text-primary);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-toggle span::before,
+        .nav-toggle span::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .nav-toggle span::before { top: -6px; }
+        .nav-toggle span::after { top: 6px; }
+
+        .nav-toggle.active span { background: transparent; }
+        .nav-toggle.active span::before { transform: rotate(45deg); top: 0; }
+        .nav-toggle.active span::after { transform: rotate(-45deg); top: 0; }
+
+        .nav-header {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 1rem;
+        }
+
+        .nav-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-section {
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.6rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            border-left: 2px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border-left-color: var(--accent-cyan);
+        }
+
+        .nav-link.active {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+            border-left-color: var(--accent-cyan);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green));
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+
+        /* Main content */
+        .main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Hero section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glitch 5s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { text-shadow: none; }
+            92% { text-shadow: -2px 0 var(--accent-red), 2px 0 var(--accent-cyan); }
+            94% { text-shadow: 2px 0 var(--accent-red), -2px 0 var(--accent-cyan); }
+            96% { text-shadow: none; }
+            98% { text-shadow: -1px 0 var(--accent-red), 1px 0 var(--accent-cyan); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 500px;
+        }
+
+        .hero-quote {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+            padding: 1.5rem 2rem;
+            border-left: 2px solid var(--accent-cyan);
+            background: var(--bg-secondary);
+            max-width: 500px;
+            margin-bottom: 3rem;
+        }
+
+        .hero-quote cite {
+            display: block;
+            margin-top: 0.5rem;
+            color: var(--accent-cyan);
+            font-style: normal;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent-cyan);
+        }
+
+        /* Content sections */
+        .section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .part-header {
+            text-align: center;
+            padding: 6rem 0 4rem;
+            position: relative;
+        }
+
+        .part-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .part-title {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .chapter-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin: 3rem 0 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chapter-title::before {
+            content: '';
+            width: 30px;
+            height: 2px;
+            background: var(--accent-cyan);
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin: 2rem 0 1rem;
+            color: var(--accent-green);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        em {
+            color: var(--text-primary);
+            font-style: italic;
+        }
+
+        /* Blockquotes */
+        blockquote {
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-cyan);
+            border-radius: 0 8px 8px 0;
+            position: relative;
+        }
+
+        blockquote::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-size: 4rem;
+            color: var(--accent-cyan);
+            opacity: 0.2;
+            font-family: Georgia, serif;
+        }
+
+        blockquote p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        blockquote cite {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            margin-top: 1rem;
+        }
+
+        /* Callout boxes */
+        .callout {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 8px;
+        }
+
+        .callout-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .callout-title svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .callout p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Highlight text */
+        .highlight {
+            background: linear-gradient(120deg, rgba(0, 212, 255, 0.2) 0%, rgba(0, 255, 136, 0.2) 100%);
+            padding: 0.1rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        /* Stats cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Tools table */
+        .tools-section {
+            margin: 3rem 0;
+        }
+
+        .tools-category {
+            margin-bottom: 2rem;
+        }
+
+        .tools-category-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-green);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .tool-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .tool-item:hover {
+            border-color: var(--accent-cyan);
+            background: var(--bg-tertiary);
+        }
+
+        .tool-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .tool-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .tool-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            padding: 0.3rem 0.8rem;
+            border: 1px solid var(--accent-cyan);
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .tool-link:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+        }
+
+        /* Case study cards */
+        .case-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-red), var(--accent-orange));
+        }
+
+        .case-card.success::before {
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan));
+        }
+
+        .case-country {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-orange);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .case-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Separator */
+        .separator {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+            margin: 4rem 0;
+        }
+
+        /* Action buttons */
+        .action-section {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 255, 136, 0.1));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .action-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 30px var(--glow-cyan);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        /* Reading time */
+        .reading-time {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .reading-time svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--accent-cyan);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 4rem;
+        }
+
+        .footer-quote {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-cyan);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .footer-author {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .footer-meta {
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (min-width: 1024px) {
+            .nav {
+                transform: translateX(0);
+            }
+            
+            .nav-toggle {
+                display: none;
+            }
+
+            .main {
+                margin-left: 280px;
+                max-width: calc(800px + 280px);
+                padding-left: 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main {
+                padding: 2rem 1rem;
+            }
+
+            .hero {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Smooth scroll sections */
+        .content-section {
+            scroll-margin-top: 2rem;
+        }
+
+        /* Terminal-style code blocks */
+        .terminal {
+            background: #0d0d0d;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background: #ff5f56; }
+        .terminal-dot.yellow { background: #ffbd2e; }
+        .terminal-dot.green { background: #27ca40; }
+
+        .terminal code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-green);
+        }
+
+        /* Principle cards */
+        .principle {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-purple);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .principle-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-purple);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .principle-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Interactive elements */
+        .expandable {
+            cursor: pointer;
+        }
+
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .expandable.open .expandable-content {
+            max-height: 1000px;
+        }
+
+        .expandable-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .expandable-trigger:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .expandable-trigger svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--accent-cyan);
+            transition: transform 0.3s ease;
+        }
+
+        .expandable.open .expandable-trigger svg {
+            transform: rotate(180deg);
+        }
+
+        /* TOC tracker */
+        .toc-progress {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 50;
+        }
+
+        .toc-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border-subtle);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .toc-dot:hover,
+        .toc-dot.active {
+            background: var(--accent-cyan);
+            box-shadow: 0 0 10px var(--glow-cyan);
+        }
+
+        @media (max-width: 1200px) {
+            .toc-progress {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Navigation Toggle -->
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-header">
+            <a href="../index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 1px; margin-bottom: 1rem; transition: color 0.3s;">
+                <span style="font-size: 1rem;">←</span> IA & FUTURO
+            </a>
+            <span class="nav-title">// Índice</span>
+        </div>
+        
+        <div class="nav-section">
+            <a href="#hero" class="nav-link">Inicio</a>
+            <a href="#prologo" class="nav-link">Prólogo</a>
+        </div>
+
+        <div class="nav-section">
+            <span class="nav-section-title">Parte I</span>
+            <a href="#parte1" class="nav-link">La arquitectura del control</a>
+            <a href="#cap1" class="nav-link">Cap 1: El panóptico perfecto</a>
+            <a href="#cap2" class="nav-link">Cap 2: El loop de dopamina</a>
+            <a href="#cap3" class="nav-link">Cap 3: El costo de la comodidad</a>
+            <a href="#cap4" class="nav-link">Cap 4: La ilusión de elección</a>
+        </div>
+
+        <div class="nav-section">
+            <span class="nav-section-title">Parte II</span>
+            <a href="#parte2" class="nav-link">El programa mental</a>
+            <a href="#cap5" class="nav-link">Cap 5: Default Mode Network</a>
+            <a href="#cap6" class="nav-link">Cap 6: Psicoplastógenos</a>
+            <a href="#cap7" class="nav-link">Cap 7: Disolución del ego</a>
+            <a href="#cap8" class="nav-link">Cap 8: Libertad cognitiva</a>
+        </div>
+
+        <div class="nav-section">
+            <span class="nav-section-title">Interludio</span>
+            <a href="#interludio" class="nav-link">La entropía como liberación</a>
+        </div>
+
+        <div class="nav-section">
+            <span class="nav-section-title">Parte III</span>
+            <a href="#parte3" class="nav-link">Las raíces de la resistencia</a>
+            <a href="#cap9" class="nav-link">Cap 9: Los profetas del código</a>
+            <a href="#cap10" class="nav-link">Cap 10: Las Crypto Wars</a>
+            <a href="#cap11" class="nav-link">Cap 11: Bitcoin</a>
+            <a href="#cap12" class="nav-link">Cap 12: CBDC</a>
+            <a href="#cap13" class="nav-link">Cap 13: IA local</a>
+            <a href="#cap14" class="nav-link">Cap 14: Descentralización</a>
+        </div>
+
+        <div class="nav-section">
+            <span class="nav-section-title">Parte IV</span>
+            <a href="#parte4" class="nav-link">Declaración de principios</a>
+        </div>
+
+        <div class="nav-section">
+            <span class="nav-section-title">Parte V</span>
+            <a href="#parte5" class="nav-link">Casos reales</a>
+            <a href="#iran" class="nav-link">Irán</a>
+            <a href="#venezuela" class="nav-link">Venezuela</a>
+            <a href="#argentina" class="nav-link">Argentina</a>
+            <a href="#canada" class="nav-link">Canadá</a>
+            <a href="#otros" class="nav-link">Otros casos</a>
+        </div>
+
+        <div class="nav-section">
+            <span class="nav-section-title">Parte VI</span>
+            <a href="#parte6" class="nav-link">Guía práctica</a>
+            <a href="#herramientas" class="nav-link">Herramientas</a>
+        </div>
+
+        <div class="nav-section">
+            <a href="#epilogo" class="nav-link">Epílogo</a>
+            <a href="#fuentes" class="nav-link">Fuentes</a>
+        </div>
+    </nav>
+
+    <!-- TOC Progress dots -->
+    <div class="toc-progress" id="tocProgress">
+        <div class="toc-dot" data-section="hero" title="Inicio"></div>
+        <div class="toc-dot" data-section="parte1" title="Parte I"></div>
+        <div class="toc-dot" data-section="parte2" title="Parte II"></div>
+        <div class="toc-dot" data-section="interludio" title="Interludio"></div>
+        <div class="toc-dot" data-section="parte3" title="Parte III"></div>
+        <div class="toc-dot" data-section="parte4" title="Parte IV"></div>
+        <div class="toc-dot" data-section="parte5" title="Parte V"></div>
+        <div class="toc-dot" data-section="parte6" title="Parte VI"></div>
+        <div class="toc-dot" data-section="epilogo" title="Epílogo"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <h1 class="hero-title">La Llave y la Jaula</h1>
+            <p class="hero-subtitle">Un manifiesto para quienes sienten que algo está roto</p>
+            
+            <blockquote class="hero-quote">
+                "Es más fácil imaginar el fin del mundo que el fin del capitalismo."
+                <cite>— Mark Fisher</cite>
+            </blockquote>
+
+            <div class="reading-time">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>~55 minutos de lectura</span>
+            </div>
+
+            <div class="scroll-indicator">
+                <span>Scroll para continuar</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12l7 7 7-7"/>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Prólogo -->
+        <section class="section content-section" id="prologo">
+            <div class="part-header">
+                <span class="part-number">// Prólogo</span>
+                <h2 class="part-title">El programa que corre en tu mente</h2>
+            </div>
+
+            <p>Abrís los ojos por la mañana. Antes de que tus pies toquen el suelo, tu mano ya busca el teléfono. No es decisión tuya, es reflejo. Un algoritmo diseñado por ingenieros que nunca vas a conocer pasó la noche seleccionando exactamente qué mostrarte para que sigas mirando. Cada notificación es un pequeño disparo de dopamina, calibrado con precisión de casino para mantenerte en un estado de anticipación perpetua.</p>
+
+            <p><strong>Esto no es paranoia. Es el modelo de negocio.</strong></p>
+
+            <p>Mientras desayunás, verificás correos del trabajo aunque es domingo. El límite entre tu tiempo y el tiempo que vendés se volvió invisible. Salís a la calle y cámaras registran tu rostro, tu paso, tu dirección. Tu tarjeta de crédito cuenta una historia más precisa de quién sos que cualquier confesión. Tu teléfono sabe dónde dormiste anoche, cuánto tiempo miraste aquel producto que no compraste, qué buscaste a las 3am cuando no podías dormir.</p>
+
+            <p>Y lo más perturbador: <span class="highlight">nada de esto te sorprende</span>.</p>
+
+            <p>Esa ausencia de sorpresa tiene un nombre: <em>normalización</em>. Y es exactamente lo que necesita el sistema para funcionar.</p>
+
+            <div class="separator"></div>
+
+            <p>Mark Fisher lo llamó <strong>realismo capitalista</strong>: la sensación difusa pero omnipresente de que este es el único mundo posible. No que sea bueno —nadie defiende ya que sea bueno— sino que es <em>inevitable</em>. Que cualquier alternativa es fantasía nostálgica o utopía peligrosa. Que lo mejor que podemos hacer es optimizar nuestra posición dentro de la máquina.</p>
+
+            <p>El genio del sistema no es convencerte de que es justo. Es convencerte de que es <em>real</em> —tan real como la gravedad— y que resistir es tan inútil como enojarse con el clima.</p>
+
+            <p>Shoshana Zuboff, la profesora de Harvard que acuñó el término "capitalismo de vigilancia", describe el resultado psicológico: <strong>impotencia, resignación y entumecimiento psíquico</strong>. No dolor agudo, que al menos provocaría reacción. Entumecimiento. Un no-sentir que se confunde con paz.</p>
+
+            <blockquote>
+                <p>"No tengo nada que ocultar"</p>
+            </blockquote>
+
+            <p>...decimos, repitiendo la defensa que nos enseñaron. Sin notar que la frase misma es la evidencia del programa funcionando. Como si la privacidad fuera solo para criminales. Como si vigilar a todos no fuera el crimen.</p>
+
+            <div class="callout">
+                <div class="callout-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    Para el lector escéptico
+                </div>
+                <p>Es fácil leer esto y pensar que es una exageración. <em>Mi vida es cómoda. Vivo en democracia. Confío en las instituciones. Esto suena a paranoia.</em> Si eso es lo que estás pensando, este manifiesto es especialmente para vos. Porque precisamente esa sensación de comodidad y normalidad no es la prueba de que la jaula no existe —es el material del que están hechos sus barrotes. La vigilancia más efectiva no es la que sentís. Es la que naturalizaste hasta olvidar que existe. Te invito a cuestionarlo.</p>
+            </div>
+
+            <div class="separator"></div>
+
+            <p>Pero acá está lo que el sistema no puede admitir: <strong>las herramientas para salir ya existen</strong>.</p>
+
+            <p>Criptografía matemáticamente invulnerable. Comunicaciones que ningún estado puede interceptar. Dinero que fluye sin permiso de bancos. Inteligencia artificial que funciona en tu máquina, sin enviar tus pensamientos a servidores corporativos. Redes que no pertenecen a nadie y pertenecen a todos.</p>
+
+            <p>Estas herramientas existen desde hace décadas. Algunas fueron creadas por gente que fue investigada como "exportadores de armas" por atreverse a publicar código. Otras nacieron en listas de correo oscuras donde visionarios imaginaban un futuro donde la libertad no dependiera de la benevolencia del poder.</p>
+
+            <p>Y sin embargo, casi nadie las usa.</p>
+
+            <p><strong>¿Por qué?</strong></p>
+
+            <div class="separator"></div>
+
+            <p>Este documento es tres cosas a la vez:</p>
+
+            <p><strong>Primero</strong>, un marco filosófico: de dónde venimos, qué nos trajo acá, qué significa realmente la libertad cuando las cadenas son invisibles.</p>
+
+            <p><strong>Segundo</strong>, un manifiesto político: declaración de principios para quienes sienten que otro mundo no solo es posible, sino que ya está siendo construido en los márgenes.</p>
+
+            <p><strong>Tercero</strong>, una guía práctica: herramientas concretas, paso a paso, para empezar a vivir de manera diferente mañana.</p>
+
+            <p>Pero antes de las herramientas, antes incluso de los principios, necesitamos entender <strong>el programa que corre en nuestra mente</strong> y por qué es tan difícil desinstalarlo.</p>
+        </section>
+
+        <!-- Parte I -->
+        <section class="section content-section" id="parte1">
+            <div class="part-header">
+                <span class="part-number">// Parte I</span>
+                <h2 class="part-title">La arquitectura del control</h2>
+            </div>
+
+            <div id="cap1">
+                <h2 class="chapter-title">Capítulo 1: El panóptico perfecto</h2>
+
+                <p>En 1791, Jeremy Bentham diseñó una prisión revolucionaria. La llamó el <strong>Panóptico</strong>: una estructura circular donde un vigilante en el centro podía observar a todos los prisioneros sin que estos supieran cuándo estaban siendo observados. El genio del diseño no era la vigilancia real, sino la <em>posibilidad</em> de vigilancia. Los prisioneros internalizaban la mirada del poder y se vigilaban a sí mismos.</p>
+
+                <p>Michel Foucault tomó esta imagen como metáfora de la sociedad disciplinaria moderna. Pero lo que tenemos ahora hace que el panóptico parezca artesanal.</p>
+
+                <p>No es que alguien te mire desde una torre. Es que cada clic, cada pausa, cada scroll genera datos. Estos datos alimentan algoritmos que predicen tu comportamiento. Y esas predicciones se venden en mercados donde empresas apuestan sobre lo que vas a hacer mañana, la próxima hora, en los próximos tres segundos.</p>
+
+                <div class="callout">
+                    <div class="callout-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        La verdad incómoda
+                    </div>
+                    <p><strong>No sos el cliente de estas plataformas. Sos la materia prima.</strong></p>
+                </div>
+
+                <p>Shoshana Zuboff lo documenta con rigor académico: "El capitalismo de vigilancia reclama unilateralmente la experiencia humana como materia prima gratuita para traducirla en datos de comportamiento". Tus búsquedas a las 3am, tus dudas antes de comprar, tus momentos de debilidad —todo es cosechado, procesado, empaquetado, vendido.</p>
+
+                <p>Y lo notable es que el sistema no necesita coacción. Nos ofrecen comodidad a cambio de privacidad, y aceptamos. Cada vez. La app de mapas que sabe dónde vivís. El asistente de voz que escucha siempre. El rastreador de fitness que registra cuánto dormiste.</p>
+
+                <p>No nos obligan. Nos <em>convencen</em> de que la comodidad vale más que la autonomía.</p>
+            </div>
+
+            <div class="separator"></div>
+
+            <div id="cap2">
+                <h2 class="chapter-title">Capítulo 2: El loop de dopamina</h2>
+
+                <p>Imaginá que trabajás en Silicon Valley. Tu métrica de éxito es "engagement" —cuánto tiempo pasan los usuarios en tu app. No te pagan por hacerlos más felices o más sabios. Te pagan por capturar su atención.</p>
+
+                <p>¿Qué harías?</p>
+
+                <p>Exactamente lo que hicieron: estudiar los mecanismos de la adicción y aplicarlos con precisión de ingeniería.</p>
+
+                <p>El <strong>variable reward schedule</strong> es el patrón de recompensa que hace a los casinos tan efectivos. No es que ganés cada vez —eso sería aburrido. Es que <em>a veces</em> ganás, y nunca sabés cuándo. Tu cerebro libera más dopamina en la anticipación que en la recompensa misma. Y así te mantiene tirando la palanca.</p>
+
+                <p>Las redes sociales replicaron este mecanismo conscientemente. Cada vez que revisás tu teléfono, hay una pequeña posibilidad de encontrar un like, un mensaje, una notificación que confirme que existís para otros. La mayoría de las veces no hay nada significativo. Pero esa <em>posibilidad</em> —esa incertidumbre— es lo que te hace revisar de nuevo en cinco minutos. En tres. En uno.</p>
+
+                <p>Los investigadores de Stanford confirmaron lo que los ingenieros de Meta sabían desde hace años: estas plataformas activan los mismos circuitos cerebrales que las drogas adictivas. El sistema de dopamina se sensibiliza, se recalibra, empieza a necesitar los estímulos digitales para funcionar normalmente.</p>
+
+                <p><strong>No es metáfora. Es neurobiología. Tu cerebro fue modificado por incentivos de diseño.</strong></p>
+            </div>
+
+            <div class="separator"></div>
+
+            <div id="cap3">
+                <h2 class="chapter-title">Capítulo 3: El costo de la comodidad</h2>
+
+                <p>¿Recordás la última vez que te aburriste profundamente? No el aburrimiento superficial de esperar el colectivo —el teléfono te salva de ese instantáneamente— sino el aburrimiento largo, vacío, incómodo que te obligaba a pensar, imaginar, crear.</p>
+
+                <p>Ese aburrimiento era el espacio donde nacían las ideas. Donde tu mente, sin estímulo externo, tenía que generar su propio contenido. Donde la creatividad emergía por necesidad.</p>
+
+                <p><span class="highlight">Ese espacio fue colonizado.</span></p>
+
+                <p>El scroll infinito es el diseño perfecto: no tiene fin natural, no hay señal de "suficiente", nunca llegás a ningún lado. Tu cerebro, que evolucionó para buscar información nueva (era útil para sobrevivir en la sabana), es explotado por feeds diseñados para nunca satisfacer.</p>
+
+                <p>Y lo perturbador no es que pierdas tiempo. Es que perdés la capacidad de dirigir tu propia atención.</p>
+
+                <p>Frances Haugen, la ingeniera que filtró documentos internos de Facebook en 2021, reveló lo que muchos sospechábamos: la empresa sabía que sus algoritmos amplifican contenido divisivo porque genera más engagement. Sabían que Instagram daña la salud mental de adolescentes. Siguieron adelante porque las métricas de crecimiento superaban cualquier consideración ética.</p>
+
+                <p>La pregunta incómoda: <strong>¿cuántas de tus opiniones son realmente tuyas, y cuántas son el resultado de algoritmos que te mostraron exactamente lo que te haría reaccionar?</strong></p>
+            </div>
+
+            <div class="separator"></div>
+
+            <div id="cap4">
+                <h2 class="chapter-title">Capítulo 4: La ilusión de elección</h2>
+
+                <p>Acá está la dinámica más difícil de ver: te permite elegir entre opciones que él mismo define.</p>
+
+                <p>¿iPhone o Android? Ambos rastrean. ¿Gmail o Outlook? Ambos escanean. ¿Facebook o TikTok? Ambos cosechan. La elección entre marcas no es libertad —es la ilusión de libertad mientras permanecés dentro del mismo paradigma de extracción.</p>
+
+                <p>Mark Fisher describió cómo el capitalismo subsume toda crítica: la protesta contra las corporaciones se convierte en producto vendido por corporaciones. La remera del Che producida en fábricas explotadoras. El documental de Netflix sobre los peligros de Netflix. La crítica se comercializa y así se neutraliza.</p>
+
+                <p>Hay un concepto de seguridad informática que aplica acá: <strong>adversarial thinking</strong> —pensar como tu adversario para anticipar sus movimientos. El sistema anticipó la mayoría de tus movimientos de escape. Si borrás Facebook, hay Instagram (misma empresa). Si cambiás a Signal, tus contactos siguen en WhatsApp (misma empresa). Si buscás privacidad en Google, aparecen productos de Google que prometen privacidad.</p>
+
+                <p>La única forma de escapar un sistema así no es elegir mejor entre sus opciones —es <strong>construir opciones fuera del sistema</strong>.</p>
+
+                <p>Eso requiere dos cosas: herramientas técnicas (que existen) y capacidad de imaginar alternativas (que fue sistemáticamente atrofiada).</p>
+
+                <p>Para la segunda, quizás necesitemos intervenciones más profundas.</p>
+            </div>
+        </section>
+
+        <!--
+            ╔═══════════════════════════════════════════════════════════════════╗
+            ║                                                                   ║
+            ║  "The mind is not a vessel to be filled, but a fire to be         ║
+            ║   kindled."                                                       ║
+            ║                                            — Plutarch             ║
+            ║                                                                   ║
+            ╚═══════════════════════════════════════════════════════════════════╝
+        -->
+        
+        <!-- Parte II -->
+        <section class="section content-section" id="parte2">
+            <div class="part-header">
+                <span class="part-number">// Parte II</span>
+                <h2 class="part-title">El programa mental</h2>
+            </div>
+
+            <div id="cap5">
+                <h2 class="chapter-title">Capítulo 5: La Default Mode Network</h2>
+
+                <p>Tu cerebro tiene un modo por defecto. Cuando no estás enfocado en ninguna tarea, cuando tu mente vaga, hay una red de regiones que se activan consistentemente. Los neurocientíficos la llaman la <strong>Default Mode Network (DMN)</strong>.</p>
+
+                <p>¿Qué hace la DMN? Principalmente: construir y mantener tu sentido del yo.</p>
+
+                <p>Cuando la DMN está activa, pensás sobre vos mismo. Recordás el pasado, proyectás el futuro, evaluás cómo te perciben otros, comparás quién sos con quién deberías ser. Es la voz interior que comenta, juzga, narra.</p>
+
+                <p>En personas sanas, la DMN se activa y desactiva según la necesidad. Pero en depresión, ansiedad, adicción —condiciones epidémicas en nuestra era— la DMN se vuelve hiperactiva e inflexible. Se queda encendida, rumiando, atrapada en bucles de pensamiento autorreferencial.</p>
+
+                <p>La investigación reciente reveló algo extraordinario: <span class="highlight">los psicodélicos silencian la DMN</span>.</p>
+
+                <p>Bajo psilocibina o LSD, la actividad de la DMN cae significativamente. Y esa caída correlaciona directamente con lo que los participantes describen como "disolución del ego" —la sensación de que los límites entre el yo y el mundo se disuelven temporalmente.</p>
+
+                <blockquote>
+                    <p>"Cuando la actividad de la Default Mode Network cae precipitadamente, el ego se desvanece temporalmente, y los límites usuales que experimentamos entre el yo y el mundo, sujeto y objeto, se disuelven."</p>
+                    <cite>— Michael Pollan</cite>
+                </blockquote>
+
+                <p>Pero hay algo más profundo. La DMN no solo construye el yo —construye un yo particular, moldeado por la cultura, las expectativas, los miedos internalizados. El "programa mental" que te dice quién sos, qué es posible, qué debés temer.</p>
+
+                <p><strong>¿Y si ese programa pudiera ser interrumpido?</strong></p>
+            </div>
+
+            <div class="separator"></div>
+
+            <div id="cap6">
+                <h2 class="chapter-title">Capítulo 6: Psicoplastógenos</h2>
+
+                <p>En 2018, el investigador David Olson acuñó un término: <strong>psicoplastógeno</strong>. Sustancias que inducen plasticidad neural rápida y duradera con una sola dosis.</p>
+
+                <p>Los psicodélicos clásicos —psilocibina, LSD, DMT, ayahuasca— califican. Y lo que hacen es notable: después de una sola experiencia, las neuronas literalmente crecen nuevas conexiones. Dendritas más largas, más espinas sinápticas, mayor conectividad entre regiones cerebrales que normalmente no se comunican.</p>
+
+                <div class="callout">
+                    <div class="callout-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        ¿Por qué un manifiesto sobre soberanía digital habla de psicodélicos?
+                    </div>
+                    <p>Porque la liberación tecnológica sin liberación mental es incompleta. Podés tener todas las herramientas de privacidad del mundo, pero si tu mente sigue atrapada en los patrones que el sistema te instaló —consumismo, conformidad, miedo— vas a volver a las mismas jaulas con diferentes nombres. Los psicodélicos no son la única forma de expandir la mente, pero son la más estudiada científicamente. Y lo que la ciencia está descubriendo tiene implicaciones directas para cualquier proyecto de emancipación.</p>
+                </div>
+
+                <p>La metáfora más útil es la de una montaña nevada con surcos profundos por donde el agua siempre corre igual. Esos surcos son tus patrones de pensamiento, tus respuestas automáticas, tus formas habituales de interpretar el mundo. Décadas de repetición los cavaron profundo.</p>
+
+                <p>Lo que hacen los psicodélicos es derretir la nieve temporalmente. Por unas horas, el agua puede fluir por caminos nuevos. Y cuando la nieve se recongela, algunos de esos caminos nuevos persisten.</p>
+
+                <p>Es por eso que una sola sesión de psilocibina puede producir cambios en personalidad que duran meses o años. No porque la droga permanezca en el cuerpo —se metaboliza en horas— sino porque cambió la estructura del cerebro durante una ventana de plasticidad aumentada.</p>
+
+                <p>Para nuestros propósitos, la implicación es esta: <strong>los patrones de pensamiento que el sistema te programó pueden ser desprogramados</strong>.</p>
+
+                <p>No mediante "fuerza de voluntad" (otro concepto que el sistema usa para culparte por su diseño adictivo). Mediante intervenciones que actúan a nivel de la arquitectura neural misma.</p>
+            </div>
+
+            <div class="separator"></div>
+
+            <div id="cap7">
+                <h2 class="chapter-title">Capítulo 7: Disolución del ego y liberación</h2>
+
+                <p>Cuando la DMN se silencia bajo psicodélicos, algo más sucede además de la disolución del ego. La conectividad <em>entre</em> diferentes redes cerebrales aumenta dramáticamente. Regiones que normalmente no se hablan empiezan a comunicarse. La segregación funcional del cerebro se relaja.</p>
+
+                <p>Los investigadores lo llaman <strong>entropía cerebral aumentada</strong>. En términos simples: más caos, más posibilidades, más formas de procesar la misma información.</p>
+
+                <p>Robin Carhart-Harris, uno de los líderes de esta investigación, propone que este aumento de entropía es precisamente lo que permite romper patrones rígidos. Los pensamientos depresivos, las respuestas adictivas, los patrones ansiosos —todos son estados de baja entropía, el sistema atascado en un pequeño conjunto de configuraciones. Los psicodélicos fuerzan al sistema hacia configuraciones nuevas.</p>
+
+                <p>Pero acá está la conexión que quiero hacer explícita: <span class="highlight">la conformidad social también es un patrón de baja entropía</span>.</p>
+
+                <p>La incapacidad de imaginar alternativas al capitalismo, la aceptación pasiva de la vigilancia, la sumisión a sistemas que extraen valor de tu vida —estos no son defectos de carácter ni falta de información. Son patrones cognitivos reforzados por décadas de condicionamiento.</p>
+
+                <p>Y pueden ser interrumpidos.</p>
+
+                <p>No sugiero que tomar psicodélicos automáticamente te convierta en revolucionario. La experiencia depende del contexto —lo que los practicantes llaman "set and setting". Podés tener una experiencia profunda y volver a tu vida exactamente igual. O podés integrar los insights de manera que transformen cómo te relacionás con el poder, la tecnología, tu propia vida.</p>
+
+                <p>Lo que sugiero es más modesto: <strong>la rigidez cognitiva que nos mantiene dentro del sistema puede ser tratada</strong>.</p>
+
+                <p>Y esto abre espacio para lo que viene después.</p>
+            </div>
+
+            <div class="separator"></div>
+
+            <div id="cap8">
+                <h2 class="chapter-title">Capítulo 8: La libertad cognitiva como derecho humano</h2>
+
+                <p>En 1999, Wrye Sententia y Richard Glen Boire fundaron el Center for Cognitive Liberty & Ethics. Su argumento central: si creemos en la libertad de pensamiento, debemos reconocer la <strong>libertad cognitiva</strong> como derecho fundamental.</p>
+
+                <p>Esto significa dos cosas. Primero, nadie debe ser obligado a alterar su mente sin consentimiento —ya sea mediante drogas, interfaces cerebro-computadora, o manipulación algorítmica. Segundo, nadie debe ser impedido de explorar su propia consciencia mientras no dañe a otros.</p>
+
+                <p>La segunda implicación es la controversial: si tenés derecho a tu propia mente, tenés derecho a modificarla. La prohibición de sustancias psicoactivas es, bajo esta luz, una violación de derechos humanos básicos —una restricción impuesta por el Estado sobre lo que podés hacer con tu propia consciencia.</p>
+
+                <p>Pero notemos la asimetría. Las corporaciones pueden modificar tu cognición mediante diseño adictivo y manipulación algorítmica —eso es "innovación". Vos no podés modificar tu propia cognición mediante sustancias de tu elección —eso es "crimen".</p>
+
+                <p><strong>El sistema te programa sin pedirte permiso. Y criminaliza los medios más efectivos de desprogramarte.</strong></p>
+
+                <p>Esto no es coincidencia.</p>
+
+                <p>La investigación reciente sobre psicodélicos está revelando algo que las culturas tradicionales sabían desde hace milenios: estas sustancias pueden producir cambios profundos en valores, prioridades, sentido de conexión con la naturaleza y otros seres. Los participantes en estudios de Johns Hopkins reportan que sus experiencias están entre las más significativas de sus vidas —comparables al nacimiento de un hijo o la muerte de un padre.</p>
+
+                <p>¿Qué pasaría si una fracción significativa de la población tuviera experiencias que disolvieran temporalmente el ego y revelaran la arbitrariedad de los sistemas de control?</p>
+
+                <p>El sistema no puede permitirse esa pregunta.</p>
+            </div>
+        </section>
+
+        <!-- Interludio -->
+        <section class="section content-section" id="interludio">
+            <div class="part-header">
+                <span class="part-number">// Interludio</span>
+                <h2 class="part-title">La entropía como liberación</h2>
+            </div>
+
+            <h3>De la mente a la red</h3>
+
+            <p>Hay un patrón que conecta todo lo que venimos discutiendo. Un principio que opera tanto en la arquitectura de tu cerebro como en la arquitectura de las redes que podrían liberarte.</p>
+
+            <p>Ese principio es la <strong>entropía</strong>.</p>
+
+            <p>En sistemas rígidos —ya sea una mente atrapada en depresión o una red centralizada controlada por una corporación— hay poca entropía. El sistema está atascado en un pequeño conjunto de configuraciones. Los mismos pensamientos se repiten. Los mismos nodos controlan todo el flujo. Cualquier perturbación puede colapsar el sistema entero.</p>
+
+            <p>En sistemas flexibles —una mente bajo el efecto de psicodélicos o una red mesh sin centro— la entropía aumenta. Hay más configuraciones posibles. Más caminos por donde puede fluir la información. Más formas de adaptarse a lo inesperado.</p>
+
+            <p>Robin Carhart-Harris lo demostró con cerebros: la rigidez mental correlaciona con patrones de baja entropía; la apertura y la creatividad, con mayor entropía. Los psicodélicos funcionan precisamente porque fuerzan al cerebro hacia estados de mayor entropía donde los patrones rígidos pueden disolverse.</p>
+
+            <p>Bitcoin funciona bajo la misma lógica. No hay un servidor central que pueda caer. No hay un CEO que pueda ser presionado. No hay un punto único de fallo. La red es resiliente precisamente porque es "caótica" —miles de nodos independientes que no dependen de ningún centro.</p>
+
+            <p>El micelio bajo el bosque opera igual. Sin cerebro, sin centro de comando. La inteligencia distribuida en la red misma. Si una parte se daña, las conexiones restantes compensan.</p>
+
+            <div class="callout">
+                <div class="callout-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    La lección profunda
+                </div>
+                <p><strong>La liberación —tanto mental como tecnológica— pasa por abrazar la entropía.</strong></p>
+            </div>
+
+            <p>Una mente libre no es una mente ordenada según los patrones que el sistema te instaló. Es una mente capaz de reconfigurarse, de pensar lo que antes era impensable, de imaginar alternativas donde antes solo había "realismo".</p>
+
+            <p>Una red libre no es una red eficientemente controlada desde un centro. Es una red donde el control está distribuido, donde no hay cuello de botella, donde la resiliencia emerge del aparente caos.</p>
+
+            <p>Por eso las dos partes de este manifiesto —la desprogramación mental y las herramientas descentralizadas— no son temas separados. Son dos caras de la misma moneda. Dos manifestaciones del mismo principio.</p>
+
+            <p>No podés construir sistemas libres con mentes rígidas. Y no podés mantener una mente libre dentro de sistemas que te vigilan y controlan.</p>
+
+            <p><strong>La liberación es integral o no es.</strong></p>
+        </section>
+
+        <!--
+            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+            
+            "Cypherpunks write code."
+                                                — Eric Hughes
+            
+            "We are on the edge of a new world. 
+             It is not a utopia or a dystopia. 
+             It is simply the next world."
+                                                — Timothy Leary
+            
+            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        -->
+
+        <!-- Parte III (resumida por extensión) -->
+        <section class="section content-section" id="parte3">
+            <div class="part-header">
+                <span class="part-number">// Parte III</span>
+                <h2 class="part-title">Las raíces de la resistencia</h2>
+            </div>
+
+            <div id="cap9">
+                <h2 class="chapter-title">Capítulo 9: Los profetas del código</h2>
+
+                <p>En 1992, un grupo de criptógrafos, hackers y visionarios empezaron a reunirse en el Área de la Bahía de San Francisco. Se llamaron a sí mismos <strong>cypherpunks</strong> —un juego de palabras entre "cipher" (cifrado) y "cyberpunk".</p>
+
+                <p>Su premisa era simple y radical: la privacidad es necesaria para una sociedad abierta. Pero no podés esperar que gobiernos o corporaciones te la otorguen. Tenés que construirla vos mismo. Con código.</p>
+
+                <blockquote>
+                    <p>"La privacidad es necesaria para una sociedad abierta en la era electrónica. No podemos esperar que gobiernos, corporaciones u otras organizaciones grandes y sin rostro nos concedan privacidad por su beneficencia. Debemos defender nuestra propia privacidad si esperamos tener alguna. Los cypherpunks escriben código."</p>
+                    <cite>— Eric Hughes, Manifiesto Cypherpunk (1993)</cite>
+                </blockquote>
+
+                <p>Estos manifiestos pueden parecer utópicos hoy, después de décadas de vigilancia corporativa y estatal. Pero sus autores no eran ingenuos —eran ingenieros. Sabían que las palabras no bastaban.</p>
+
+                <p>Por eso escribieron código.</p>
+            </div>
+
+            <div class="separator"></div>
+
+            <div id="cap11">
+                <h2 class="chapter-title">Capítulo 11: Bitcoin</h2>
+
+                <p>El 31 de octubre de 2008, alguien bajo el seudónimo Satoshi Nakamoto publicó un paper de nueve páginas en una lista de correo cypherpunk: "Bitcoin: A Peer-to-Peer Electronic Cash System".</p>
+
+                <p>El 3 de enero de 2009, el bloque génesis fue minado con un mensaje incrustado: <em>"The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"</em> —una referencia al rescate bancario británico. Una declaración política inequívoca.</p>
+
+                <div class="callout">
+                    <div class="callout-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        Pero, ¿Bitcoin no es solo para especuladores y delincuentes?
+                    </div>
+                    <p>Sí, ha sido usado para especulación y actividades ilegales —como el dólar, el euro, y cualquier otra forma de dinero en la historia. Pero su valor fundamental no es económico, es político: Bitcoin es la primera demostración funcional de que la confianza puede coordinarse a escala global sin una autoridad central. Esa es la lección que importa acá. No se trata de hacerte rico. Se trata de entender que el dinero sin intermediarios es técnicamente posible —y que esa posibilidad cambia todo.</p>
+                </div>
+
+                <p>Bitcoin representa algo más amplio: <strong>la demostración de que sistemas sin centro de control pueden funcionar a escala</strong>.</p>
+
+                <p>Durante décadas nos dijeron que necesitábamos intermediarios de confianza —bancos, plataformas, gobiernos— para coordinar actividad económica y social. Bitcoin demostró que la coordinación puede emerger de reglas matemáticas y consenso distribuido.</p>
+
+                <p>Pero la lección filosófica permanece: <strong>los intermediarios de confianza no son necesidades naturales —son elecciones políticas</strong>.</p>
+
+                <p>Y si son elecciones, pueden elegirse diferente.</p>
+            </div>
+        </section>
+
+        <!--
+            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+            
+            "The secret to change is to focus all of your energy not on 
+             fighting the old, but on building the new."
+                                                    — Socrates
+            
+            "First they ignore you, then they ridicule you, then they 
+             fight you, and then you win."
+                                                    — Nicholas Klein (1914)
+            
+            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        -->
+
+        <!-- Parte IV - Principios -->
+        <section class="section content-section" id="parte4">
+            <div class="part-header">
+                <span class="part-number">// Parte IV</span>
+                <h2 class="part-title">Declaración de principios</h2>
+            </div>
+
+            <div class="principle">
+                <div class="principle-number">Principio 1</div>
+                <div class="principle-title">La privacidad no es secreto</div>
+                <p>La privacidad es el poder de revelarte selectivamente al mundo. De decidir qué información compartís, con quién, bajo qué condiciones. No es el refugio de criminales —es el prerrequisito de toda autonomía genuina.</p>
+            </div>
+
+            <div class="principle">
+                <div class="principle-number">Principio 2</div>
+                <div class="principle-title">Los derechos se conquistan, no se otorgan</div>
+                <p>Nadie te va a dar tu libertad. Los que controlan las plataformas se benefician de tu atención. Los que controlan los gobiernos se benefician de tu vigilabilidad. Esperar que te concedan privacidad por benevolencia es como esperar que el casino te recomiende dejar de apostar.</p>
+            </div>
+
+            <div class="principle">
+                <div class="principle-number">Principio 3</div>
+                <div class="principle-title">La comodidad es el señuelo</div>
+                <p>El sistema no te amenaza —te seduce. Cada vez que aceptás "conveniencia" a cambio de datos, hacés un trade-off invisible. Tu trabajo no es confiar en la buena voluntad de corporaciones. Es asumir que toda información que das será usada de formas que no anticipaste.</p>
+            </div>
+
+            <div class="principle">
+                <div class="principle-number">Principio 4</div>
+                <div class="principle-title">La descentralización es resiliencia</div>
+                <p>Los sistemas centralizados son frágiles. Los sistemas descentralizados no tienen cabeza que cortar. Funciona bajo la misma lógica que una mente flexible. Así como una mayor entropía cerebral nos permite escapar de bucles de pensamiento rígidos, una red sin centro puede sobrevivir a ataques que derribarían cualquier sistema jerárquico.</p>
+            </div>
+
+            <div class="principle">
+                <div class="principle-number">Principio 5</div>
+                <div class="principle-title">El código es acción política</div>
+                <p>Cada línea de código que implementa privacidad es un acto de resistencia. Cada nodo de una red descentralizada es un voto contra el monopolio. La política no se hace solo en las urnas o las calles. Se hace en la arquitectura de los sistemas que usamos.</p>
+            </div>
+
+            <div class="principle">
+                <div class="principle-number">Principio 6</div>
+                <div class="principle-title">La soberanía es práctica diaria</div>
+                <p>No alcanza con estar de acuerdo con estos principios. La soberanía digital es como la salud física: requiere acciones concretas, repetidas, incorporadas a la rutina. El sistema cuenta con tu pasividad. Tu actividad lo erosiona.</p>
+            </div>
+        </section>
+
+        <!-- Parte V - Casos (resumidos) -->
+        <section class="section content-section" id="parte5">
+            <div class="part-header">
+                <span class="part-number">// Parte V</span>
+                <h2 class="part-title">Casos reales — El control ya está operando</h2>
+            </div>
+
+            <p>Los casos que siguen no son escenarios hipotéticos ni advertencias sobre futuros distópicos. Son hechos documentados, verificables, que están ocurriendo ahora o sucedieron recientemente.</p>
+
+            <div class="case-card" id="iran">
+                <div class="case-country">Irán</div>
+                <h3 class="case-title">El laboratorio del control total (enero 2026)</h3>
+                <p>El rial perdió más del 50% de su valor solo en el último año. Prohibición de cripto con penas de hasta dos años. Apagones de internet selectivos. Starlink opera clandestinamente —y poseerlo es riesgoso.</p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">1,050,000</span>
+                        <span class="stat-label">riales por dólar</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">~10,000</span>
+                        <span class="stat-label">terminales Starlink ilegales</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-card" id="venezuela">
+                <div class="case-country">Venezuela</div>
+                <h3 class="case-title">El colapso monetario como advertencia</h3>
+                <p>El bolívar perdió el 99.99% de su valor entre 2013 y 2026. Inflación de 130,000% en 2018. Más de 7.9 millones emigraron. Venezuela se convirtió en el tercer país del mundo en adopción grassroots de cripto.</p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">$44.6B</span>
+                        <span class="stat-label">en transacciones cripto</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">14</span>
+                        <span class="stat-label">ceros eliminados de la moneda</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-card" id="argentina">
+                <div class="case-country">Argentina</div>
+                <h3 class="case-title">El espejo más cercano</h3>
+                <p>Un presidente libertario que promete abolir el Banco Central... mientras firma decretos que expanden la vigilancia estatal. Los argentinos movieron $91.1 mil millones en cripto mientras el peso colapsaba.</p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">$91.1B</span>
+                        <span class="stat-label">en cripto (2023-2024)</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">211%</span>
+                        <span class="stat-label">inflación en 2023</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-card success" id="canada">
+                <div class="case-country">Canadá 2022</div>
+                <h3 class="case-title">Cuando las democracias congelan cuentas</h3>
+                <p><strong>¿Creés que la congelación de cuentas solo pasa en regímenes autoritarios?</strong></p>
+                <p>257 cuentas congeladas sin orden judicial. $7.8 millones inmovilizados. GoFundMe confiscó $8 millones en donaciones legales. En 2024, un tribunal dictaminó que fue ilegal. Pero el mensaje ya había sido enviado.</p>
+            </div>
+        </section>
+
+        <!-- Parte VI - Herramientas -->
+        <section class="section content-section" id="parte6">
+            <div class="part-header">
+                <span class="part-number">// Parte VI</span>
+                <h2 class="part-title">Guía práctica — Las herramientas</h2>
+            </div>
+
+            <p><strong>El principio fundamental:</strong> Leer no es actuar. Entender no es cambiar. Todo lo anterior es contexto. Lo que sigue son acciones concretas.</p>
+
+            <div class="tools-section" id="herramientas">
+                <div class="tools-category">
+                    <h4 class="tools-category-title">Nivel 1 — Hoy mismo</h4>
+                    
+                    <div class="tool-item">
+                        <div>
+                            <div class="tool-name">Bitwarden</div>
+                            <div class="tool-desc">Gestor de contraseñas. No es opcional.</div>
+                        </div>
+                        <a href="https://bitwarden.com" class="tool-link" target="_blank">bitwarden.com</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <div>
+                            <div class="tool-name">Signal</div>
+                            <div class="tool-desc">Mensajería cifrada real. Código abierto.</div>
+                        </div>
+                        <a href="https://signal.org" class="tool-link" target="_blank">signal.org</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <div>
+                            <div class="tool-name">Firefox + uBlock Origin</div>
+                            <div class="tool-desc">Navegador configurado para privacidad.</div>
+                        </div>
+                        <a href="https://mozilla.org" class="tool-link" target="_blank">mozilla.org</a>
+                    </div>
+                </div>
+
+                <div class="tools-category">
+                    <h4 class="tools-category-title">Nivel 2 — Primera semana</h4>
+                    
+                    <div class="tool-item">
+                        <div>
+                            <div class="tool-name">Proton Mail / Tuta</div>
+                            <div class="tool-desc">Email con cifrado real.</div>
+                        </div>
+                        <a href="https://protonmail.com" class="tool-link" target="_blank">protonmail.com</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <div>
+                            <div class="tool-name">Mullvad / IVPN</div>
+                            <div class="tool-desc">VPN sin registro. Pago anónimo disponible.</div>
+                        </div>
+                        <a href="https://mullvad.net" class="tool-link" target="_blank">mullvad.net</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <div>
+                            <div class="tool-name">SimpleLogin</div>
+                            <div class="tool-desc">Alias de email para cada servicio.</div>
+                        </div>
+                        <a href="https://simplelogin.io" class="tool-link" target="_blank">simplelogin.io</a>
+                    </div>
+                </div>
+
+                <div class="tools-category">
+                    <h4 class="tools-category-title">Nivel 3 — Primer mes</h4>
+                    
+                    <div class="tool-item">
+                        <div>
+                            <div class="tool-name">Ollama / LM Studio</div>
+                            <div class="tool-desc">IA local. Tus conversaciones nunca salen de tu máquina.</div>
+                        </div>
+                        <a href="https://ollama.com" class="tool-link" target="_blank">ollama.com</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <div>
+                            <div class="tool-name">BlueWallet / Sparrow</div>
+                            <div class="tool-desc">Wallet de Bitcoin no custodial.</div>
+                        </div>
+                        <a href="https://bluewallet.io" class="tool-link" target="_blank">bluewallet.io</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <div>
+                            <div class="tool-name">Feather / Cake Wallet</div>
+                            <div class="tool-desc">Monero para privacidad financiera real.</div>
+                        </div>
+                        <a href="https://featherwallet.org" class="tool-link" target="_blank">featherwallet.org</a>
+                    </div>
+                </div>
+
+                <div class="tools-category">
+                    <h4 class="tools-category-title">Nivel 4 — Avanzado</h4>
+                    
+                    <div class="tool-item">
+                        <div>
+                            <div class="tool-name">GrapheneOS</div>
+                            <div class="tool-desc">Android sin Google. Para Pixel.</div>
+                        </div>
+                        <a href="https://grapheneos.org" class="tool-link" target="_blank">grapheneos.org</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <div>
+                            <div class="tool-name">Tails OS</div>
+                            <div class="tool-desc">Sistema operativo que no deja rastro.</div>
+                        </div>
+                        <a href="https://tails.net" class="tool-link" target="_blank">tails.net</a>
+                    </div>
+
+                    <div class="tool-item">
+                        <div>
+                            <div class="tool-name">Meshtastic</div>
+                            <div class="tool-desc">Comunicación offline por radio mesh.</div>
+                        </div>
+                        <a href="https://meshtastic.org" class="tool-link" target="_blank">meshtastic.org</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Epílogo -->
+        <section class="section content-section" id="epilogo">
+            <div class="part-header">
+                <span class="part-number">// Epílogo</span>
+                <h2 class="part-title">La decisión</h2>
+            </div>
+
+            <p>Llegaste hasta acá. Eso ya te distingue de la mayoría.</p>
+
+            <p>Leer no es actuar. Entender no es cambiar. Pero es el primer paso.</p>
+
+            <p>No necesitás cambiarlo todo mañana. Pero sí necesitás empezar.</p>
+
+            <div class="action-section">
+                <h3 class="action-title">Tres acciones concretas</h3>
+                
+                <p><strong>Esta semana:</strong> Instalá Signal y convencé a tres personas de usarlo.</p>
+                
+                <p><strong>Este mes:</strong> Aprendé qué es una wallet de Bitcoin no custodial. No para especular —para entender cómo funciona dinero que nadie puede congelar.</p>
+                
+                <p><strong>Este año:</strong> Identificá qué parte de tu vida digital depende más de infraestructura que no controlás, y empezá a construir alternativas.</p>
+            </div>
+
+            <p>Actuar no es solo instalar una aplicación. Es cultivar un estado mental que refleje la propia red que queremos construir: adaptable, resiliente, sin un único punto de fallo. La liberación de la mente y la arquitectura de la red son dos caras de la misma moneda. No podés tener una sin la otra.</p>
+
+            <p><strong>Las herramientas existen. El conocimiento está disponible. La decisión es tuya.</strong></p>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer" id="fuentes">
+            <p class="footer-quote">"No pedimos permiso. Estamos decididos a defender lo nuestro."</p>
+            <p class="footer-author">— Eric Hughes, Manifiesto Cypherpunk</p>
+            
+            <div class="separator"></div>
+
+            <p class="footer-meta">
+                <strong>Fuentes principales:</strong> Mark Fisher • Shoshana Zuboff • Michel Foucault • Robin Carhart-Harris • Eric Hughes • Satoshi Nakamoto
+            </p>
+            <p class="footer-meta">
+                <strong>Recursos:</strong> EFF (eff.org) • Privacy Guides (privacyguides.org) • Surveillance Self-Defense (ssd.eff.org)
+            </p>
+            <p class="footer-meta" style="margin-top: 2rem;">
+                Última actualización: enero 2026 • Este documento es de libre distribución
+            </p>
+        </footer>
+    </main>
+
+    <script>
+        // Navigation toggle
+        const navToggle = document.getElementById('navToggle');
+        const nav = document.getElementById('nav');
+        
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            nav.classList.toggle('open');
+        });
+
+        // Close nav when clicking a link (mobile)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 1024) {
+                    navToggle.classList.remove('active');
+                    nav.classList.remove('open');
+                }
+            });
+        });
+
+        // Progress bar
+        const progressBar = document.getElementById('progressBar');
+        
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            progressBar.style.width = progress + '%';
+        });
+
+        // Intersection Observer for sections
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const tocDots = document.querySelectorAll('.toc-dot');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -70% 0px',
+            threshold: 0
+        };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Update nav active state
+                    const id = entry.target.id;
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.classList.add('active');
+                        }
+                    });
+
+                    // Update TOC dots
+                    tocDots.forEach(dot => {
+                        dot.classList.remove('active');
+                        if (dot.dataset.section === id) {
+                            dot.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        // TOC dots click
+        tocDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const section = document.getElementById(dot.dataset.section);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Initial animation for hero
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.hero').classList.add('visible');
+        });
+        
+        /*
+            ████████████████████████████████████████████████████████████████████
+            
+            "In a time of universal deceit, telling the truth is a 
+             revolutionary act."
+                                                        — George Orwell
+            
+            "The most dangerous man to any government is the man who is able 
+             to think things out for himself, without regard to the prevailing 
+             superstitions and taboos."
+                                                        — H.L. Mencken
+            
+            "Code is law."
+                                                        — Lawrence Lessig
+            
+            ████████████████████████████████████████████████████████████████████
+        */
+        
+        // Console easter egg para los exploradores
+        console.log('%c◈ LA LLAVE Y LA JAULA ◈', 'font-size: 20px; color: #00d4ff; font-family: monospace;');
+        console.log('%c—', 'color: #333;');
+        console.log('%c"Privacy is necessary for an open society in the electronic age."', 'color: #00ff88; font-style: italic;');
+        console.log('%c— A Cypherpunk\'s Manifesto, Eric Hughes, 1993', 'color: #606060;');
+        console.log('%c—', 'color: #333;');
+        console.log('%c"We reject: kings, presidents and voting.', 'color: #00d4ff;');
+        console.log('%c We believe in: rough consensus and running code."', 'color: #00d4ff;');
+        console.log('%c— David D. Clark', 'color: #606060;');
+        console.log('%c—', 'color: #333;');
+        console.log('%cgenesis_block: 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f', 'color: #444; font-size: 10px;');
+        console.log('%c—', 'color: #333;');
+        console.log('%cSi llegaste hasta aquí, las llaves ya son tuyas.', 'color: #ffd700;');
+    </script>
+    
+    <!--
+        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        
+        MENSAJE FINAL PARA LOS EXPLORADORES DEL CÓDIGO:
+        
+        "The question is not whether we will be extremists, but what kind of 
+         extremists we will be. Will we be extremists for hate or for love?"
+                                                    — Martin Luther King Jr.
+        
+        "Yesterday I was clever, so I wanted to change the world. 
+         Today I am wise, so I am changing myself."
+                                                    — Rumi
+        
+        "The real hopeless victims of mental illness are to be found among 
+         those who appear to be most normal. Many of them are normal because 
+         they are so well adjusted to our mode of existence, because their 
+         human voice has been silenced so early in their lives, that they 
+         do not even struggle or suffer or develop symptoms as the neurotic 
+         does."
+                                                    — Aldous Huxley
+        
+        "The future is already here — it's just not evenly distributed."
+                                                    — William Gibson
+        
+        "Running bitcoin."
+                                                    — Hal Finney, 11 enero 2009
+        
+        ¿Qué código estás escribiendo con tu vida?
+        
+        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+    -->
+</body>
+</html>
