@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<!--
+    ╔══════════════════════════════════════════════════════════════════╗
+    ║                                                                  ║
+    ║                        S H A M A N T E K                         ║
+    ║                                                                  ║
+    ║              "Donde la tecnología encuentra al espíritu"         ║
+    ║                                                                  ║
+    ╠══════════════════════════════════════════════════════════════════╣
+    ║                                                                  ║
+    ║  "¿Debe el ciudadano resignar su conciencia al legislador?       ║
+    ║   Pienso que debemos ser hombres primero, y súbditos después."   ║
+    ║                                        — Henry David Thoreau     ║
+    ║                                                                  ║
+    ╠══════════════════════════════════════════════════════════════════╣
+    ║                                                                  ║
+    ║  Este documento es dominio público.                              ║
+    ║  Las ideas no reconocen fronteras.                               ║
+    ║  Copiá, distribuí, modificá, traducí.                            ║
+    ║                                                                  ║
+    ║  Compilado: Enero 2026                                           ║
+    ║  Nodo: ShamanTek // IA & Futuro                                  ║
+    ║                                                                  ║
+    ╚══════════════════════════════════════════════════════════════════╝
+    
+    Si estás leyendo esto, probablemente ya entendés que las 
+    estructuras que parecen inmutables son construcciones humanas.
+    
+    Bienvenido al otro lado del espejo.
+    
+-->
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Cuerpo No Es Tuyo — ShamanTek</title>
+    <meta name="description" content="Nacionalismo, conscripción y el arte de no ser esclavo de ninguna bandera. Un manifiesto sobre soberanía corporal.">
+    
+    <!-- 
+        "El nacionalismo es una enfermedad infantil. 
+         Es el sarampión de la humanidad."
+                                        — Albert Einstein
+    -->
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 
+            "La única manera de enfrentar un mundo sin libertad es volverse 
+            tan absolutamente libre que tu propia existencia sea un acto de rebeldía."
+                                                                — Albert Camus
+        */
+        
+        :root {
+            --void: #0a0808;
+            --void-light: #12100f;
+            --void-lighter: #1a1614;
+            --blood-primary: #ff2d2d;
+            --blood-secondary: #cc0000;
+            --blood-dark: #8b0000;
+            --blood-dim: rgba(255, 45, 45, 0.2);
+            --rust: #b85c38;
+            --amber-warning: #ff6b35;
+            --bone: #e8dcd0;
+            --text-primary: #e0d8d0;
+            --text-secondary: #9a928a;
+            --text-dim: #5a5550;
+            --grid-color: rgba(255, 45, 45, 0.03);
+            --scanline-color: rgba(255, 45, 45, 0.015);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--void);
+            color: var(--text-primary);
+            line-height: 1.8;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ============================================
+           EFECTOS DE FONDO - Estética de alerta/sangre
+        ============================================ */
+        
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                var(--scanline-color) 2px,
+                var(--scanline-color) 4px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .glow-orb {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-orb-1 {
+            background: var(--blood-primary);
+            top: -200px;
+            right: -200px;
+            animation: orb-float 20s ease-in-out infinite;
+        }
+
+        .glow-orb-2 {
+            background: var(--blood-dark);
+            bottom: -200px;
+            left: -200px;
+            animation: orb-float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes orb-float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 30px); }
+        }
+
+        /* ============================================
+           HEADER / NAVEGACIÓN
+        ============================================ */
+        
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: linear-gradient(180deg, var(--void) 0%, transparent 100%);
+            padding: 20px 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--blood-primary);
+        }
+
+        .back-link .arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover .arrow {
+            transform: translateX(-5px);
+        }
+
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--blood-primary);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ============================================
+           HERO DEL ARTÍCULO
+        ============================================ */
+        
+        .article-hero {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 140px 40px 80px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .warning-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            color: var(--blood-primary);
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: var(--blood-dim);
+            border: 1px solid var(--blood-primary);
+            border-radius: 4px;
+            animation: warning-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes warning-pulse {
+            0%, 100% { box-shadow: 0 0 10px var(--blood-dim); }
+            50% { box-shadow: 0 0 25px var(--blood-dim); }
+        }
+
+        .warning-badge::before {
+            content: '⚠';
+            font-size: 1rem;
+        }
+
+        .article-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: var(--bone);
+            text-shadow: 
+                0 0 30px var(--blood-dim),
+                0 0 60px var(--blood-dim);
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .article-subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 40px;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .article-meta .icon {
+            color: var(--blood-primary);
+        }
+
+        /* ============================================
+           CONTENIDO DEL ARTÍCULO
+        ============================================ */
+        
+        .article-content {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 40px 100px;
+        }
+
+        /* Secciones */
+        .content-section {
+            margin-bottom: 80px;
+        }
+
+        /* Títulos de parte */
+        .part-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--blood-primary);
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--blood-dim);
+            letter-spacing: 0.1em;
+        }
+
+        /* H2 */
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--bone);
+            margin: 50px 0 25px;
+            letter-spacing: 0.05em;
+        }
+
+        /* H3 */
+        h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--rust);
+            margin: 40px 0 20px;
+            padding-left: 15px;
+            border-left: 3px solid var(--blood-primary);
+        }
+
+        /* Párrafos */
+        p {
+            margin-bottom: 1.5em;
+            color: var(--text-primary);
+            font-size: 1.05rem;
+        }
+
+        /* Énfasis en texto */
+        strong {
+            color: var(--bone);
+            font-weight: 500;
+        }
+
+        em {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Prólogo/Intro especial */
+        .prologue {
+            font-style: italic;
+            color: var(--text-secondary);
+            padding: 30px;
+            background: var(--void-light);
+            border-left: 3px solid var(--rust);
+            margin-bottom: 40px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .prologue .location {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--blood-primary);
+            font-style: normal;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        /* Blockquotes - Citas */
+        blockquote {
+            margin: 40px 0;
+            padding: 30px 35px;
+            background: linear-gradient(135deg, var(--void-light) 0%, var(--void) 100%);
+            border-left: 4px solid var(--blood-primary);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        blockquote::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 3rem;
+            color: var(--blood-dim);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        blockquote p {
+            margin-bottom: 0;
+            padding-left: 20px;
+        }
+
+        blockquote cite {
+            display: block;
+            margin-top: 15px;
+            padding-left: 20px;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-style: normal;
+        }
+
+        /* Callout boxes - Objeciones anticipadas */
+        .callout {
+            margin: 40px 0;
+            padding: 25px 30px;
+            background: var(--void-lighter);
+            border: 1px solid var(--blood-dim);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .callout::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blood-primary), var(--rust), transparent);
+        }
+
+        .callout-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            color: var(--blood-primary);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .callout-title::before {
+            content: '◆';
+        }
+
+        .callout p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1em;
+        }
+
+        .callout p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Listas */
+        ul, ol {
+            margin: 20px 0 30px 25px;
+            color: var(--text-primary);
+        }
+
+        li {
+            margin-bottom: 12px;
+            padding-left: 10px;
+        }
+
+        ul li::marker {
+            color: var(--blood-primary);
+        }
+
+        ol li::marker {
+            color: var(--rust);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Tablas */
+        table {
+            width: 100%;
+            margin: 30px 0;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--blood-primary);
+            text-align: left;
+            padding: 15px;
+            background: var(--void-light);
+            border-bottom: 2px solid var(--blood-dim);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--void-lighter);
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: var(--void-light);
+        }
+
+        /* Separadores */
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--blood-dim), transparent);
+            margin: 60px 0;
+        }
+
+        /* Links */
+        a {
+            color: var(--blood-primary);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--amber-warning);
+            border-bottom-color: var(--amber-warning);
+        }
+
+        /* Sección destacada - Guerras */
+        .war-card {
+            margin: 40px 0;
+            padding: 30px;
+            background: var(--void-light);
+            border: 1px solid var(--void-lighter);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .war-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--blood-primary), var(--blood-dark));
+        }
+
+        .war-card h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--bone);
+            margin-bottom: 20px;
+        }
+
+        .war-told {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+        }
+
+        .war-reality {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .war-winner {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--blood-primary);
+            padding-top: 15px;
+            border-top: 1px solid var(--void-lighter);
+        }
+
+        /* Utopías - Cards */
+        .utopia-card {
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--void-light) 0%, var(--void) 100%);
+            border: 1px solid var(--void-lighter);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .utopia-card:hover {
+            border-color: var(--rust);
+            transform: translateY(-3px);
+        }
+
+        .utopia-card h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--rust);
+            margin-bottom: 15px;
+        }
+
+        .utopia-note {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            padding: 15px;
+            background: var(--void);
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        /* Herramientas - Numbered sections */
+        .tool-section {
+            margin: 40px 0;
+            padding-left: 60px;
+            position: relative;
+        }
+
+        .tool-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--blood-primary);
+            border: 2px solid var(--blood-primary);
+            border-radius: 50%;
+        }
+
+        .tool-section h3 {
+            border-left: none;
+            padding-left: 0;
+            color: var(--bone);
+            margin-top: 5px;
+        }
+
+        /* Citas finales */
+        .final-quotes {
+            margin: 60px 0;
+            padding: 40px;
+            background: var(--void-light);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .final-quote {
+            margin-bottom: 30px;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .final-quote:last-child {
+            margin-bottom: 0;
+        }
+
+        .final-quote cite {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-style: normal;
+        }
+
+        /* Recursos/Anexo */
+        .resources {
+            margin-top: 60px;
+            padding: 40px;
+            background: var(--void-light);
+            border: 1px solid var(--void-lighter);
+            border-radius: 8px;
+        }
+
+        .resources h2 {
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+
+        .resource-category {
+            margin-bottom: 25px;
+        }
+
+        .resource-category h4 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            color: var(--rust);
+            margin-bottom: 10px;
+        }
+
+        .resource-category ul {
+            margin: 0;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .resource-category li {
+            padding-left: 0;
+            margin-bottom: 8px;
+        }
+
+        /* Footer del artículo */
+        .article-footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid var(--void-lighter);
+            text-align: center;
+        }
+
+        .article-footer p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+        }
+
+        .license {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ============================================
+           FOOTER GLOBAL
+        ============================================ */
+        
+        footer {
+            position: relative;
+            z-index: 10;
+            border-top: 1px solid var(--void-lighter);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .footer-quote {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .footer-nav a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            border-bottom: none;
+        }
+
+        .footer-nav a:hover {
+            color: var(--blood-primary);
+        }
+
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        
+        @media (max-width: 768px) {
+            .article-hero {
+                padding: 120px 25px 60px;
+            }
+
+            .article-content {
+                padding: 0 25px 80px;
+            }
+
+            .header-content {
+                padding: 0 20px;
+            }
+
+            .header-status {
+                display: none;
+            }
+
+            .article-meta {
+                gap: 15px;
+            }
+
+            .part-title {
+                font-size: 1.4rem;
+            }
+
+            h2 {
+                font-size: 1.15rem;
+            }
+
+            blockquote {
+                padding: 25px 20px;
+            }
+
+            table {
+                font-size: 0.8rem;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .tool-section {
+                padding-left: 50px;
+            }
+
+            .tool-number {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blood-primary), var(--rust));
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <!--
+        ████████████████████████████████████████████████████████████████████
+        
+        "Un hombre no es menos esclavo porque se le permita elegir un nuevo 
+         amo cada cierto número de años."
+                                                        — Lysander Spooner
+        
+        ████████████████████████████████████████████████████████████████████
+    -->
+
+    <!-- Efectos de fondo -->
+    <div class="cyber-grid"></div>
+    <div class="scanlines"></div>
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="../index.html" class="back-link">
+                <span class="arrow">←</span>
+                <span>IA & FUTURO</span>
+            </a>
+            <div class="header-status">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>TRANSMISIÓN ACTIVA</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!--
+        ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+        
+        PREGUNTA PARA EL LECTOR DEL CÓDIGO:
+        
+        ¿Cuántas guerras se pelearon por líneas en un mapa
+        que los soldados nunca habían visto antes de morir por ellas?
+        
+        ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+    -->
+
+    <!-- Hero del artículo -->
+    <div class="article-hero">
+        <div class="warning-badge">Manifiesto · Soberanía Corporal</div>
+        <h1 class="article-title">TU CUERPO<br>NO ES TUYO</h1>
+        <p class="article-subtitle">Nacionalismo, conscripción y el arte de no ser esclavo de ninguna bandera</p>
+        <div class="article-meta">
+            <span><span class="icon">◇</span> Enero 2026</span>
+            <span><span class="icon">◇</span> ~30 min lectura</span>
+            <span><span class="icon">◇</span> Dominio Público</span>
+        </div>
+    </div>
+
+    <!--
+        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        
+        "El verdadero patriotismo odia la injusticia en su propio país 
+         más que en cualquier otro lugar."
+                                                    — Clarence Darrow
+        
+        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+    -->
+
+    <!-- Contenido del artículo -->
+    <article class="article-content">
+        
+        <!-- PRÓLOGO -->
+        <section class="content-section">
+            <h1 class="part-title">PRÓLOGO: LA FRONTERA</h1>
+            
+            <div class="prologue">
+                <span class="location">Tumbes, Perú. Marzo de 2026.</span>
+                <p>Miguel tiene 19 años. Nació en Tumbes, a 30 kilómetros de la frontera con Ecuador. Creció jugando fútbol con chicos ecuatorianos que cruzaban a comprar en el mercado de Aguas Verdes. Su mejor amigo de la infancia, Andrés, vive en Huaquillas, del lado ecuatoriano. Hablan el mismo español, comen el mismo ceviche, escuchan la misma música.</p>
+            </div>
+
+            <p>Miguel acaba de recibir una notificación. No se inscribió en el registro militar a los 17 como exige el Decreto Supremo 018-2025-DE. Tiene una multa de 275 soles. Y un ultimátum: regularizar su situación o enfrentar sanciones que pueden incluir restricciones para trámites públicos, acceso a empleo formal y hasta educación superior.</p>
+
+            <p>El congresista Edwin Martínez acaba de presentar un proyecto de ley para hacer el servicio militar obligatorio para todos los mayores de 18 años. El argumento: "formar ciudadanos con valores patrióticos" y "preparar a la juventud ante amenazas externas".</p>
+
+            <p>¿Amenazas externas? Miguel mira hacia la frontera. Del otro lado está Andrés. El enemigo, aparentemente.</p>
+
+            <p>Dos chicos que crecieron juntos. Que comparten ancestros, historia, comida, música. Separados por una línea imaginaria trazada hace 200 años por criollos que querían sus propios feudos. Y ahora, potencialmente, entrenados para matarse el uno al otro si algún político decide que es necesario.</p>
+
+            <p>Miguel no entiende por qué debería odiar a Andrés. Pero el Estado le dice que debe estar dispuesto a morir —o matar— por un pedazo de tela con colores específicos.</p>
+
+            <hr>
+
+            <div class="callout">
+                <div class="callout-title">Si estás leyendo esto</div>
+                <p>...y pensás que el nacionalismo es amor a tu tierra, a tu cultura, a tu gente: <strong>seguí leyendo.</strong></p>
+                <p>Lo que llamamos "patria" es una ficción reciente. Y esa ficción tiene dueños.</p>
+            </div>
+        </section>
+
+        <!-- PARTE I -->
+        <section class="content-section">
+            <h1 class="part-title">PARTE I: LA HISTORIA QUE TE CONTARON</h1>
+
+            <h2>Los vencedores y sus relatos</h2>
+
+            <p><em>"El vencedor siempre será el juez, y el vencido siempre el acusado."</em></p>
+
+            <p>Eso dijo Hermann Göring en Nuremberg. Un nazi. Pero tenía razón en algo: la historia que conocés fue escrita por quienes ganaron las guerras, las conquistas, las revoluciones. No es "la verdad". Es <strong>una versión</strong> de los hechos, la versión que convenía a los que quedaron con el poder.</p>
+
+            <p>Walter Benjamin —filósofo judío que se suicidó huyendo de los nazis en 1940— lo expresó de forma más poética. Imaginó un ángel que mira hacia el pasado:</p>
+
+            <blockquote>
+                <p>"Donde nosotros percibimos una cadena de acontecimientos, él ve una catástrofe única que amontona ruina sobre ruina... El huracán lo empuja irresistiblemente hacia el futuro, al cual da la espalda, mientras que frente a él las ruinas crecen hasta el cielo. Este huracán es lo que llamamos progreso."</p>
+            </blockquote>
+
+            <p>Lo que llamamos "historia nacional" es ese huracán disfrazado de relato ordenado. Los héroes de tu país son los villanos de otro. Las "gestas libertadoras" de unos son las masacres de otros. Y nadie te enseña la versión de los que perdieron.</p>
+
+            <hr>
+
+            <h2>200 años de invención</h2>
+
+            <p>Antes de 1800, nadie en lo que hoy es Perú, Argentina, Colombia o México pensaba en sí mismo como "peruano", "argentino", "colombiano" o "mexicano". Esas categorías no existían.</p>
+
+            <p>Existían pueblos. Comunidades. Lenguas. Familias. Tradiciones locales. Un habitante de Cusco tenía más en común culturalmente con un habitante de La Paz que con uno de Lima. Un gaucho de la pampa se parecía más a un gaucho uruguayo que a un porteño. Un wayuu de la Guajira no distinguía —ni distingue hoy— entre el lado colombiano y el venezolano de su territorio ancestral.</p>
+
+            <p>Entonces llegaron las "independencias". Y con ellas, un problema: ¿cómo convencer a millones de personas que no se conocen entre sí de que forman una "nación"?</p>
+
+            <p>La respuesta fue el <strong>nacionalismo</strong>: una tecnología de control social.</p>
+
+            <hr>
+
+            <h3>Cómo se fabrica una nación</h3>
+
+            <p>Benedict Anderson, en <em>Comunidades Imaginadas</em> (1983), explicó el mecanismo:</p>
+
+            <ol>
+                <li><strong>Se trazan fronteras arbitrarias</strong> — generalmente calcando las divisiones administrativas coloniales. El principio <em>uti possidetis juris</em> transformó los límites de virreinatos y audiencias en fronteras "sagradas".</li>
+                <li><strong>Se inventa una historia común</strong> — héroes, batallas, "padres fundadores". Se selecciona qué recordar y qué olvidar.</li>
+                <li><strong>Se crea una lengua oficial</strong> — eliminando o marginando las demás. El quechua, el guaraní, el mapudungun pasan a ser "dialectos" o folklore.</li>
+                <li><strong>Se establecen símbolos</strong> — bandera, himno, escudo. Objetos que hay que venerar.</li>
+                <li><strong>Se impone una educación estandarizada</strong> — que repite todo lo anterior desde la infancia.</li>
+                <li><strong>Se usa la conscripción militar</strong> — para mezclar poblaciones y crear "identidad nacional".</li>
+            </ol>
+
+            <p>El punto 6 es clave. El servicio militar obligatorio no existe principalmente para defender fronteras. Existe para <strong>crear ciudadanos que crean en esas fronteras</strong>.</p>
+
+            <p>Un chico de Puno que hace el servicio militar en Lima junto a un chico de Piura y otro de Iquitos aprende que todos son "peruanos". Antes del servicio, eran puneño, piurano, iquiteño. Después, son soldados de la patria.</p>
+
+            <p>La conscripción es una máquina de fabricar nacionalistas.</p>
+
+            <hr>
+
+            <h2>Colonialidad: el sistema que sobrevivió a la colonia</h2>
+
+            <p>El sociólogo peruano Aníbal Quijano (1928-2018) acuñó un concepto crucial: <strong>colonialidad del poder</strong>. La distinción es importante:</p>
+
+            <ul>
+                <li><strong>Colonialismo</strong> es la dominación político-administrativa que terminó con las independencias.</li>
+                <li><strong>Colonialidad</strong> es la matriz de poder que sobrevivió: las jerarquías raciales, las estructuras económicas extractivas, las formas de conocimiento que deslegitiman todo lo no-europeo.</li>
+            </ul>
+
+            <p>Las fronteras que hoy reclaman tu cuerpo fueron trazadas por esa colonialidad. Fragmentaron pueblos que existían mucho antes de que llegaran los españoles:</p>
+
+            <p><strong>Los Mapuche</strong> llaman <em>Wallmapu</em> a su territorio ancestral —sur de Chile y Argentina—. La "Pacificación de la Araucanía" (1881) los incorporó por la fuerza a la ciudadanía chilena, reduciendo sus tierras al 6% del territorio original. Hoy el Consejo de Todas las Tierras sigue reclamando esa unidad territorial que las fronteras nacionales fragmentaron.</p>
+
+            <p><strong>Los Wayuu</strong> (~700,000 personas) habitan la Península de la Guajira entre Colombia y Venezuela. Ambos países les otorgan doble nacionalidad reconociendo su existencia transfronteriza. Pero en la práctica, cuando un wayuu cruza de Venezuela a Colombia, lo tratan como "inmigrante venezolano". Como ellos dicen: <em>"Para los Wayuu, las fronteras no existen."</em></p>
+
+            <p><strong>Los Guaraní</strong> (~280,000 personas) mantienen el concepto de <em>tekoha</em> (territorio tradicional) que abarca Paraguay, Brasil, Argentina y Bolivia. El Consejo Continental de la Nación Guaraní exige "reconocimiento como Nación Guaraní y su condición de Trans-territorial y Transfronteriza".</p>
+
+            <p>Estos pueblos nunca firmaron los tratados que crearon las fronteras. Nunca votaron por las constituciones que ahora les exigen lealtad. Simplemente fueron incluidos a la fuerza en "naciones" que no eligieron.</p>
+
+            <p>¿Por qué vos sí tendrías que aceptar esa imposición?</p>
+
+            <hr>
+
+            <div class="callout">
+                <div class="callout-title">Objeción anticipada</div>
+                <p><strong>"Pero yo amo mi cultura, mi comida, mi música. Eso no es malo."</strong></p>
+                <p>Nadie te pide que dejes de amar el asado, el tango, o a tu abuela. Eso no es nacionalismo. Eso es tu vida.</p>
+                <p>Nacionalismo es cuando el Estado te dice que debés amar esas cosas <em>porque</em> son "argentinas", y que por lo tanto le debés lealtad al Estado que administra el territorio llamado Argentina.</p>
+                <p>Podés amar el vino mendocino sin creer que eso te obliga a matar chilenos. Podés amar el ceviche peruano sin creer que eso te hace enemigo de los ecuatorianos.</p>
+                <p><strong>La cultura es real. Las fronteras son un invento.</strong></p>
+            </div>
+        </section>
+
+        <!-- PARTE II -->
+        
+        <!--
+            ═══════════════════════════════════════════════════════════════
+            
+            "Patria es un sentimiento ficticio que beneficia a los que 
+             mandan y perjudica a los que obedecen."
+                                                — Eduardo Galeano
+            
+            (Galeano entendía. Escribió "Las Venas Abiertas de América 
+             Latina" y luego dijo que no podía releerlo porque le parecía
+             "escrito en un estilo que no es el mío". La honestidad 
+             intelectual también es una forma de soberanía.)
+            
+            ═══════════════════════════════════════════════════════════════
+        -->
+        
+        <section class="content-section">
+            <h1 class="part-title">PARTE II: HERMANOS QUE NOS ENSEÑARON A ODIAR</h1>
+
+            <h2>Las guerras que te contaron mal</h2>
+
+            <p>Te enseñaron historia como si las guerras fueran entre "países". Argentina vs. Chile. Perú vs. Ecuador. Paraguay vs. la Triple Alianza.</p>
+
+            <p>Pero los países no pelean. <strong>La gente pelea.</strong> Y la pregunta que nunca te enseñaron a hacer es: ¿por qué esa gente estaba peleando?</p>
+
+            <div class="war-card">
+                <h4>Guerra del Pacífico (1879-1884)</h4>
+                <p class="war-told"><strong>Te dijeron:</strong> Chile contra Perú y Bolivia por territorio.</p>
+                <p class="war-reality"><strong>La realidad:</strong> Capitales británicos y chilenos contra intereses peruanos y bolivianos por el control del salitre. Las empresas que controlaban los nitratos necesitaban acceso a puertos y territorio.</p>
+                <p>Los soldados chilenos que murieron en el desierto no tenían acciones en ninguna empresa salitrera. Los soldados peruanos y bolivianos tampoco. Pero murieron igual, convencidos de que defendían "la patria".</p>
+                <p>El Tratado de Ancón dividió comunidades aymaras entre Chile, Perú y Bolivia sin consultarlas. Familias separadas por una línea que a ellos no les significaba nada.</p>
+                <p class="war-winner">¿Quién ganó? Los accionistas de las empresas salitreras. No Chile. No los chilenos. Los que tenían capital.</p>
+            </div>
+
+            <div class="war-card">
+                <h4>Guerra de la Triple Alianza (1864-1870)</h4>
+                <p class="war-told"><strong>Te dijeron:</strong> Argentina, Brasil y Uruguay contra el tirano López de Paraguay.</p>
+                <p class="war-reality"><strong>La realidad:</strong> Paraguay bajo Solano López representaba un modelo económico incómodo: ferrocarriles estatales, industria propia, casi cero deuda externa. No dependía de la banca internacional. Era un mal ejemplo.</p>
+                <p>La guerra fue financiada con préstamos de bancos británicos —que prestaron a ambos bandos según la oportunidad de lucro—. No hace falta probar una conspiración para ver quién se benefició del resultado.</p>
+                <p>Cuando terminó, <strong>el 90% de la población masculina paraguaya había muerto</strong>. El país quedó devastado, abierto al capital extranjero y endeudado con la banca londinense por generaciones. El modelo económico autónomo fue aniquilado.</p>
+                <p>Los soldados argentinos, brasileños y uruguayos que marcharon no recibieron ni un peso de los banqueros que financiaron la guerra. Pero marcharon igual, creyendo que peleaban por sus patrias.</p>
+                <p class="war-winner">¿Quién ganó? Los acreedores internacionales. Y las élites locales que quedaron a cargo de los territorios conquistados.</p>
+            </div>
+
+            <div class="war-card">
+                <h4>Guerra del Cenepa (1995)</h4>
+                <p class="war-told"><strong>Te dijeron:</strong> Perú vs. Ecuador por disputas fronterizas.</p>
+                <p class="war-reality"><strong>La realidad:</strong> Dos países democráticos, ambos en crisis económica, con presidentes que necesitaban distracción. Fujimori en Perú. Durán Ballén en Ecuador.</p>
+                <p>Murieron soldados de ambos lados en una selva que ninguno de ellos había pisado antes. Por una línea en un mapa que ninguno de ellos había trazado.</p>
+                <p class="war-winner">¿Quién ganó? Los gobiernos que lograron unificar a sus poblaciones contra un enemigo externo en lugar de enfrentar problemas internos.</p>
+            </div>
+
+            <div class="war-card">
+                <h4>Guerra de Malvinas (1982)</h4>
+                <p class="war-told"><strong>Te dijeron:</strong> Argentina recuperando territorio usurpado por el imperialismo británico.</p>
+                <p class="war-reality"><strong>La realidad:</strong> Una dictadura militar que se caía a pedazos, con una economía en ruinas y protestas crecientes, mandó a pibes de 18 años a morir congelados en islas que nunca habían visitado.</p>
+                <p>La mayoría de los conscriptos eran del norte argentino —Corrientes, Chaco, Formosa—, las provincias más pobres. Los hijos de generales no fueron.</p>
+                <p>Los británicos tenían el mismo problema: Thatcher estaba en mínimos históricos de popularidad antes de la guerra. Después, ganó por aplastante mayoría.</p>
+                <p class="war-winner">¿Quién ganó? Dos gobiernos en crisis que consolidaron poder. Los pibes que volvieron con PTSD no ganaron nada.</p>
+            </div>
+
+            <h2>Lo que el nacionalismo nos ha dado</h2>
+
+            <p>Mirá el siglo XX con ojos limpios. Sin las categorías que te enseñaron. Solo los números:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Evento</th>
+                        <th>Muertes</th>
+                        <th>Causa oficial</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Segunda Guerra Mundial</td>
+                        <td>70-85 millones</td>
+                        <td>Nacionalismos enfrentados</td>
+                    </tr>
+                    <tr>
+                        <td>Holocausto</td>
+                        <td>6 millones</td>
+                        <td>Nacionalismo étnico llevado a su conclusión lógica</td>
+                    </tr>
+                    <tr>
+                        <td>Genocidio armenio</td>
+                        <td>1.5 millones</td>
+                        <td>Pureza nacional turca</td>
+                    </tr>
+                    <tr>
+                        <td>Ruanda</td>
+                        <td>800,000</td>
+                        <td>Identidades étnicas fabricadas por colonizadores</td>
+                    </tr>
+                    <tr>
+                        <td>Yugoslavia</td>
+                        <td>140,000</td>
+                        <td>Nacionalismos que explotaron cuando el Estado central colapsó</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>Cada una de esas muertes fue justificada con banderas. Con himnos. Con "la patria necesita tu sacrificio".</p>
+
+            <p>Ninguna de esas personas eligió nacer donde nació. Todas fueron asesinadas por una ficción.</p>
+        </section>
+
+        <!-- PARTE III -->
+        <section class="content-section">
+            <h1 class="part-title">PARTE III: LOS ENEMIGOS QUE FABRICAN</h1>
+
+            <h2>La industria del miedo</h2>
+
+            <p>Para que aceptes entregar tu cuerpo al Estado, necesitás creer que hay una amenaza. Si no hay amenaza, hay que inventarla.</p>
+
+            <h3>El enemigo interno: la "guerra contra las drogas"</h3>
+
+            <p>En 1971, Richard Nixon declaró las drogas "enemigo público número uno". Pero John Ehrlichman, su asesor, confesó décadas después la verdadera razón:</p>
+
+            <blockquote>
+                <p>"La campaña de Nixon en 1968 [...] tenía dos enemigos: la izquierda antibelicista y los negros. Sabíamos que no podíamos hacer ilegal ser negro o estar contra la guerra, pero al hacer que el público asociara a los hippies con la marihuana y a los negros con la heroína, y luego criminalizar ambas fuertemente, podíamos desorganizar esas comunidades. Podíamos arrestar a sus líderes, allanar sus casas, interrumpir sus reuniones y vilificarlos noche tras noche en las noticias de la tarde. ¿Sabíamos que mentíamos sobre las drogas? Claro que sí."</p>
+            </blockquote>
+
+            <p>Esa "guerra" se exportó a toda América Latina. El resultado:</p>
+
+            <ul>
+                <li><strong>Colombia:</strong> Plan Colombia ($10 mil millones de dólares estadounidenses desde 2000). Los carteles siguen operando. La coca sigue creciendo. Pero el ejército colombiano recibió entrenamiento y armas estadounidenses que usó contra guerrillas y civiles.</li>
+                <li><strong>México:</strong> La "guerra contra el narco" de Calderón desde 2006 dejó más de 70,000 muertos y 26,000 desaparecidos en seis años. Los carteles siguen más fuertes que nunca.</li>
+                <li><strong>Perú:</strong> El narcotráfico financia operaciones militares contra "terroristas" en zonas cocaleras. Los campesinos quedan en el medio.</li>
+            </ul>
+
+            <p>50 años de "guerra contra las drogas". Un billón de dólares gastados globalmente. El consumo no bajó. La violencia aumentó. Pero los aparatos de seguridad del Estado crecieron enormemente.</p>
+
+            <p><strong>El narcotráfico es el enemigo perfecto:</strong> nunca se puede derrotar completamente, siempre justifica más presupuesto, más armas, más control.</p>
+
+            <h3>El enemigo externo: la amenaza migratoria</h3>
+
+            <p>Venezuela colapsó. Siete millones de personas emigraron. Pero antes de buscar culpables, hay que entender qué pasó:</p>
+
+            <p>El 3 de enero de 2026, fuerzas especiales estadounidenses capturaron a Nicolás Maduro en Caracas. No fue por "defender la democracia". Fue porque Venezuela tiene el <strong>17% de las reservas mundiales de petróleo</strong> —las más grandes del planeta—.</p>
+
+            <p>Lo que vimos no fue una "liberación". Fue el mismo patrón de siempre: intervención militar estadounidense en un país con recursos estratégicos, disfrazada de cruzada democrática.</p>
+
+            <p>Mientras tanto, en Perú, Chile y Colombia, la narrativa es: "los venezolanos nos quitan trabajo, traen delincuencia, son una amenaza". Y esa narrativa justifica más control fronterizo, más policía, más Estado.</p>
+
+            <p>Las mismas élites que se beneficiaron del colapso venezolano —comprando activos baratos, contratando mano de obra desesperada— financian campañas antiinmigrantes.</p>
+
+            <p>El vecino pobre es el enemigo. No el sistema que lo empobreció.</p>
+
+            <hr>
+
+            <h2>El patrón del miedo</h2>
+
+            <p>Siempre hay un enemigo. Siempre hay una razón para que entregues tu cuerpo. Nunca hay suficiente.</p>
+
+            <p>Michel Foucault lo explicó: el poder no solo reprime, <strong>produce</strong>. Produce verdades, produce enemigos, produce la necesidad de protección que justifica su existencia.</p>
+
+            <p>El Estado que te "protege" del narcotráfico es el mismo que lo deja operar cuando le conviene. El Estado que te "protege" del terrorismo es el mismo que entrena paramilitares. El Estado que te "protege" de la inmigración es el mismo que crea las condiciones para que la gente huya.</p>
+
+            <p><strong>No necesitan que el enemigo sea real. Necesitan que le tengas miedo.</strong></p>
+        </section>
+
+        <!-- PARTE IV -->
+        
+        <!--
+            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+            
+            DATO CURIOSO PARA NERDS DEL CÓDIGO:
+            
+            Los Guna de Panamá tienen uno de los índices más bajos de 
+            suicidio del mundo. También tienen autonomía real sobre 
+            su territorio desde 1925.
+            
+            Correlación no es causalidad. Pero hace pensar.
+            
+            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        -->
+        
+        <section class="content-section">
+            <h1 class="part-title">PARTE IV: LAS UTOPÍAS QUE FUNCIONARON</h1>
+
+            <h2>"Eso es imposible" — hasta que alguien lo hace</h2>
+
+            <p>Te van a decir que es utópico. Que el mundo no funciona así. Que no se puede vivir fuera del sistema de estados-nación.</p>
+
+            <p>Pero hay gente que lo está haciendo. Y comunidades enteras que lo hicieron durante décadas.</p>
+
+            <p>Hay una distinción importante: no todas las alternativas son iguales. Algunas son <strong>resistencia territorial real</strong> —con población, historia y capacidad de sostener su autonomía—. Otras son <strong>proyectos performativos</strong> —declaraciones simbólicas que demuestran que las categorías son inventadas, pero que no ofrecen protección práctica—.</p>
+
+            <p>Ambas son útiles. Pero de formas distintas.</p>
+
+            <hr>
+
+            <h2>Resistencia territorial real</h2>
+
+            <p>Estas comunidades tienen algo en común: <strong>no pidieron permiso</strong>. Y tienen la población, la historia y la organización para sostener lo que construyeron.</p>
+
+            <div class="utopia-card">
+                <h4>Los Guna de Panamá: soberanía ganada con sangre</h4>
+                <p>En 1925, el pueblo Guna se levantó contra el gobierno panameño que intentaba "civilizarlos" —prohibiendo su lengua, su vestimenta, sus rituales—. La Revolución Guna duró pocos días pero cambió todo.</p>
+                <p>Hoy, <strong>Guna Yala</strong> (antes San Blas) es una comarca autónoma de 365+ islas con ~32,000 habitantes. Tienen su propio gobierno (el Congreso General Guna), sus propias leyes, su propio sistema educativo bilingüe. Controlan quién entra a su territorio y prohíben actividad comercial externa.</p>
+                <p>No pidieron permiso. Lucharon y ganaron.</p>
+            </div>
+
+            <div class="utopia-card">
+                <h4>Christiania: 50 años de anarquía organizada</h4>
+                <p>El 26 de septiembre de 1971, un grupo de hippies ocupó una base militar abandonada en Copenhague. Declararon "Freetown Christiania" —una ciudad libre, sin autos, sin propiedad privada del suelo, gobernada por consenso.</p>
+                <p>El gobierno danés intentó desalojarlos durante décadas. Perdió.</p>
+                <p>En 2012, los residentes compraron gran parte del terreno mediante una fundación, con préstamos del propio gobierno a precio reducido. Hoy ~900 personas viven ahí bajo sus propias reglas: no autos, no robos, no armas, no drogas duras.</p>
+                <p>En abril de 2024, los propios residentes desenterraron los adoquines de Pusher Street para terminar con el mercado abierto de cannabis que atraía problemas. No esperaron que el Estado lo hiciera. Lo hicieron ellos.</p>
+                <div class="utopia-note">
+                    <strong>Nota:</strong> El gobierno danés ha intensificado la presión para "normalizar" Christiania. El modelo enfrenta desafíos, pero lleva 50+ años resistiendo.
+                </div>
+            </div>
+
+            <div class="utopia-card">
+                <h4>Marinaleda: comunismo municipal en Andalucía</h4>
+                <p>Un pueblo de 2,600 habitantes en Sevilla, España. Desde 1979 hasta 2023, gobernado por el alcalde comunista Juan Manuel Sánchez Gordillo.</p>
+                <p>En 1991, después de 12 años de lucha (huelgas de hambre, ocupaciones, marchas), lograron que se expropiaran tierras del Duque del Infantado para crear una cooperativa agrícola.</p>
+                <p>El resultado:</p>
+                <ul>
+                    <li><strong>Pleno empleo</strong> incluso durante la crisis de 2008, cuando Andalucía tenía 36% de desempleo</li>
+                    <li><strong>Todos ganan lo mismo:</strong> ~47€/día, independientemente del cargo</li>
+                    <li><strong>Hipotecas de €15.52/mes:</strong> el gobierno provee materiales, el pueblo provee planos gratis, y cada residente contribuye 450 días de trabajo comunitario</li>
+                    <li><strong>Las casas no se pueden vender:</strong> se eliminó la especulación inmobiliaria</li>
+                </ul>
+                <div class="utopia-note">
+                    <strong>Nota:</strong> Tras el retiro de Sánchez Gordillo por edad y salud en 2023, el modelo enfrenta desafíos de sucesión. La lección: las utopías locales necesitan institucionalizar su funcionamiento más allá del líder carismático.
+                </div>
+            </div>
+
+            <div class="utopia-card">
+                <h4>Kibbutzim: 115 años de comunidad</h4>
+                <p>El movimiento kibbutz empezó en 1909 con Degania, en lo que hoy es Israel. Comunidades agrícolas basadas en propiedad colectiva, decisiones democráticas, y trabajo compartido.</p>
+                <p>Hoy hay ~250 kibbutzim con 125,000 miembros. Producen el <strong>9% del output industrial israelí</strong> ($8 mil millones) y el <strong>40% de la producción agrícola</strong> ($1.7 mil millones).</p>
+                <p>¿Se mantuvieron "puros"? No. 179 de 270 se privatizaron parcialmente tras crisis económicas. Pero eso es exactamente el punto: <strong>sobrevivieron adaptándose</strong>. La pureza ideológica importa menos que la viabilidad práctica.</p>
+            </div>
+
+            <hr>
+
+            <h3>Naciones sin Estado: la resistencia que precede a las fronteras</h3>
+
+            <p>Hay pueblos que nunca aceptaron las fronteras que les impusieron. Su resistencia no es una "micronación" inventada ayer. Es una continuidad histórica que desafía la legitimidad misma del Estado-nación.</p>
+
+            <p><strong>El pueblo Mapuche</strong> mantiene el concepto de <em>Wallmapu</em> —su territorio ancestral que abarca el sur de Chile y Argentina—. El Consejo de Todas las Tierras (<em>Aukiñ Wallmapu Ngulam</em>) y el partido Wallmapuwen articulan una visión de nación que ignora la frontera chileno-argentina. No piden "autonomía" dentro del Estado chileno. Afirman que el Estado chileno ocupa su territorio.</p>
+
+            <p><strong>La Nación Guaraní</strong> (~280,000 personas) opera a través del Consejo Continental de la Nación Guaraní (CCNAGUA), que exige "reconocimiento como Nación Guaraní y su condición de Trans-territorial y Transfronteriza" en Paraguay, Brasil, Argentina y Bolivia. El concepto de <em>tekoha</em> (territorio tradicional) no reconoce las fronteras que fragmentaron su pueblo.</p>
+
+            <p><strong>Los Wayuu</strong> (~700,000 personas) de la Guajira tienen una expresión: <em>"Para los Wayuu, las fronteras no existen."</em> Ambos estados (Colombia y Venezuela) les otorgan doble nacionalidad reconociendo su existencia transfronteriza —una admisión de que la frontera es artificial—.</p>
+
+            <p>Estas no son utopías. Son <strong>realidades que preceden a los estados que intentan contenerlas</strong>. A diferencia de las micronaciones libertarias, tienen población real, legitimidad histórica y capacidad de resistencia sostenida. El Estado puede reprimirlas, pero no puede borrar su existencia.</p>
+
+            <hr>
+
+            <h2>Proyectos performativos: la soberanía como idea</h2>
+
+            <p>Hay otros proyectos que no ofrecen protección práctica, pero que son importantes de otra manera: <strong>demuestran que las categorías que parecen inmutables son construcciones humanas</strong>. Si alguien pudo inventar "Argentina" hace 200 años, alguien puede inventar algo diferente hoy.</p>
+
+            <p>Estas iniciativas no te van a salvar de la conscripción. Pero expanden el horizonte de lo pensable.</p>
+
+            <p><strong>Garry Davis</strong> fue piloto de bombardero B-17 en la Segunda Guerra Mundial. En 1948, entró a la embajada estadounidense en París y renunció a su ciudadanía. Se declaró "ciudadano del mundo" y fundó la World Service Authority, que emite el <strong>World Passport</strong>.</p>
+
+            <p>Julian Assange tiene uno. Edward Snowden tiene uno. Pero seamos claros: la mayoría de los países lo clasifican como "documento de fantasía". No te va a permitir cruzar fronteras legalmente. Es una declaración de principios, no una herramienta práctica.</p>
+
+            <p><strong>La República Errante Menda Lerenda</strong>, fundada en Madrid en 1999, define al individuo como "una República independiente en sí mismo". Su territorio: "la superficie que tu cuerpo ocupa en cada momento". Su lema: <em>"De la piel para adentro, mando yo"</em>.</p>
+
+            <p>España no la reconoce —hubo detenciones de personas que intentaron identificarse solo con pasaporte R.E.M.L.—. No te va a proteger de nada. Pero la idea es poderosa como provocación filosófica.</p>
+
+            <p><strong>Liberland</strong>, proclamada en 2015 en 7 km² de tierra de nadie entre Croacia y Serbia, tiene 400,000 solicitudes de ciudadanía. Opera con blockchain. El presidente argentino Milei figura como ciudadano.</p>
+
+            <p>La realidad: la policía croata bloquea el acceso. La "ciudadanía" no otorga derechos reales. Es un club ideológico con estética de Estado, no un Estado funcional.</p>
+
+            <p><strong>La lección:</strong> No confundas los proyectos performativos con resistencia real. Liberland no te va a salvar si tu gobierno te quiere conscribir. Pero la existencia de estos proyectos —y el hecho de que miles de personas los tomen en serio— demuestra que la imaginación política no está muerta. Las categorías pueden ser reinventadas. Y eso, en sí mismo, tiene valor.</p>
+
+            <hr>
+
+            <div class="callout">
+                <div class="callout-title">Objeción anticipada</div>
+                <p><strong>"Eso es utópico. El mundo no funciona así."</strong></p>
+                <p>El mundo funciona como lo hacemos funcionar.</p>
+                <p>Hace 200 años la esclavitud era "natural" y "necesaria". Hace 100 años las mujeres no podían votar. Hace 50 años la homosexualidad era crimen.</p>
+                <p>Todas esas cosas cambiaron porque gente se negó a aceptarlas como inevitables.</p>
+                <p>El nacionalismo no es inevitable. Es una tecnología que se puede desmantelar.</p>
+                <p><strong>Empieza cuando dejás de creerlo.</strong></p>
+            </div>
+        </section>
+
+        <!-- PARTE V -->
+        <section class="content-section">
+            <h1 class="part-title">PARTE V: HERRAMIENTAS DE SOBERANÍA</h1>
+
+            <h2>Lo que podés hacer hoy</h2>
+
+            <p>No voy a decirte que es fácil. Pero hay acciones concretas que aumentan tu soberanía sobre tu propio cuerpo. Algunas son legales y reconocidas. Otras son creativas y experimentales. Todas son reales.</p>
+
+            <div class="tool-section">
+                <div class="tool-number">1</div>
+                <h3>Objeción de conciencia</h3>
+                <p>El derecho a negarte al servicio militar está reconocido internacionalmente:</p>
+                <ul>
+                    <li><strong>Artículo 18</strong> del Pacto Internacional de Derechos Civiles y Políticos</li>
+                    <li><strong>Resolución 1998/77</strong> de la ONU</li>
+                    <li><strong>Caso Bayatyan v. Armenia (2011)</strong> del Tribunal Europeo de Derechos Humanos</li>
+                </ul>
+                <p><strong>En América Latina:</strong></p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>País</th>
+                            <th>Situación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Colombia</td>
+                            <td>Ley 1861/2017 reconoce objeción de conciencia explícitamente. 379 jóvenes la invocaron hasta 2018.</td>
+                        </tr>
+                        <tr>
+                            <td>Paraguay</td>
+                            <td>Artículos 37 y 129 de la Constitución reconocen el derecho, pero NO hay ley reglamentaria.</td>
+                        </tr>
+                        <tr>
+                            <td>Chile</td>
+                            <td>Sin provisión legal. Solo hay excepción para descendientes de víctimas de la dictadura.</td>
+                        </tr>
+                        <tr>
+                            <td>Argentina</td>
+                            <td>Artículo 20 de Ley 24.429 contempla "servicio civil sustitutorio" si se reactiva la conscripción.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>Qué hacer ahora (aunque no haya conscripción activa):</strong></p>
+                <ol>
+                    <li><strong>Documentá tu posición por escrito</strong> — Escribí un texto explicando tus convicciones (no tiene que ser religioso; puede ser ético, filosófico, político). Mandátelo por email a vos mismo para tener fecha verificable.</li>
+                    <li><strong>Guardá evidencia</strong> — Participación en grupos pacifistas, textos publicados, cualquier cosa consistente con tu posición.</li>
+                    <li><strong>Conectá con organizaciones:</strong> War Resisters' International (wri-irg.org), Connection e.V. (connection-ev.org), CELS en Argentina (cels.org.ar), Defensoría del Pueblo en Perú.</li>
+                </ol>
+                <p>Si algún día necesitás demostrar que tu objeción es genuina y no oportunista, esta documentación previa es clave.</p>
+            </div>
+
+            <div class="tool-section">
+                <div class="tool-number">2</div>
+                <h3>Soberanía de movimiento</h3>
+                <p>La mejor protección contra un Estado que quiere tu cuerpo es <strong>poder irte</strong>.</p>
+                <p>No es "huir". Es tener opciones. Es no ser prisionero de un accidente de nacimiento.</p>
+                <p><strong>Residencias accesibles en países sin conscripción:</strong></p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>País</th>
+                            <th>Mecanismo</th>
+                            <th>Requisito aproximado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Paraguay</td>
+                            <td>Residencia temporal</td>
+                            <td>~$5,000 USD depósito</td>
+                        </tr>
+                        <tr>
+                            <td>Uruguay</td>
+                            <td>Residencia fiscal</td>
+                            <td>Ingresos demostrables</td>
+                        </tr>
+                        <tr>
+                            <td>Panamá</td>
+                            <td>Visa países amigos</td>
+                            <td>$5,000 en cuenta</td>
+                        </tr>
+                        <tr>
+                            <td>México</td>
+                            <td>Residencia temporal</td>
+                            <td>~$2,500 USD/mes ingresos</td>
+                        </tr>
+                        <tr>
+                            <td>Portugal</td>
+                            <td>Nómada digital</td>
+                            <td>€3,500/mes ingresos</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>Importante:</strong> Estas ciudadanías no eximen automáticamente de obligaciones militares del país original ni de extradición bajo tratados internacionales. Pero te dan opciones.</p>
+            </div>
+
+            <div class="tool-section">
+                <div class="tool-number">3</div>
+                <h3>Soberanía como práctica mental</h3>
+                <p>Antes de cualquier herramienta práctica, está la más importante: <strong>dejar de creer</strong>.</p>
+                <p>En la PARTE IV exploramos proyectos performativos (World Passport, Menda Lerenda, Liberland) que no ofrecen protección práctica pero demuestran que las categorías pueden reinventarse. También vimos resistencia territorial real (Guna Yala, Mapuche, Guaraní) que sí tiene población, historia y capacidad de sostenerse.</p>
+                <p>La lección práctica: no necesitás un pasaporte de fantasía. Necesitás entender que el Estado no es inevitable ni natural. Es una tecnología de organización social entre muchas posibles. Una vez que lo ves, no podés dejar de verlo.</p>
+                <p>Esa claridad mental es el primer paso hacia cualquier acción concreta.</p>
+            </div>
+
+            <div class="tool-section">
+                <div class="tool-number">4</div>
+                <h3>Soberanía financiera</h3>
+                <p>Si tu dinero está atrapado en un banco local, vos estás atrapado.</p>
+                <p>Los manifestantes canadienses en 2022 vieron sus cuentas congeladas sin orden judicial por apoyar protestas contra restricciones COVID. Si hubieran tenido sus ahorros en Bitcoin bajo su propia custodia, nadie podría haberlos tocado.</p>
+                <p><strong>Herramientas:</strong></p>
+                <ul>
+                    <li><strong>Stablecoins</strong> (USDT, USDC) para ahorro que no se devalúa y que podés mover sin bancos</li>
+                    <li><strong>Bitcoin</strong> para reserva de largo plazo bajo tu control</li>
+                    <li><strong>Cuentas en el exterior</strong> si podés acceder (Uruguay es relativamente accesible para argentinos)</li>
+                    <li><strong>Efectivo</strong> como respaldo (sí, todavía sirve)</li>
+                </ul>
+                <p>La soberanía sobre tu dinero es condición previa para la soberanía sobre tu cuerpo. Si no podés moverte económicamente, no podés moverte físicamente.</p>
+            </div>
+
+            <div class="tool-section">
+                <div class="tool-number">5</div>
+                <h3>Red internacional</h3>
+                <p>El nacionalismo te quiere aislado. Tu defensa es conectar:</p>
+                <ul>
+                    <li><strong>Amigos en otros países</strong> que podrían recibirte</li>
+                    <li><strong>Comunidades online</strong> con tu misma visión</li>
+                    <li><strong>Habilidades que funcionan en cualquier lado</strong> (programación, diseño, escritura, oficios)</li>
+                    <li><strong>Idiomas</strong> — el inglés no es opcional; es la salida de emergencia</li>
+                </ul>
+            </div>
+
+            <div class="tool-section">
+                <div class="tool-number">6</div>
+                <h3>Acción colectiva</h3>
+                <p>Individualmente podés protegerte. Colectivamente podés cambiar el sistema:</p>
+                <ul>
+                    <li><strong>Apoyá organizaciones</strong> contra la conscripción</li>
+                    <li><strong>Hacé ruido</strong> cuando propongan leyes de servicio obligatorio</li>
+                    <li><strong>Presioná por implementación</strong> de leyes existentes (como el Artículo 129 en Paraguay, que reconoce objeción de conciencia pero no tiene reglamentación)</li>
+                    <li><strong>Hablá con tu entorno</strong> — el nacionalismo se desmonta conversación a conversación</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- PARTE VI -->
+        
+        <!--
+            ████████████████████████████████████████████████████████████████
+            
+            "No hay ninguna bandera lo suficientemente grande para cubrir 
+             la vergüenza de matar personas inocentes."
+                                                    — Howard Zinn
+            
+            Zinn fue bombardero en la Segunda Guerra Mundial. Después 
+            dedicó su vida a deconstruir la historia oficial estadounidense.
+            A veces los que más entienden la guerra son los que la pelearon.
+            
+            ████████████████████████████████████████████████████████████████
+        -->
+        
+        <section class="content-section">
+            <h1 class="part-title">PARTE VI: FILOSOFÍA DE LA RESISTENCIA</h1>
+
+            <h2>Las voces que vinieron antes</h2>
+
+            <p>No estás solo en esto. Hubo gente pensando estas ideas mucho antes de que nacieras.</p>
+
+            <p><strong>Henry David Thoreau</strong> (1849), después de pasar una noche en la cárcel por negarse a pagar impuestos que financiaban la guerra contra México:</p>
+
+            <blockquote>
+                <p>"¿Debe el ciudadano por un momento, o en el menor grado, resignar su conciencia al legislador? ¿Por qué entonces tiene cada hombre una conciencia? Pienso que debemos ser hombres primero, y súbditos después."</p>
+            </blockquote>
+
+            <p><strong>Max Stirner</strong> (1844), el anarquista individualista más radical:</p>
+
+            <blockquote>
+                <p>"Estado, religión, conciencia, estos déspotas, me hacen un esclavo, y su libertad es mi esclavitud."</p>
+            </blockquote>
+
+            <blockquote>
+                <p>"Mi poder es mi propiedad. Mi poder me da propiedad. Mi poder soy yo mismo, y a través de él soy mi propiedad."</p>
+            </blockquote>
+
+            <p><strong>Lysander Spooner</strong> (1867), sobre el "contrato social" que supuestamente firmamos:</p>
+
+            <blockquote>
+                <p>"La Constitución no tiene autoridad u obligación inherente. No tiene autoridad u obligación alguna, a menos que sea como contrato entre hombre y hombre. Y ni siquiera pretende ser un contrato entre personas que existen actualmente."</p>
+            </blockquote>
+
+            <blockquote>
+                <p>"Un hombre no es menos esclavo porque se le permita elegir un nuevo amo cada cierto número de años."</p>
+            </blockquote>
+
+            <p><strong>Albert Camus</strong> (1951), quizás la formulación más poderosa:</p>
+
+            <blockquote>
+                <p>"La única manera de enfrentar un mundo sin libertad es volverse tan absolutamente libre que tu propia existencia sea un acto de rebeldía."</p>
+            </blockquote>
+
+            <p><strong>Paulo Freire</strong> (1968), el pedagogo brasileño:</p>
+
+            <blockquote>
+                <p>"Para que los oprimidos puedan librar la lucha por su liberación, deben percibir la realidad de la opresión no como un mundo cerrado del cual no hay salida, sino como una situación limitante que pueden transformar."</p>
+            </blockquote>
+
+            <p>La opresión no es un mundo cerrado. Es una situación limitante. Y las situaciones limitantes se transforman.</p>
+        </section>
+
+        <!-- EPÍLOGO -->
+        <section class="content-section">
+            <h1 class="part-title">EPÍLOGO: MIGUEL Y ANDRÉS</h1>
+
+            <div class="prologue">
+                <span class="location">Tumbes/Huaquillas. 2030.</span>
+                <p>Miguel nunca se presentó al registro militar. Pagó multas cuando pudo, las ignoró cuando no pudo. Aprendió programación por su cuenta viendo tutoriales en YouTube. Trabaja remoto para una empresa de Singapur que no le pregunta su situación militar ni su nacionalidad. Ahorra en stablecoins. Tiene residencia temporal en Paraguay, por las dudas. Nunca la usó, pero saber que existe le da paz.</p>
+            </div>
+
+            <p>Andrés sigue en Huaquillas. También trabaja remoto —diseño gráfico para clientes de toda América—. Se ven cada tanto en el puente internacional, en ese espacio de nadie donde la frontera es solo una idea abstracta que los burócratas inventaron y que ellos ignoran.</p>
+
+            <p>Nunca hubo guerra entre Perú y Ecuador. Los políticos que amenazaban con ella perdieron elecciones, se ocuparon de otros miedos, o simplemente envejecieron. El conflicto del Cenepa se volvió una nota al pie en libros de historia que nadie lee. Las fronteras siguen ahí, con sus guardias y sus sellos, pero Miguel y Andrés aprendieron a verlas como lo que son: ficciones administrativas.</p>
+
+            <p>No son héroes. No derrocaron ningún régimen. No cambiaron el sistema.</p>
+
+            <p>Pero sus cuerpos siguen siendo suyos.</p>
+
+            <p>Y eso, en un mundo que reclama tu cuerpo desde que nacés, es bastante.</p>
+
+            <p><strong>Es todo.</strong></p>
+
+            <hr>
+
+            <div class="final-quotes">
+                <div class="final-quote">
+                    <p>"El nacionalismo es una enfermedad infantil. Es el sarampión de la humanidad."</p>
+                    <cite>— Albert Einstein</cite>
+                </div>
+                <div class="final-quote">
+                    <p>"¿Por qué tiene cada hombre una conciencia? Pienso que debemos ser hombres primero, y súbditos después."</p>
+                    <cite>— Henry David Thoreau</cite>
+                </div>
+                <div class="final-quote">
+                    <p>"De la piel para adentro, mando yo."</p>
+                    <cite>— República Errante Menda Lerenda</cite>
+                </div>
+            </div>
+        </section>
+
+        <!-- RECURSOS -->
+        <div class="resources">
+            <h2>ANEXO: RECURSOS</h2>
+
+            <div class="resource-category">
+                <h4>Objeción de conciencia</h4>
+                <ul>
+                    <li>War Resisters' International: <a href="https://wri-irg.org" target="_blank">wri-irg.org</a></li>
+                    <li>Connection e.V.: <a href="https://connection-ev.org" target="_blank">connection-ev.org</a></li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <h4>Movilidad internacional</h4>
+                <ul>
+                    <li>Nomad List: <a href="https://nomadlist.com" target="_blank">nomadlist.com</a></li>
+                    <li>Flag Theory: <a href="https://flagtheory.com" target="_blank">flagtheory.com</a></li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <h4>Argentina</h4>
+                <ul>
+                    <li>CELS: <a href="https://cels.org.ar" target="_blank">cels.org.ar</a></li>
+                    <li>Ley 24.429: <a href="https://infoleg.gob.ar" target="_blank">infoleg.gob.ar</a></li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <h4>Perú</h4>
+                <ul>
+                    <li>Defensoría del Pueblo: <a href="https://defensoria.gob.pe" target="_blank">defensoria.gob.pe</a></li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <h4>Colombia</h4>
+                <ul>
+                    <li>Ley 1861 de 2017 (objeción de conciencia)</li>
+                    <li>Sentencia C-728/2009 (Corte Constitucional)</li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <h4>Soberanía financiera</h4>
+                <ul>
+                    <li>Bitcoin.org (guías de autocustodia)</li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <h4>Lecturas</h4>
+                <ul>
+                    <li><em>Comunidades Imaginadas</em> — Benedict Anderson</li>
+                    <li><em>Desobediencia Civil</em> — Henry David Thoreau (disponible gratis online)</li>
+                    <li><em>El Hombre Rebelde</em> — Albert Camus</li>
+                    <li><em>The Network State</em> — Balaji Srinivasan (gratis en thenetworkstate.com)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer del artículo -->
+        <div class="article-footer">
+            <p>Documento: Enero 2026</p>
+            <p class="license">Licencia: Dominio público.<br>Copiá, distribuí, modificá, traducí.<br><strong>Las ideas no reconocen fronteras.</strong></p>
+        </div>
+    </article>
+
+    <!--
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        
+        "Until they became conscious they will never rebel, and until 
+         after they have rebelled they cannot become conscious."
+                                                        — George Orwell, 1984
+        
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+    -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">SHAMANTEK</div>
+            <p class="footer-quote">"De la piel para adentro, mando yo"</p>
+            <nav class="footer-nav">
+                <a href="../../index.html">Portal</a>
+                <a href="../index.html">IA & Futuro</a>
+                <a href="#">Contacto</a>
+            </nav>
+        </div>
+    </footer>
+
+    <!--
+        Si llegaste hasta aquí, eres de los nuestros.
+        
+        "Pienso que debemos ser hombres primero, y súbditos después."
+                                                    — Henry David Thoreau
+        
+        Tu cuerpo es tuyo. Tu mente es tuya. Tu vida es tuya.
+        
+        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        
+        THOREAU DICE: "Simplify, simplify."
+        
+        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+    -->
+
+    <script>
+        /*
+            "La única manera de enfrentar un mundo sin libertad es volverse 
+            tan absolutamente libre que tu propia existencia sea un acto de rebeldía."
+                                                                    — Albert Camus
+        */
+        
+        // Console easter egg
+        console.log('%c⚠ TU CUERPO NO ES TUYO ⚠', 'font-size: 16px; color: #ff2d2d; font-family: monospace;');
+        console.log('%cO al menos eso es lo que quieren que creas.', 'color: #888; font-style: italic;');
+        console.log('%c—', 'color: #333;');
+        console.log('%c"Debemos ser hombres primero, y súbditos después."', 'color: #b85c38; font-style: italic;');
+        console.log('%c— Henry David Thoreau', 'color: #555;');
+        console.log('%c—', 'color: #333;');
+        console.log('%cDe la piel para adentro, mando yo.', 'color: #444;');
+        console.log('%c—', 'color: #333;');
+        console.log('%c◈ ShamanTek // IA & Futuro ◈', 'color: #ff2d2d; font-size: 10px;');
+        
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+    </script>
+    
+    <!--
+        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        
+        ÚLTIMA TRANSMISIÓN:
+        
+        "El nacionalismo es una enfermedad infantil. 
+         Es el sarampión de la humanidad."
+                                                        — Albert Einstein
+        
+        Las fronteras son ficciones. Las ideas no las reconocen.
+        
+        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+    -->
+    
+    <!--
+        ╔══════════════════════════════════════════════════════════════════╗
+        ║                                                                  ║
+        ║                    F I R M A   D I G I T A L                     ║
+        ║                                                                  ║
+        ╠══════════════════════════════════════════════════════════════════╣
+        ║                                                                  ║
+        ║     ███████╗██╗  ██╗ █████╗ ███╗   ███╗ █████╗ ███╗   ██╗       ║
+        ║     ██╔════╝██║  ██║██╔══██╗████╗ ████║██╔══██╗████╗  ██║       ║
+        ║     ███████╗███████║███████║██╔████╔██║███████║██╔██╗ ██║       ║
+        ║     ╚════██║██╔══██║██╔══██║██║╚██╔╝██║██╔══██║██║╚██╗██║       ║
+        ║     ███████║██║  ██║██║  ██║██║ ╚═╝ ██║██║  ██║██║ ╚████║       ║
+        ║     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝       ║
+        ║                                                                  ║
+        ║                         ████████╗███████╗██╗  ██╗               ║
+        ║                         ╚══██╔══╝██╔════╝██║ ██╔╝               ║
+        ║                            ██║   █████╗  █████╔╝                ║
+        ║                            ██║   ██╔══╝  ██╔═██╗                ║
+        ║                            ██║   ███████╗██║  ██╗               ║
+        ║                            ╚═╝   ╚══════╝╚═╝  ╚═╝               ║
+        ║                                                                  ║
+        ╠══════════════════════════════════════════════════════════════════╣
+        ║                                                                  ║
+        ║  Nodo: IA & Futuro                                               ║
+        ║  Transmisión: Tu Cuerpo No Es Tuyo                               ║
+        ║  Timestamp: Enero 2026                                           ║
+        ║  Licencia: Dominio Público                                       ║
+        ║                                                                  ║
+        ║  "Donde la tecnología encuentra al espíritu"                     ║
+        ║                                                                  ║
+        ╠══════════════════════════════════════════════════════════════════╣
+        ║                                                                  ║
+        ║  MENSAJE PARA QUIEN LEE EL CÓDIGO:                               ║
+        ║                                                                  ║
+        ║  Si llegaste hasta aquí, probablemente entendés que              ║
+        ║  la realidad tiene capas. Que lo que parece sólido               ║
+        ║  a veces es solo código que alguien escribió.                    ║
+        ║                                                                  ║
+        ║  Las fronteras también son código. Código legal,                 ║
+        ║  código cultural, código que se puede reescribir.                ║
+        ║                                                                  ║
+        ║  Tu cuerpo es tuyo. Tu mente es tuya. Tu vida es tuya.           ║
+        ║                                                                  ║
+        ║  Nadie te lo puede quitar a menos que vos lo permitas.           ║
+        ║                                                                  ║
+        ║  De la piel para adentro, mandás vos.                            ║
+        ║                                                                  ║
+        ╠══════════════════════════════════════════════════════════════════╣
+        ║                                                                  ║
+        ║  BONUS TRACK - Citas que no entraron en el artículo:             ║
+        ║                                                                  ║
+        ║  "El Estado llama 'ley' a su propia violencia,                   ║
+        ║   y 'crimen' a la del individuo."                                ║
+        ║                                    — Max Stirner                 ║
+        ║                                                                  ║
+        ║  "Cada vez que escucho a alguien discutir a favor                ║
+        ║   de la esclavitud, siento un fuerte impulso de                  ║
+        ║   verlo probada personalmente en él."                            ║
+        ║                                    — Abraham Lincoln             ║
+        ║                                                                  ║
+        ║  "El problema con la competencia es que alguien gana."           ║
+        ║                                    — George Orwell               ║
+        ║                                                                  ║
+        ║  "Todas las fronteras son artificiales. Todas                    ║
+        ║   las guerras son guerras civiles."                              ║
+        ║                                    — Anónimo                     ║
+        ║                                                                  ║
+        ╚══════════════════════════════════════════════════════════════════╝
+        
+        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        
+        P.D.: Si este documento te hizo pensar, compartilo.
+              Las ideas son virus. Los buenos virus.
+        
+        P.P.D.: El 90% de la población masculina de Paraguay.
+                Nunca lo olvides.
+        
+        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+    -->
+</body>
+</html>
