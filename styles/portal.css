@@ -1,0 +1,637 @@
+/* 
+    "No hay hechos, solo interpretaciones."
+                                — Friedrich Nietzsche
+    
+    Este código es una interpretación. ¿Cuál es la tuya?
+*/
+
+/* Base styles handled in main.css */
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    cursor: crosshair;
+    color: var(--color-star-core);
+    /* Override for portal specifically */
+}
+
+/* ============================================
+   CANVAS - CAMPO DE ESTRELLAS
+============================================ */
+#cosmos {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* ============================================
+   VELO DE PROFUNDIDAD
+============================================ */
+.depth-veil {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center,
+            transparent 0%,
+            transparent 30%,
+            rgba(5, 5, 10, 0.4) 70%,
+            rgba(5, 5, 10, 0.8) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ============================================
+   CENTRO LUMINOSO - SHAMANTEK
+============================================ */
+.center-light {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.light-source {
+    width: 180px;
+    height: 180px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.light-rays {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:
+        conic-gradient(from 0deg,
+            transparent 0deg,
+            rgba(255, 255, 255, 0.03) 10deg,
+            transparent 20deg,
+            transparent 30deg,
+            rgba(255, 255, 255, 0.02) 40deg,
+            transparent 50deg,
+            transparent 60deg,
+            rgba(255, 255, 255, 0.03) 70deg,
+            transparent 80deg,
+            transparent 90deg);
+    border-radius: 50%;
+    animation: rays-rotate 120s linear infinite;
+}
+
+@keyframes rays-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.light-outer {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(255, 255, 255, 0.05) 40%,
+            transparent 70%);
+    animation: breathe 8s ease-in-out infinite;
+}
+
+.light-middle {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.4) 0%,
+            rgba(255, 255, 255, 0.1) 50%,
+            transparent 70%);
+    animation: breathe 8s ease-in-out infinite;
+    animation-delay: -2s;
+}
+
+.light-core {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            #ffffff 0%,
+            rgba(255, 255, 255, 0.9) 30%,
+            rgba(255, 255, 255, 0.4) 60%,
+            transparent 100%);
+    box-shadow:
+        0 0 30px rgba(255, 255, 255, 0.8),
+        0 0 60px rgba(255, 255, 255, 0.4),
+        0 0 100px rgba(255, 255, 255, 0.2);
+    animation: core-pulse 4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+@keyframes core-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+.site-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    margin-top: 40px;
+    color: #fff;
+    text-shadow:
+        0 0 30px rgba(255, 255, 255, 0.5),
+        0 0 60px rgba(255, 255, 255, 0.2);
+}
+
+.site-mantra {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    margin-top: 15px;
+    opacity: 0.7;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* ============================================
+   ESTRELLAS NAVEGABLES (MUNDOS)
+============================================ */
+.nav-star {
+    position: fixed;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-decoration: none;
+}
+
+.nav-star:hover {
+    transform: scale(1.3);
+}
+
+.star-point {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: relative;
+    transition: all 0.4s ease;
+}
+
+.star-point::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.nav-star:hover .star-point::before {
+    opacity: 1;
+}
+
+/* Rayos de la estrella */
+.star-point::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    transform: translate(-50%, -50%);
+    background:
+        linear-gradient(0deg, transparent 45%, currentColor 50%, transparent 55%),
+        linear-gradient(90deg, transparent 45%, currentColor 50%, transparent 55%),
+        linear-gradient(45deg, transparent 46%, currentColor 50%, transparent 54%),
+        linear-gradient(-45deg, transparent 46%, currentColor 50%, transparent 54%);
+    opacity: 0.3;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.nav-star:hover .star-point::after {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.5) rotate(15deg);
+}
+
+.star-label {
+    margin-top: 20px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s ease;
+    pointer-events: none;
+}
+
+.nav-star:hover .star-label {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.star-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.star-subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 300;
+    font-style: normal;
+    margin-top: 5px;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* --- Estrella: IA & Futuro --- */
+.star-ia {
+    top: 25%;
+    right: 20%;
+    animation: float-star-1 15s ease-in-out infinite;
+}
+
+.star-ia .star-point {
+    background: var(--ia-color);
+    box-shadow:
+        0 0 10px var(--ia-glow),
+        0 0 20px var(--ia-glow),
+        0 0 40px rgba(0, 240, 255, 0.3);
+    color: var(--ia-color);
+}
+
+.star-ia .star-point::before {
+    background: radial-gradient(circle, var(--ia-glow), transparent 70%);
+}
+
+.star-ia .star-name {
+    color: var(--ia-color);
+}
+
+@keyframes float-star-1 {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-5px, 10px);
+    }
+
+    50% {
+        transform: translate(8px, 5px);
+    }
+
+    75% {
+        transform: translate(3px, -8px);
+    }
+}
+
+/* --- Estrella: Espiritualidad --- */
+.star-spirit {
+    top: 30%;
+    left: 18%;
+    animation: float-star-2 18s ease-in-out infinite;
+}
+
+.star-spirit .star-point {
+    background: var(--spirit-color);
+    box-shadow:
+        0 0 10px var(--spirit-glow),
+        0 0 20px var(--spirit-glow),
+        0 0 40px rgba(255, 215, 0, 0.3);
+    color: var(--spirit-color);
+}
+
+.star-spirit .star-point::before {
+    background: radial-gradient(circle, var(--spirit-glow), transparent 70%);
+}
+
+.star-spirit .star-name {
+    color: var(--spirit-color);
+}
+
+@keyframes float-star-2 {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    33% {
+        transform: translate(10px, -5px);
+    }
+
+    66% {
+        transform: translate(-8px, 8px);
+    }
+}
+
+/* --- Estrella: Arte Surrealista --- */
+.star-art {
+    bottom: 25%;
+    left: 25%;
+    animation: float-star-3 20s ease-in-out infinite;
+}
+
+.star-art .star-point {
+    background: var(--art-color);
+    box-shadow:
+        0 0 10px var(--art-glow),
+        0 0 20px var(--art-glow),
+        0 0 40px rgba(255, 51, 102, 0.3);
+    color: var(--art-color);
+}
+
+.star-art .star-point::before {
+    background: radial-gradient(circle, var(--art-glow), transparent 70%);
+}
+
+.star-art .star-name {
+    color: var(--art-color);
+}
+
+@keyframes float-star-3 {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    20% {
+        transform: translate(-10px, -10px);
+    }
+
+    40% {
+        transform: translate(5px, -5px);
+    }
+
+    60% {
+        transform: translate(10px, 10px);
+    }
+
+    80% {
+        transform: translate(-5px, 5px);
+    }
+}
+
+/* ============================================
+   LÍNEAS DE CONSTELACIÓN (conexiones sutiles)
+============================================ */
+.constellation-lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.15;
+}
+
+.constellation-lines line {
+    stroke: rgba(255, 255, 255, 0.5);
+    stroke-width: 0.5;
+    stroke-dasharray: 2 8;
+}
+
+/* ============================================
+   TRANSICIÓN - ZOOM AL MUNDO
+============================================ */
+.world-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.world-transition.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.transition-zoom {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.world-transition.active .transition-zoom {
+    transform: translate(-50%, -50%) scale(300);
+}
+
+.transition-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.2em;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    transition-delay: 0.8s;
+    text-align: center;
+}
+
+.world-transition.active .transition-text {
+    opacity: 1;
+}
+
+/* Colores de transición por mundo */
+.transition-ia .transition-zoom {
+    background: radial-gradient(circle, var(--ia-color), var(--color-void));
+}
+
+.transition-ia .transition-text {
+    color: var(--ia-color);
+}
+
+.transition-spirit .transition-zoom {
+    background: radial-gradient(circle, var(--spirit-color), var(--color-void));
+}
+
+.transition-spirit .transition-text {
+    color: var(--spirit-color);
+}
+
+.transition-art .transition-zoom {
+    background: radial-gradient(circle, var(--art-color), var(--color-void));
+}
+
+.transition-art .transition-text {
+    color: var(--art-color);
+}
+
+/* ============================================
+   HINT DE NAVEGACIÓN
+============================================ */
+.nav-hint {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: hint-fade 6s ease-in-out infinite;
+    animation-delay: 3s;
+}
+
+@keyframes hint-fade {
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    20%,
+    80% {
+        opacity: 0.4;
+    }
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 768px) {
+    .site-title {
+        font-size: 1.5rem;
+        letter-spacing: 0.3em;
+    }
+
+    .site-mantra {
+        font-size: 0.95rem;
+        padding: 0 20px;
+    }
+
+    .light-source {
+        width: 140px;
+        height: 140px;
+    }
+
+    .star-ia {
+        top: 18%;
+        right: 15%;
+    }
+
+    .star-spirit {
+        top: 22%;
+        left: 12%;
+    }
+
+    .star-art {
+        bottom: 20%;
+        left: 20%;
+    }
+
+    .star-name {
+        font-size: 0.65rem;
+    }
+
+    .star-subtitle {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .site-title {
+        font-size: 1.2rem;
+    }
+
+    .light-source {
+        width: 120px;
+        height: 120px;
+    }
+
+    .star-ia {
+        top: 15%;
+        right: 10%;
+    }
+
+    .star-spirit {
+        top: 20%;
+        left: 8%;
+    }
+
+    .star-art {
+        bottom: 18%;
+        left: 15%;
+    }
+}
+/* Reduced Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .star-ia, .star-spirit, .star-art {
+        animation: none !important;
+    }
+}

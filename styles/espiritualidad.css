@@ -1,0 +1,685 @@
+/*
+    "El viaje es hacia adentro."
+                            — Tradición ancestral
+
+    Este código es un mapa. El territorio está en ti.
+*/
+
+:root {
+    --void: #0a0908;
+    --void-light: #12110f;
+    --void-lighter: #1a1815;
+    --spirit-primary: #c9a227;
+    --spirit-secondary: #8b7355;
+    --spirit-accent: #d4af37;
+    --spirit-warm: #b8860b;
+    --spirit-dim: rgba(201, 162, 39, 0.2);
+    --text-primary: #e8dcd0;
+    --text-secondary: #a89888;
+    --text-dim: #6a5a4a;
+    --grid-color: rgba(201, 162, 39, 0.02);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Cormorant Garamond', serif;
+    background: var(--void);
+    color: var(--text-primary);
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   EFECTOS DE FONDO - Sutil grid dorado
+============================================ */
+
+.spirit-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+}
+
+.glow-orb {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(150px);
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.glow-orb-1 {
+    background: var(--spirit-primary);
+    top: -150px;
+    right: -150px;
+    animation: orb-float 25s ease-in-out infinite;
+}
+
+.glow-orb-2 {
+    background: var(--spirit-secondary);
+    bottom: -150px;
+    left: -150px;
+    animation: orb-float 30s ease-in-out infinite reverse;
+}
+
+@keyframes orb-float {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(40px, 25px);
+    }
+}
+
+/* ============================================
+   HEADER / NAVEGACION
+============================================ */
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: linear-gradient(180deg, var(--void) 0%, transparent 100%);
+    padding: 20px 0;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--spirit-primary);
+}
+
+.back-link .arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.back-link:hover .arrow {
+    transform: translateX(-5px);
+}
+
+.header-status {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--spirit-accent);
+    animation: pulse-dot 3s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* ============================================
+   HERO DEL MUNDO
+============================================ */
+
+.world-hero {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    z-index: 10;
+}
+
+.world-icon {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.world-icon-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid var(--spirit-dim);
+    border-radius: 50%;
+    animation: ring-breathe 6s ease-in-out infinite;
+}
+
+.world-icon-ring:nth-child(1) {
+    width: 100%;
+    height: 100%;
+    animation-delay: 0s;
+}
+
+.world-icon-ring:nth-child(2) {
+    width: 75%;
+    height: 75%;
+    animation-delay: -2s;
+}
+
+.world-icon-ring:nth-child(3) {
+    width: 50%;
+    height: 50%;
+    animation-delay: -4s;
+}
+
+.world-icon-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25px;
+    height: 25px;
+    background: var(--spirit-primary);
+    border-radius: 50%;
+    box-shadow:
+        0 0 20px var(--spirit-primary),
+        0 0 40px var(--spirit-dim);
+}
+
+@keyframes ring-breathe {
+    0%, 100% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1.03);
+    }
+}
+
+.world-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--spirit-primary);
+    text-shadow:
+        0 0 30px var(--spirit-dim),
+        0 0 60px var(--spirit-dim);
+    margin-bottom: 20px;
+}
+
+.world-subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.world-description {
+    max-width: 600px;
+    margin-top: 40px;
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    line-height: 1.9;
+    font-style: italic;
+}
+
+/* Mantra line */
+.mantra-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--spirit-accent);
+    margin-top: 30px;
+    padding: 15px 25px;
+    background: var(--void-light);
+    border: 1px solid var(--void-lighter);
+    border-left: 2px solid var(--spirit-primary);
+    display: inline-block;
+}
+
+/* ============================================
+   CONTENIDO PRINCIPAL
+============================================ */
+
+main {
+    position: relative;
+    z-index: 10;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px 100px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--void-lighter);
+}
+
+.section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--spirit-primary);
+    text-transform: uppercase;
+}
+
+.section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--spirit-dim), transparent);
+}
+
+/* ============================================
+   POST DESTACADO
+============================================ */
+
+.featured-post {
+    background: linear-gradient(135deg, var(--void-light) 0%, var(--void) 100%);
+    border: 1px solid var(--void-lighter);
+    border-radius: 8px;
+    padding: 50px;
+    margin-bottom: 60px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.featured-post:hover {
+    border-color: var(--spirit-dim);
+    transform: translateY(-5px);
+}
+
+.featured-post::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--spirit-secondary), var(--spirit-primary), var(--spirit-accent));
+}
+
+.featured-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--spirit-accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding: 8px 15px;
+    background: rgba(201, 162, 39, 0.1);
+    border: 1px solid rgba(201, 162, 39, 0.2);
+    border-radius: 4px;
+}
+
+.featured-badge::before {
+    content: '◇';
+}
+
+.featured-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.featured-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.featured-title a:hover {
+    color: var(--spirit-primary);
+}
+
+.featured-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 25px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+}
+
+.featured-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.featured-excerpt {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.9;
+    margin-bottom: 30px;
+}
+
+.featured-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.tag {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    padding: 6px 12px;
+    background: var(--void);
+    border: 1px solid var(--void-lighter);
+    border-radius: 3px;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.tag:hover {
+    border-color: var(--spirit-primary);
+    color: var(--spirit-primary);
+}
+
+.read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--spirit-primary);
+    text-decoration: none;
+    padding: 12px 25px;
+    border: 1px solid var(--spirit-primary);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.read-more:hover {
+    background: var(--spirit-primary);
+    color: var(--void);
+}
+
+.read-more .arrow {
+    transition: transform 0.3s ease;
+}
+
+.read-more:hover .arrow {
+    transform: translateX(5px);
+}
+
+/* ============================================
+   GRID DE POSTS
+============================================ */
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.post-card {
+    background: var(--void-light);
+    border: 1px solid var(--void-lighter);
+    border-radius: 6px;
+    padding: 30px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.post-card:hover {
+    border-color: var(--spirit-dim);
+    transform: translateY(-3px);
+}
+
+.post-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 30px;
+    right: 30px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--spirit-dim), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.post-card:hover::after {
+    opacity: 1;
+}
+
+.post-category {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--spirit-secondary);
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.post-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.post-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.post-title a:hover {
+    color: var(--spirit-primary);
+}
+
+.post-excerpt {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+}
+
+.post-date {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.post-read-time {
+    color: var(--text-dim);
+}
+
+/* ============================================
+   PLACEHOLDER - PROXIMAMENTE
+============================================ */
+
+.coming-soon {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 40px;
+    border: 1px dashed var(--void-lighter);
+    border-radius: 6px;
+}
+
+.coming-soon-icon {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    opacity: 0.3;
+    color: var(--spirit-primary);
+}
+
+.coming-soon-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    font-style: italic;
+}
+
+/* ============================================
+   FOOTER
+============================================ */
+
+footer {
+    position: relative;
+    z-index: 10;
+    border-top: 1px solid var(--void-lighter);
+    padding: 40px;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.footer-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.footer-nav a {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+    color: var(--spirit-primary);
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 768px) {
+    .world-title {
+        font-size: 2rem;
+        letter-spacing: 0.1em;
+    }
+
+    .world-hero {
+        padding: 100px 20px 60px;
+    }
+
+    main {
+        padding: 0 20px 60px;
+    }
+
+    .featured-post {
+        padding: 30px;
+    }
+
+    .featured-title {
+        font-size: 1.5rem;
+    }
+
+    .posts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header-content {
+        padding: 0 20px;
+    }
+
+    .header-status {
+        display: none;
+    }
+}

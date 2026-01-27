@@ -1,0 +1,73 @@
+[
+    {
+        "id": "ia-key-cage",
+        "title": "La Llave y la Jaula",
+        "url": "/mundos/ia-futuro/posts/la-llave-y-la-jaula.html",
+        "world": "ia",
+        "tags": [
+            "privacidad",
+            "bitcoin",
+            "cypherpunk",
+            "soberanía",
+            "libertad"
+        ],
+        "date": "2026-01-21",
+        "excerpt": "Un manifiesto sobre soberanía digital, privacidad y las estructuras invisibles que moldean nuestra realidad."
+    },
+    {
+        "id": "ia-molecules-machines",
+        "title": "Moléculas 🧬 Máquinas",
+        "url": "/mundos/ia-futuro/posts/moleculas-maquinas.html",
+        "world": "ia",
+        "tags": [
+            "psicodélicos",
+            "historia",
+            "Silicon Valley",
+            "contracultura"
+        ],
+        "date": "2026-01-15",
+        "excerpt": "La doble hélice de la revolución digital: cómo el LSD y los psicodélicos se entrelazaron con la creación del futuro."
+    },
+    {
+        "id": "ia-body-not-yours",
+        "title": "Tu Cuerpo No Es Tuyo",
+        "url": "/mundos/ia-futuro/posts/tu-cuerpo-no-es-tuyo.html",
+        "world": "ia",
+        "tags": [
+            "soberanía",
+            "biopolítica",
+            "filosofía",
+            "cuerpo"
+        ],
+        "date": "2026-01-10",
+        "excerpt": "Nacionalismo, conscripción y el arte de no ser esclavo de ninguna bandera. Recuperando la soberanía corporal."
+    },
+    {
+        "id": "ia-dmn-ego",
+        "title": "El Default Mode Network: La prisión neuronal del ego",
+        "url": "/mundos/ia-futuro/posts/dmn-prision-neuronal-ego.html",
+        "world": "ia",
+        "tags": [
+            "neurociencia",
+            "ego",
+            "consciencia",
+            "meditación"
+        ],
+        "date": "2026-01-25",
+        "excerpt": "Cómo la neurociencia está revelando los mecanismos cerebrales que nos mantienen atrapados en patrones repetitivos."
+    },
+    {
+        "id": "spirit-mushrooms-tech",
+        "title": "Hongos Mágicos: Tecnología de la Consciencia",
+        "url": "/mundos/espiritualidad/posts/hongos-tecnologia-consciencia.html",
+        "world": "spirit",
+        "tags": [
+            "psicodélicos",
+            "micología",
+            "consciencia",
+            "plantas maestras"
+        ],
+        "date": "2026-01-20",
+        "excerpt": "Una exploración profunda sobre los hongos psicodélicos como tecnología ancestral de la consciencia y respeto sagrado."
+    }
+]

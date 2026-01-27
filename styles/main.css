@@ -1,0 +1,140 @@
+:root {
+    --color-void: #05050a;
+    --color-void-light: #0a0a12;
+    --color-star-core: #ffffff;
+    --color-star-glow: rgba(255, 255, 255, 0.6);
+    --text-primary: #e0e0e0;
+    --text-secondary: #888899;
+
+    /* Tipografía DMN */
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Mundos */
+    --ia-color: #00f0ff;
+    --ia-glow: rgba(0, 240, 255, 0.8);
+    --spirit-color: #ffd700;
+    --spirit-glow: rgba(255, 215, 0, 0.8);
+    --art-color: #ff3366;
+    --art-glow: rgba(255, 51, 102, 0.8);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cormorant Garamond', serif;
+    background: var(--color-void);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+/* Common Typography */
+h1,
+h2,
+h3 {
+    font-family: var(--font-display);
+}
+
+/* Common Components */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--color-star-core);
+}
+
+.back-link .arrow {
+    transition: transform 0.3s ease;
+}
+
+.back-link:hover .arrow {
+    transform: translateX(-5px);
+}
+
+/* Header */
+header {
+    padding: 30px 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Footer */
+footer {
+    padding: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
+
+.footer-logo {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.footer-mantra {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+}
+/* Loader */
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-void);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.loader-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255,255,255,0.1);
+    border-top: 3px solid var(--spirit-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+.loader-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--text-secondary);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
