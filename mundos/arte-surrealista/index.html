@@ -57,5 +57,91 @@
         <p class="footer-logo">SHAMANTEK</p>
         <p class="footer-mantra">Consciencia · Tecnología · Arte</p>
     </footer>
+
+    <!-- Easter Egg: Arte ASCII oculto -->
+    <!--
+    ╭─────────────────────────────────────────────────────────────╮
+    │                                                             │
+    │      ·  ✦  ·           "El arte no reproduce              │
+    │    ✧    ☾    ✧          lo visible,                       │
+    │      ·  ✦  ·            sino que hace visible."           │
+    │                                        — Paul Klee         │
+    │                                                             │
+    │         ▲                                                   │
+    │        ╱ ╲         Hay secretos ocultos en este sitio.     │
+    │       ╱   ╲        Algunos en el laberinto.                │
+    │      ╱  ◯  ╲       Otros en los artículos.                 │
+    │     ╱───────╲      Buscá patrones.                         │
+    │    ╱    │    ╲                                              │
+    │                                                             │
+    │   Pista: En el laberinto, visitá los 5 nodos en orden      │
+    │   (Umbral → Agua → Espejo → Bosque → Abismo)               │
+    │                                                             │
+    ╰─────────────────────────────────────────────────────────────╯
+    -->
+
+    <!-- Easter Egg Script -->
+    <script>
+    (function() {
+        // Efecto de partículas al mover el mouse
+        let lastTime = 0;
+        document.addEventListener('mousemove', function(e) {
+            const now = Date.now();
+            if (now - lastTime < 100) return;
+            lastTime = now;
+
+            if (Math.random() > 0.85) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: fixed;
+                    left: ${e.clientX}px;
+                    top: ${e.clientY}px;
+                    width: 4px;
+                    height: 4px;
+                    background: var(--surreal-gold, #c9a227);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 9999;
+                    opacity: 0.6;
+                    animation: particle-fade 1s ease-out forwards;
+                `;
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1000);
+            }
+        });
+
+        // Agregar keyframes si no existen
+        if (!document.querySelector('#particle-styles')) {
+            const style = document.createElement('style');
+            style.id = 'particle-styles';
+            style.textContent = `
+                @keyframes particle-fade {
+                    0% { transform: scale(1); opacity: 0.6; }
+                    100% { transform: scale(0) translateY(-20px); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Easter egg: click 5 veces en "donde lo imposible respira"
+        let subtitleClicks = 0;
+        const subtitle = document.querySelector('.arte-subtitle');
+        if (subtitle) {
+            subtitle.style.cursor = 'default';
+            subtitle.addEventListener('click', function() {
+                subtitleClicks++;
+                if (subtitleClicks === 5) {
+                    this.innerHTML = '"Donde el código sueña"';
+                    this.style.color = '#ff3366';
+                    setTimeout(() => {
+                        this.innerHTML = '"Donde lo imposible respira"';
+                        this.style.color = '';
+                    }, 3000);
+                    subtitleClicks = 0;
+                }
+            });
+        }
+    })();
+    </script>
 </body>
 </html>

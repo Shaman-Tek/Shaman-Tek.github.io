@@ -83,6 +83,7 @@
 
         <!-- Navegación -->
         <nav class="labyrinth-nav">
+            <a href="../index.html" class="nav-sigil nav-back" title="Salir del Laberinto">&larr;</a>
             <div class="nav-sigil" id="reset-btn" title="Reiniciar">&#9675;</div>
         </nav>
 
@@ -253,7 +254,298 @@
         </div>
     </div>
 
+    <!-- ============================================
+         EASTER EGG: EL SEXTO NODO (SECRETO)
+         Actívalo visitando los 5 nodos en orden:
+         Umbral → Agua → Espejo → Bosque → Abismo
+         ============================================ -->
+    <div id="secret-node" class="secret-realm">
+        <div class="secret-content">
+            <div class="secret-title">VI</div>
+            <div class="secret-name">El Despertar</div>
+            <p class="secret-message">
+                Has recorrido el laberinto completo.<br>
+                El sueño y la vigilia son uno.<br>
+                <span class="secret-reveal">El observador y lo observado siempre fueron lo mismo.</span>
+            </p>
+            <div class="secret-art">
+                <svg viewBox="0 0 200 200" class="mandala">
+                    <defs>
+                        <radialGradient id="mandala-gradient">
+                            <stop offset="0%" stop-color="var(--surreal-gold)"/>
+                            <stop offset="100%" stop-color="transparent"/>
+                        </radialGradient>
+                    </defs>
+                    <circle cx="100" cy="100" r="80" fill="none" stroke="var(--surreal-gold)" stroke-width="0.5" opacity="0.3"/>
+                    <circle cx="100" cy="100" r="60" fill="none" stroke="var(--surreal-gold)" stroke-width="0.5" opacity="0.4"/>
+                    <circle cx="100" cy="100" r="40" fill="none" stroke="var(--surreal-gold)" stroke-width="0.5" opacity="0.5"/>
+                    <circle cx="100" cy="100" r="20" fill="none" stroke="var(--surreal-gold)" stroke-width="0.5" opacity="0.6"/>
+                    <circle cx="100" cy="100" r="5" fill="var(--surreal-gold)" opacity="0.8"/>
+                    <!-- Pétalos -->
+                    <g class="petals" style="transform-origin: center;">
+                        <ellipse cx="100" cy="40" rx="8" ry="25" fill="none" stroke="var(--surreal-ghost)" stroke-width="0.5" opacity="0.4"/>
+                        <ellipse cx="100" cy="40" rx="8" ry="25" fill="none" stroke="var(--surreal-ghost)" stroke-width="0.5" opacity="0.4" transform="rotate(45 100 100)"/>
+                        <ellipse cx="100" cy="40" rx="8" ry="25" fill="none" stroke="var(--surreal-ghost)" stroke-width="0.5" opacity="0.4" transform="rotate(90 100 100)"/>
+                        <ellipse cx="100" cy="40" rx="8" ry="25" fill="none" stroke="var(--surreal-ghost)" stroke-width="0.5" opacity="0.4" transform="rotate(135 100 100)"/>
+                        <ellipse cx="100" cy="40" rx="8" ry="25" fill="none" stroke="var(--surreal-ghost)" stroke-width="0.5" opacity="0.4" transform="rotate(180 100 100)"/>
+                        <ellipse cx="100" cy="40" rx="8" ry="25" fill="none" stroke="var(--surreal-ghost)" stroke-width="0.5" opacity="0.4" transform="rotate(225 100 100)"/>
+                        <ellipse cx="100" cy="40" rx="8" ry="25" fill="none" stroke="var(--surreal-ghost)" stroke-width="0.5" opacity="0.4" transform="rotate(270 100 100)"/>
+                        <ellipse cx="100" cy="40" rx="8" ry="25" fill="none" stroke="var(--surreal-ghost)" stroke-width="0.5" opacity="0.4" transform="rotate(315 100 100)"/>
+                    </g>
+                </svg>
+            </div>
+            <button class="secret-close" id="secret-close">despertar</button>
+        </div>
+    </div>
+
+    <!--
+    ╔═══════════════════════════════════════════════════════════════╗
+    ║                                                               ║
+    ║     ░▒▓█ ENCONTRASTE ALGO OCULTO █▓▒░                        ║
+    ║                                                               ║
+    ║           .-""""""-.                                          ║
+    ║         .'          '.                                        ║
+    ║        /   O      O   \                                       ║
+    ║       :                :                                      ║
+    ║       |                |          El código fuente            ║
+    ║       : ',          ,' :          es otro laberinto.          ║
+    ║        \  '-......-'  /                                       ║
+    ║         '.googly eyes'            Seguí buscando...           ║
+    ║           '-......-'                                          ║
+    ║                                                               ║
+    ║     Pista: tecleá "sueño" en cualquier momento                ║
+    ║                                                               ║
+    ╚═══════════════════════════════════════════════════════════════╝
+    -->
+
+    <!-- OTRO SECRETO: Presiona 's' 'u' 'e' 'ñ' 'o' para ver algo especial -->
+
     <!-- Scripts -->
     <script src="../../../scripts/laberinto.js"></script>
+
+    <!-- Easter Eggs Script -->
+    <script>
+    (function() {
+        // ====== EASTER EGG 1: Secuencia de nodos ======
+        const secretSequence = ['umbral', 'agua', 'espejo', 'bosque', 'abismo'];
+        let visitOrder = [];
+
+        // Escuchar navegación
+        document.querySelectorAll('.portal').forEach(portal => {
+            portal.addEventListener('click', function() {
+                const target = this.dataset.target;
+                if (visitOrder.length === 0 || visitOrder[visitOrder.length - 1] !== target) {
+                    visitOrder.push(target);
+                }
+                // Verificar secuencia completa
+                if (visitOrder.length >= 5) {
+                    const lastFive = visitOrder.slice(-5);
+                    if (JSON.stringify(lastFive) === JSON.stringify(secretSequence)) {
+                        setTimeout(() => {
+                            document.getElementById('secret-node').classList.add('revealed');
+                        }, 2000);
+                    }
+                }
+            });
+        });
+
+        // Cerrar nodo secreto
+        document.getElementById('secret-close')?.addEventListener('click', function() {
+            document.getElementById('secret-node').classList.remove('revealed');
+            visitOrder = [];
+        });
+
+        // ====== EASTER EGG 2: Teclear "sueño" ======
+        let konamiBuffer = '';
+        const secretWord = 'sueño';
+
+        document.addEventListener('keydown', function(e) {
+            konamiBuffer += e.key.toLowerCase();
+            if (konamiBuffer.length > 10) {
+                konamiBuffer = konamiBuffer.slice(-10);
+            }
+            if (konamiBuffer.includes(secretWord)) {
+                activateDreamMode();
+                konamiBuffer = '';
+            }
+        });
+
+        function activateDreamMode() {
+            document.body.classList.add('dream-mode');
+            // Crear partículas de sueño
+            for (let i = 0; i < 30; i++) {
+                createDreamParticle();
+            }
+            setTimeout(() => {
+                document.body.classList.remove('dream-mode');
+            }, 8000);
+        }
+
+        function createDreamParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'dream-particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDuration = (3 + Math.random() * 4) + 's';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            particle.innerHTML = ['✦', '✧', '⋆', '｡', '°'][Math.floor(Math.random() * 5)];
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 8000);
+        }
+
+        // ====== EASTER EGG 3: Triple click en título del ritual ======
+        let titleClicks = 0;
+        document.querySelector('.ritual-title')?.addEventListener('click', function() {
+            titleClicks++;
+            if (titleClicks === 7) {
+                this.innerHTML = '∞ El Infinito ∞';
+                this.style.color = '#ff3366';
+                setTimeout(() => {
+                    this.innerHTML = 'Ritual de Entrada';
+                    this.style.color = '';
+                }, 3000);
+                titleClicks = 0;
+            }
+        });
+    })();
+    </script>
+
+    <!-- Easter Egg Styles -->
+    <style>
+        /* Nav back link */
+        .nav-back {
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        /* Secret Node */
+        .secret-realm {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(61, 47, 92, 0.95) 0%, rgba(10, 8, 16, 0.98) 70%);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 1.5s ease;
+        }
+
+        .secret-realm.revealed {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .secret-content {
+            text-align: center;
+            max-width: 500px;
+            padding: 2rem;
+        }
+
+        .secret-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 3rem;
+            color: var(--surreal-gold, #c9a227);
+            margin-bottom: 1rem;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(201, 162, 39, 0.5); }
+            50% { text-shadow: 0 0 40px rgba(201, 162, 39, 0.8); }
+        }
+
+        .secret-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--surreal-ghost, #9988bb);
+            margin-bottom: 2rem;
+            letter-spacing: 0.3em;
+        }
+
+        .secret-message {
+            font-size: 1.1rem;
+            line-height: 2;
+            color: var(--surreal-bone, #e8e4dc);
+            margin-bottom: 2rem;
+        }
+
+        .secret-reveal {
+            display: block;
+            margin-top: 1rem;
+            color: var(--surreal-gold, #c9a227);
+            font-style: italic;
+        }
+
+        .secret-art {
+            margin: 2rem 0;
+        }
+
+        .mandala {
+            width: 150px;
+            height: 150px;
+            animation: rotate-slow 30s linear infinite;
+        }
+
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .petals {
+            animation: rotate-reverse 20s linear infinite;
+        }
+
+        @keyframes rotate-reverse {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+        }
+
+        .secret-close {
+            background: transparent;
+            border: 1px solid var(--surreal-gold, #c9a227);
+            color: var(--surreal-gold, #c9a227);
+            padding: 1rem 2rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .secret-close:hover {
+            background: var(--surreal-gold, #c9a227);
+            color: var(--surreal-void, #0a0810);
+        }
+
+        /* Dream Mode */
+        .dream-mode {
+            animation: dream-filter 8s ease-in-out;
+        }
+
+        @keyframes dream-filter {
+            0%, 100% { filter: none; }
+            50% { filter: hue-rotate(30deg) saturate(1.3); }
+        }
+
+        .dream-particle {
+            position: fixed;
+            top: -20px;
+            color: var(--surreal-gold, #c9a227);
+            font-size: 1.5rem;
+            pointer-events: none;
+            z-index: 3000;
+            animation: fall-dream linear forwards;
+            opacity: 0.7;
+        }
+
+        @keyframes fall-dream {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
 </body>
 </html>
