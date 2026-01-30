@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laberinto Onírico — ShamanTek</title>
+    <meta name="description" content="Una galería interactiva de arte surrealista. Navega entre nodos, revela capas ocultas y consulta al oráculo.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../../styles/arte-surrealista.css">
+    <link rel="stylesheet" href="../../../styles/laberinto.css">
+</head>
+<body>
+
+    <!-- ============================================
+         PANTALLA DE RITUAL
+         ============================================ -->
+    <div id="ritual-screen">
+        <div class="ritual-container">
+            <div class="ritual-title">Ritual de Entrada</div>
+
+            <div class="ritual-question active" data-question="1">
+                <p class="question-text">¿Qué hora es donde estás?</p>
+                <div class="question-options">
+                    <button class="option-btn" data-value="dawn" data-aspect="time">Amanecer</button>
+                    <button class="option-btn" data-value="day" data-aspect="time">Día</button>
+                    <button class="option-btn" data-value="dusk" data-aspect="time">Atardecer</button>
+                    <button class="option-btn" data-value="night" data-aspect="time">Noche</button>
+                </div>
+            </div>
+
+            <div class="ritual-question" data-question="2">
+                <p class="question-text">Cerrá los ojos un momento. ¿Qué ves?</p>
+                <div class="question-options">
+                    <button class="option-btn" data-value="void" data-aspect="inner">Oscuridad</button>
+                    <button class="option-btn" data-value="colors" data-aspect="inner">Colores flotando</button>
+                    <button class="option-btn" data-value="shapes" data-aspect="inner">Formas geométricas</button>
+                    <button class="option-btn" data-value="faces" data-aspect="inner">Rostros o figuras</button>
+                </div>
+            </div>
+
+            <div class="ritual-question" data-question="3">
+                <p class="question-text">¿Qué animal visitó tu último sueño?</p>
+                <div class="question-options">
+                    <button class="option-btn" data-value="bird" data-aspect="animal">Pájaro</button>
+                    <button class="option-btn" data-value="serpent" data-aspect="animal">Serpiente</button>
+                    <button class="option-btn" data-value="feline" data-aspect="animal">Felino</button>
+                    <button class="option-btn" data-value="none" data-aspect="animal">Ninguno que recuerde</button>
+                </div>
+            </div>
+
+            <div class="ritual-question" data-question="4">
+                <p class="question-text">¿Qué buscás aquí?</p>
+                <div class="question-options">
+                    <button class="option-btn" data-value="lost" data-aspect="intent">Perderme</button>
+                    <button class="option-btn" data-value="find" data-aspect="intent">Encontrar algo</button>
+                    <button class="option-btn" data-value="feel" data-aspect="intent">Sentir</button>
+                    <button class="option-btn" data-value="unknown" data-aspect="intent">No lo sé</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ritual-progress">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         LABERINTO PRINCIPAL
+         ============================================ -->
+    <div id="labyrinth">
+
+        <!-- Navegación -->
+        <nav class="labyrinth-nav">
+            <div class="nav-sigil" id="reset-btn" title="Reiniciar">&#9675;</div>
+        </nav>
+
+        <!-- Indicador de nodos visitados -->
+        <div class="node-indicator">
+            <div class="node-dot active" data-node="umbral" title="El Umbral"></div>
+            <div class="node-dot" data-node="agua" title="El Agua"></div>
+            <div class="node-dot" data-node="espejo" title="El Espejo"></div>
+            <div class="node-dot" data-node="bosque" title="El Bosque"></div>
+            <div class="node-dot" data-node="abismo" title="El Abismo"></div>
+        </div>
+
+        <!-- ============================================
+             NODO I: EL UMBRAL
+             ============================================ -->
+        <section class="dream-node active" data-node="umbral" id="node-umbral">
+            <span class="dream-number">I</span>
+            <div class="node-title">El Umbral</div>
+
+            <div class="artwork-container" data-artwork="umbral">
+                <div class="loading-state"></div>
+                <div class="artwork-layer layer-base" style="background-image: url('umbral-capa1.png');"></div>
+                <div class="artwork-layer layer-hidden" style="background-image: url('umbral-capa2.png');"></div>
+                <div class="artwork-layer layer-deep" style="background-image: url('umbral-capa3.png');"></div>
+                <div class="layer-indicator">
+                    <div class="layer-dot active" data-layer="1"></div>
+                    <div class="layer-dot" data-layer="2"></div>
+                    <div class="layer-dot" data-layer="3"></div>
+                </div>
+            </div>
+
+            <div class="portals">
+                <a class="portal" data-target="agua">hacia el agua</a>
+                <a class="portal" data-target="espejo">hacia el espejo</a>
+                <a class="portal" data-target="bosque">hacia el bosque</a>
+            </div>
+        </section>
+
+        <!-- ============================================
+             NODO II: EL AGUA
+             ============================================ -->
+        <section class="dream-node" data-node="agua" id="node-agua">
+            <span class="dream-number">II</span>
+            <div class="node-title">El Agua</div>
+
+            <div class="artwork-container" data-artwork="agua">
+                <div class="loading-state"></div>
+                <div class="artwork-layer layer-base" style="background-image: url('agua-capa1.png');"></div>
+                <div class="artwork-layer layer-hidden" style="background-image: url('agua-capa2.png');"></div>
+                <div class="artwork-layer layer-deep" style="background-image: url('agua-capa3.png');"></div>
+                <div class="layer-indicator">
+                    <div class="layer-dot active" data-layer="1"></div>
+                    <div class="layer-dot" data-layer="2"></div>
+                    <div class="layer-dot" data-layer="3"></div>
+                </div>
+            </div>
+
+            <div class="portals">
+                <a class="portal" data-target="umbral">volver al umbral</a>
+                <a class="portal" data-target="espejo">atravesar hacia el espejo</a>
+                <a class="portal" data-target="abismo">descender al abismo</a>
+            </div>
+        </section>
+
+        <!-- ============================================
+             NODO III: EL ESPEJO
+             ============================================ -->
+        <section class="dream-node" data-node="espejo" id="node-espejo">
+            <span class="dream-number">III</span>
+            <div class="node-title">El Espejo</div>
+
+            <div class="artwork-container" data-artwork="espejo">
+                <div class="loading-state"></div>
+                <div class="artwork-layer layer-base" style="background-image: url('espejo-capa1.png');"></div>
+                <div class="artwork-layer layer-hidden" style="background-image: url('espejo-capa2.png');"></div>
+                <div class="artwork-layer layer-deep" style="background-image: url('espejo-capa3.png');"></div>
+                <div class="layer-indicator">
+                    <div class="layer-dot active" data-layer="1"></div>
+                    <div class="layer-dot" data-layer="2"></div>
+                    <div class="layer-dot" data-layer="3"></div>
+                </div>
+            </div>
+
+            <div class="portals">
+                <a class="portal" data-target="umbral">escapar al umbral</a>
+                <a class="portal" data-target="bosque">internarse en el bosque</a>
+                <a class="portal" data-target="abismo">caer al abismo</a>
+            </div>
+        </section>
+
+        <!-- ============================================
+             NODO IV: EL BOSQUE
+             ============================================ -->
+        <section class="dream-node" data-node="bosque" id="node-bosque">
+            <span class="dream-number">IV</span>
+            <div class="node-title">El Bosque</div>
+
+            <div class="artwork-container" data-artwork="bosque">
+                <div class="loading-state"></div>
+                <div class="artwork-layer layer-base" style="background-image: url('bosque-capa1.png');"></div>
+                <div class="artwork-layer layer-hidden" style="background-image: url('bosque-capa2.png');"></div>
+                <div class="artwork-layer layer-deep" style="background-image: url('bosque-capa3.png');"></div>
+                <div class="layer-indicator">
+                    <div class="layer-dot active" data-layer="1"></div>
+                    <div class="layer-dot" data-layer="2"></div>
+                    <div class="layer-dot" data-layer="3"></div>
+                </div>
+            </div>
+
+            <div class="portals">
+                <a class="portal" data-target="umbral">regresar al umbral</a>
+                <a class="portal" data-target="espejo">reflejarse en el espejo</a>
+                <a class="portal" data-target="abismo">la grieta hacia el abismo</a>
+            </div>
+        </section>
+
+        <!-- ============================================
+             NODO V: EL ABISMO
+             ============================================ -->
+        <section class="dream-node" data-node="abismo" id="node-abismo">
+            <span class="dream-number">V</span>
+            <div class="node-title">El Abismo</div>
+
+            <div class="artwork-container" data-artwork="abismo">
+                <div class="loading-state"></div>
+                <div class="artwork-layer layer-base" style="background-image: url('abismo-capa1.png');"></div>
+                <div class="artwork-layer layer-hidden" style="background-image: url('abismo-capa2.png');"></div>
+                <div class="artwork-layer layer-deep" style="background-image: url('abismo-capa3.png');"></div>
+                <div class="layer-indicator">
+                    <div class="layer-dot active" data-layer="1"></div>
+                    <div class="layer-dot" data-layer="2"></div>
+                    <div class="layer-dot" data-layer="3"></div>
+                </div>
+            </div>
+
+            <div class="portals">
+                <a class="portal" data-target="umbral">despertar</a>
+                <a class="portal" data-target="agua">emerger en el agua</a>
+                <a class="portal" data-target="bosque">ascender al bosque</a>
+            </div>
+        </section>
+
+        <!-- Instrucciones sutiles -->
+        <div class="whisper" id="whisper">
+            pasá el cursor sobre la imagen
+            <span class="whisper-hint">mantené presionado para revelar lo oculto</span>
+        </div>
+
+        <!-- Trigger oculto del oráculo -->
+        <div class="oracle-trigger" id="oracle-trigger" title="&#8258;">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><circle cx="12" cy="4" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="4" cy="12" r="1.5"/><circle cx="20" cy="12" r="1.5"/></svg>
+        </div>
+    </div>
+
+    <!-- ============================================
+         ORÁCULO
+         ============================================ -->
+    <div id="oracle">
+        <button class="oracle-close" id="oracle-close">cerrar [&times;]</button>
+        <div class="oracle-title">El Oráculo</div>
+        <p class="oracle-instruction">Formulá tu pregunta en silencio, o escribila si preferís</p>
+        <input type="text" class="oracle-input" id="oracle-input" placeholder="(opcional)">
+        <button class="oracle-consult" id="oracle-consult">Consultar</button>
+
+        <div class="oracle-response" id="oracle-response">
+            <div class="oracle-image" id="oracle-image"></div>
+            <p class="oracle-fragment" id="oracle-text"></p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../../scripts/laberinto.js"></script>
+</body>
+</html>

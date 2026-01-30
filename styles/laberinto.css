@@ -1,0 +1,748 @@
+/* ============================================
+   LABERINTO ONIRICO - Galería Interactiva
+   ShamanTek - Arte Surrealista
+   ============================================ */
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    background: var(--surreal-void, #0a0810);
+    color: var(--surreal-bone, #e8e4dc);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   PANTALLA DE RITUAL (ENTRADA)
+   ============================================ */
+
+#ritual-screen {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 20%, rgba(61, 47, 92, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(45, 31, 61, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(26, 21, 37, 0.5) 0%, var(--surreal-void, #0a0810) 70%),
+        var(--surreal-void, #0a0810);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 2s ease, visibility 2s ease;
+    overflow: hidden;
+}
+
+#ritual-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(1px 1px at 10% 10%, var(--surreal-star, #ffe8a0) 50%, transparent 50%),
+        radial-gradient(1px 1px at 20% 40%, var(--surreal-gold, #c9a227) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 30% 70%, var(--surreal-star, #ffe8a0) 50%, transparent 50%),
+        radial-gradient(1px 1px at 40% 20%, var(--surreal-ghost, #9988bb) 50%, transparent 50%),
+        radial-gradient(1px 1px at 50% 90%, var(--surreal-star, #ffe8a0) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 60% 30%, var(--surreal-gold, #c9a227) 50%, transparent 50%),
+        radial-gradient(1px 1px at 70% 60%, var(--surreal-star, #ffe8a0) 50%, transparent 50%),
+        radial-gradient(1px 1px at 80% 85%, var(--surreal-ghost, #9988bb) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 90% 15%, var(--surreal-star, #ffe8a0) 50%, transparent 50%),
+        radial-gradient(1px 1px at 15% 55%, var(--surreal-gold, #c9a227) 50%, transparent 50%),
+        radial-gradient(1px 1px at 25% 85%, var(--surreal-star, #ffe8a0) 50%, transparent 50%),
+        radial-gradient(1px 1px at 35% 25%, var(--surreal-ghost, #9988bb) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 45% 65%, var(--surreal-star, #ffe8a0) 50%, transparent 50%),
+        radial-gradient(1px 1px at 55% 45%, var(--surreal-gold, #c9a227) 50%, transparent 50%),
+        radial-gradient(1px 1px at 65% 95%, var(--surreal-star, #ffe8a0) 50%, transparent 50%),
+        radial-gradient(1px 1px at 75% 35%, var(--surreal-ghost, #9988bb) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 85% 75%, var(--surreal-star, #ffe8a0) 50%, transparent 50%),
+        radial-gradient(1px 1px at 95% 55%, var(--surreal-gold, #c9a227) 50%, transparent 50%),
+        radial-gradient(1px 1px at 5% 95%, var(--surreal-star, #ffe8a0) 50%, transparent 50%),
+        radial-gradient(1px 1px at 12% 78%, var(--surreal-ghost, #9988bb) 50%, transparent 50%);
+    opacity: 0.6;
+    animation: starsTwinkle 8s ease-in-out infinite;
+}
+
+@keyframes starsTwinkle {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.7; }
+}
+
+#ritual-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.ritual-container {
+    max-width: 600px;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.ritual-title {
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--surreal-gold, #c9a227);
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+    text-shadow: 0 0 20px rgba(201, 162, 39, 0.3);
+    cursor: pointer;
+}
+
+.ritual-question {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.ritual-question.active {
+    display: flex;
+    animation: questionFade 1s ease forwards;
+}
+
+@keyframes questionFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.question-text {
+    font-size: 1.8rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--surreal-bone, #e8e4dc);
+    text-shadow: 0 0 30px rgba(232, 228, 220, 0.1);
+}
+
+.question-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.option-btn {
+    background: rgba(45, 31, 61, 0.3);
+    border: 1px solid var(--surreal-gold-dim, #8a7020);
+    color: var(--surreal-ghost, #9988bb);
+    padding: 0.8rem 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.option-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--surreal-gold, #c9a227) 0%, var(--surreal-gold-dim, #8a7020) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+.option-btn:hover {
+    color: var(--surreal-void, #0a0810);
+    border-color: var(--surreal-gold, #c9a227);
+    text-shadow: none;
+}
+
+.option-btn:hover::before {
+    opacity: 1;
+}
+
+.ritual-progress {
+    position: fixed;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+}
+
+.progress-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--surreal-nebula, #2d1f3d);
+    opacity: 0.5;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 10px rgba(201, 162, 39, 0);
+}
+
+.progress-dot.active {
+    opacity: 1;
+    background: var(--surreal-gold, #c9a227);
+    box-shadow: 0 0 10px rgba(201, 162, 39, 0.5);
+}
+
+.progress-dot.completed {
+    opacity: 0.7;
+    background: var(--surreal-gold-dim, #8a7020);
+}
+
+/* ============================================
+   LABERINTO PRINCIPAL
+   ============================================ */
+
+#labyrinth {
+    min-height: 100vh;
+    opacity: 0;
+    transition: opacity 2s ease;
+    position: relative;
+}
+
+#labyrinth.visible {
+    opacity: 1;
+}
+
+/* Navegación */
+.labyrinth-nav {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    z-index: 100;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-sigil {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--surreal-ghost, #9988bb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--surreal-ghost, #9988bb);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    background: rgba(10, 8, 16, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.nav-sigil:hover {
+    border-color: var(--surreal-gold, #c9a227);
+    color: var(--surreal-gold, #c9a227);
+}
+
+/* Indicador de nodos */
+.node-indicator {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 100;
+}
+
+.node-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--surreal-ghost, #9988bb);
+    opacity: 0.3;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.node-dot:hover {
+    opacity: 0.6;
+}
+
+.node-dot.active {
+    opacity: 1;
+    background: var(--surreal-gold, #c9a227);
+    box-shadow: 0 0 8px rgba(201, 162, 39, 0.5);
+}
+
+.node-dot.visited {
+    opacity: 0.5;
+    background: var(--surreal-bone, #e8e4dc);
+}
+
+/* ============================================
+   DREAM NODE
+   ============================================ */
+
+.dream-node {
+    min-height: 100vh;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.dream-node.active {
+    display: flex;
+    animation: nodeTransition 1.5s ease forwards;
+}
+
+.dream-node::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.dream-number {
+    position: absolute;
+    top: 2rem;
+    right: 6rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--surreal-ghost, #9988bb);
+    opacity: 0.5;
+    letter-spacing: 0.2em;
+}
+
+.node-title {
+    font-size: 0.75rem;
+    font-weight: 300;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--surreal-ghost, #9988bb);
+    margin-bottom: 2rem;
+    opacity: 0.6;
+}
+
+/* ============================================
+   ARTWORK CONTAINER
+   ============================================ */
+
+.artwork-container {
+    position: relative;
+    width: min(85vw, 900px);
+    aspect-ratio: 16/9;
+    cursor: crosshair;
+    overflow: hidden;
+    border: 1px solid rgba(153, 136, 187, 0.15);
+    box-shadow:
+        0 0 60px rgba(61, 47, 92, 0.3),
+        0 0 120px rgba(61, 47, 92, 0.1);
+}
+
+.artwork-layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.layer-base {
+    z-index: 1;
+    opacity: 1;
+}
+
+.layer-hidden {
+    z-index: 2;
+    opacity: 0;
+}
+
+.artwork-container:hover .layer-hidden {
+    opacity: 1;
+}
+
+.layer-deep {
+    z-index: 3;
+    opacity: 0;
+}
+
+.artwork-container.deep-reveal .layer-deep {
+    opacity: 1;
+}
+
+/* Efecto de brillo */
+.artwork-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(201, 162, 39, 0.08) 0%,
+        transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.artwork-container:hover::after {
+    opacity: 1;
+}
+
+/* Indicador de capas */
+.layer-indicator {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.artwork-container:hover .layer-indicator {
+    opacity: 1;
+}
+
+.layer-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--surreal-ghost, #9988bb);
+    opacity: 0.3;
+    transition: all 0.4s ease;
+}
+
+.layer-dot.active {
+    opacity: 1;
+    background: var(--surreal-gold, #c9a227);
+}
+
+/* Loading state */
+.loading-state {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surreal-deep, #110f1a);
+    z-index: 0;
+}
+
+.loading-state::after {
+    content: '...';
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--surreal-ghost, #9988bb);
+    letter-spacing: 0.3em;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+}
+
+/* ============================================
+   PORTALES (NAVEGACIÓN ENTRE NODOS)
+   ============================================ */
+
+.portals {
+    display: flex;
+    gap: 2rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.portal {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--surreal-ghost, #9988bb);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.portal:hover {
+    color: var(--surreal-gold, #c9a227);
+    border-bottom-color: var(--surreal-gold, #c9a227);
+}
+
+.portal::before {
+    content: '-> ';
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.portal:hover::before {
+    opacity: 1;
+}
+
+/* ============================================
+   WHISPER (INSTRUCCIONES)
+   ============================================ */
+
+.whisper {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--surreal-ghost, #9988bb);
+    opacity: 0.5;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: opacity 0.6s ease;
+    text-align: center;
+}
+
+.whisper.fade {
+    opacity: 0;
+}
+
+.whisper-hint {
+    display: block;
+    margin-top: 0.5rem;
+    opacity: 0.6;
+    font-size: 0.6rem;
+}
+
+/* ============================================
+   ORACULO
+   ============================================ */
+
+#oracle {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 50%, rgba(45, 31, 61, 0.3) 0%, var(--surreal-void, #0a0810) 70%),
+        var(--surreal-void, #0a0810);
+    z-index: 500;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+#oracle.active {
+    display: flex;
+    animation: oracleReveal 1.5s ease forwards;
+}
+
+@keyframes oracleReveal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.oracle-title {
+    font-size: 0.8rem;
+    font-weight: 300;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--surreal-gold, #c9a227);
+    margin-bottom: 3rem;
+    text-shadow: 0 0 20px rgba(201, 162, 39, 0.3);
+}
+
+.oracle-instruction {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--surreal-ghost, #9988bb);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.oracle-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--surreal-gold-dim, #8a7020);
+    color: var(--surreal-bone, #e8e4dc);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    padding: 0.5rem;
+    width: min(400px, 80vw);
+    text-align: center;
+    outline: none;
+    transition: border-color 0.4s ease;
+}
+
+.oracle-input:focus {
+    border-bottom-color: var(--surreal-gold, #c9a227);
+}
+
+.oracle-input::placeholder {
+    color: var(--surreal-ghost, #9988bb);
+    opacity: 0.5;
+}
+
+.oracle-consult {
+    margin-top: 2rem;
+    background: transparent;
+    border: 1px solid var(--surreal-gold, #c9a227);
+    color: var(--surreal-gold, #c9a227);
+    padding: 1rem 2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.oracle-consult:hover {
+    background: var(--surreal-gold, #c9a227);
+    color: var(--surreal-void, #0a0810);
+}
+
+.oracle-response {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.oracle-response.visible {
+    display: flex;
+    animation: responseReveal 1.5s ease forwards;
+}
+
+@keyframes responseReveal {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.oracle-image {
+    width: min(350px, 70vw);
+    aspect-ratio: 16/9;
+    border: 1px solid rgba(153, 136, 187, 0.3);
+    background-size: cover;
+    background-position: center;
+}
+
+.oracle-fragment {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--surreal-ghost, #9988bb);
+    text-align: center;
+    max-width: 450px;
+    line-height: 1.8;
+}
+
+.oracle-close {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    background: none;
+    border: none;
+    color: var(--surreal-ghost, #9988bb);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    transition: color 0.4s ease;
+}
+
+.oracle-close:hover {
+    color: var(--surreal-gold, #c9a227);
+}
+
+/* Trigger del oráculo */
+.oracle-trigger {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 24px;
+    height: 24px;
+    opacity: 0.08;
+    cursor: help;
+    transition: opacity 0.6s ease;
+    z-index: 50;
+}
+
+.oracle-trigger:hover {
+    opacity: 0.5;
+}
+
+.oracle-trigger svg {
+    width: 100%;
+    height: 100%;
+    fill: var(--surreal-ghost, #9988bb);
+}
+
+/* ============================================
+   ANIMACIONES
+   ============================================ */
+
+@keyframes nodeTransition {
+    0% { opacity: 0; filter: blur(20px); }
+    100% { opacity: 1; filter: blur(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.dream-node.exiting {
+    animation: nodeExit 0.6s ease forwards;
+}
+
+@keyframes nodeExit {
+    0% { opacity: 1; filter: blur(0); }
+    100% { opacity: 0; filter: blur(20px); }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .question-text {
+        font-size: 1.4rem;
+    }
+
+    .artwork-container {
+        width: 95vw;
+    }
+
+    .portals {
+        gap: 1rem;
+    }
+
+    .portal {
+        font-size: 0.85rem;
+    }
+
+    .whisper {
+        font-size: 0.55rem;
+        padding: 0 1rem;
+    }
+
+    .dream-number {
+        right: 4rem;
+    }
+}

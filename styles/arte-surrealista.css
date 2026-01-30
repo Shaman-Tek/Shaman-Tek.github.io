@@ -1,0 +1,236 @@
+/* ============================================
+   ARTE SURREALISTA - Variables y Base
+   ShamanTek - Mundo de Arte Surrealista
+   ============================================ */
+
+:root {
+    /* Paleta del mundo surrealista */
+    --surreal-void: #0a0810;
+    --surreal-deep: #110f1a;
+    --surreal-cosmic: #1a1525;
+    --surreal-nebula: #2d1f3d;
+    --surreal-ghost: #9988bb;
+    --surreal-bone: #e8e4dc;
+    --surreal-gold: #c9a227;
+    --surreal-gold-dim: #8a7020;
+    --surreal-dream: #3d2f5c;
+    --surreal-water: #1a3a4a;
+    --surreal-star: #ffe8a0;
+
+    /* Alias para consistencia con main.css */
+    --art-primary: var(--surreal-gold);
+    --art-secondary: var(--surreal-ghost);
+    --art-accent: var(--surreal-dream);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+.mundo-arte body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    background: var(--surreal-void);
+    color: var(--surreal-bone);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   LANDING PAGE STYLES
+   ============================================ */
+
+.arte-landing {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.arte-landing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 20%, rgba(61, 47, 92, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(45, 31, 61, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(26, 21, 37, 0.5) 0%, var(--surreal-void) 70%);
+    pointer-events: none;
+}
+
+.arte-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: var(--surreal-gold);
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 40px rgba(201, 162, 39, 0.3);
+}
+
+.arte-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--surreal-ghost);
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   GALLERY GRID
+   ============================================ */
+
+.arte-galleries {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.gallery-card {
+    background: rgba(45, 31, 61, 0.2);
+    border: 1px solid rgba(153, 136, 187, 0.2);
+    padding: 2rem;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--surreal-gold) 0%, var(--surreal-gold-dim) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+.gallery-card:hover {
+    border-color: var(--surreal-gold);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px rgba(201, 162, 39, 0.2);
+}
+
+.gallery-card:hover::before {
+    opacity: 0.05;
+}
+
+.gallery-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--surreal-bone);
+    margin-bottom: 0.5rem;
+    transition: color 0.4s ease;
+}
+
+.gallery-card:hover .gallery-card-title {
+    color: var(--surreal-gold);
+}
+
+.gallery-card-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--surreal-ghost);
+    text-transform: uppercase;
+}
+
+/* ============================================
+   COMING SOON STATE
+   ============================================ */
+
+.gallery-card.coming-soon {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.gallery-card.coming-soon::after {
+    content: 'Próximamente';
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--surreal-ghost);
+    text-transform: uppercase;
+}
+
+/* ============================================
+   STAR BACKGROUND ANIMATION
+   ============================================ */
+
+.stars-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.stars-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(1px 1px at 10% 10%, var(--surreal-star) 50%, transparent 50%),
+        radial-gradient(1px 1px at 20% 40%, var(--surreal-gold) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 30% 70%, var(--surreal-star) 50%, transparent 50%),
+        radial-gradient(1px 1px at 40% 20%, var(--surreal-ghost) 50%, transparent 50%),
+        radial-gradient(1px 1px at 50% 90%, var(--surreal-star) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 60% 30%, var(--surreal-gold) 50%, transparent 50%),
+        radial-gradient(1px 1px at 70% 60%, var(--surreal-star) 50%, transparent 50%),
+        radial-gradient(1px 1px at 80% 85%, var(--surreal-ghost) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 90% 15%, var(--surreal-star) 50%, transparent 50%),
+        radial-gradient(1px 1px at 15% 55%, var(--surreal-gold) 50%, transparent 50%),
+        radial-gradient(1px 1px at 25% 85%, var(--surreal-star) 50%, transparent 50%),
+        radial-gradient(1px 1px at 35% 25%, var(--surreal-ghost) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 45% 65%, var(--surreal-star) 50%, transparent 50%),
+        radial-gradient(1px 1px at 55% 45%, var(--surreal-gold) 50%, transparent 50%),
+        radial-gradient(1px 1px at 65% 95%, var(--surreal-star) 50%, transparent 50%),
+        radial-gradient(1px 1px at 75% 35%, var(--surreal-ghost) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 85% 75%, var(--surreal-star) 50%, transparent 50%),
+        radial-gradient(1px 1px at 95% 55%, var(--surreal-gold) 50%, transparent 50%);
+    opacity: 0.5;
+    animation: starsTwinkle 8s ease-in-out infinite;
+}
+
+@keyframes starsTwinkle {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.6; }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .arte-landing {
+        padding: 1.5rem;
+    }
+
+    .arte-galleries {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+
+    .gallery-card {
+        padding: 1.5rem;
+    }
+}
