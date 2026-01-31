@@ -20,10 +20,21 @@
 </head>
 <body>
 
+    <!-- Audio Ambiental -->
+    <audio id="ambient-audio" loop preload="auto">
+        <source src="../Threshold of the Amethyst Gate.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- ============================================
          PANTALLA DE RITUAL
          ============================================ -->
     <div id="ritual-screen">
+        <!-- Control de Audio -->
+        <button id="audio-toggle" class="audio-toggle" title="Silenciar/Activar sonido">
+            <span class="audio-icon audio-on">♪</span>
+            <span class="audio-icon audio-off" style="display:none;">♪̸</span>
+        </button>
+
         <div class="ritual-container">
             <div class="ritual-title">Ritual de Entrada</div>
 
@@ -84,6 +95,10 @@
         <!-- Navegación -->
         <nav class="labyrinth-nav">
             <a href="../index.html" class="nav-sigil nav-back" title="Salir del Laberinto">&larr;</a>
+            <button id="audio-toggle-lab" class="nav-sigil audio-toggle-lab" title="Silenciar/Activar sonido">
+                <span class="audio-icon audio-on">♪</span>
+                <span class="audio-icon audio-off" style="display:none;">♪̸</span>
+            </button>
             <div class="nav-sigil" id="reset-btn" title="Reiniciar">&#9675;</div>
         </nav>
 
@@ -409,8 +424,150 @@
     })();
     </script>
 
+    <!-- Audio Control Script -->
+    <script>
+    (function() {
+        const audio = document.getElementById('ambient-audio');
+        const toggleRitual = document.getElementById('audio-toggle');
+        const toggleLab = document.getElementById('audio-toggle-lab');
+        let audioStarted = false;
+        let isMuted = false;
+
+        // Fade in del volumen
+        function fadeInAudio(duration = 3000) {
+            audio.volume = 0;
+            audio.play().catch(e => console.log('Audio blocked:', e));
+
+            const steps = 30;
+            const stepTime = duration / steps;
+            const volumeStep = 0.7 / steps; // Max volume 0.7
+            let currentStep = 0;
+
+            const fadeInterval = setInterval(() => {
+                currentStep++;
+                audio.volume = Math.min(0.7, volumeStep * currentStep);
+                if (currentStep >= steps) {
+                    clearInterval(fadeInterval);
+                }
+            }, stepTime);
+        }
+
+        // Iniciar audio en primera interacción del ritual
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (!audioStarted) {
+                    audioStarted = true;
+                    fadeInAudio();
+                }
+            }, { once: false });
+        });
+
+        // Toggle mute function
+        function toggleMute() {
+            isMuted = !isMuted;
+            audio.muted = isMuted;
+
+            // Sync both buttons
+            [toggleRitual, toggleLab].forEach(btn => {
+                if (btn) {
+                    if (isMuted) {
+                        btn.classList.add('muted');
+                        btn.title = 'Activar sonido';
+                    } else {
+                        btn.classList.remove('muted');
+                        btn.title = 'Silenciar';
+                    }
+                }
+            });
+        }
+
+        // Event listeners for both toggle buttons
+        toggleRitual?.addEventListener('click', toggleMute);
+        toggleLab?.addEventListener('click', toggleMute);
+
+        // Keyboard shortcut: 'M' to mute/unmute
+        document.addEventListener('keydown', function(e) {
+            if (e.key.toLowerCase() === 'm' && !e.ctrlKey && !e.altKey) {
+                // Don't toggle if typing in oracle input
+                if (document.activeElement.tagName !== 'INPUT') {
+                    toggleMute();
+                }
+            }
+        });
+
+        // Pause audio when page is hidden (tab change)
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                audio.pause();
+            } else if (audioStarted && !isMuted) {
+                audio.play().catch(e => {});
+            }
+        });
+    })();
+    </script>
+
     <!-- Easter Egg Styles -->
     <style>
+        /* Audio Toggle Button - Ritual Screen */
+        .audio-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 1100;
+            background: transparent;
+            border: 1px solid var(--surreal-ghost, #9988bb);
+            color: var(--surreal-ghost, #9988bb);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .audio-toggle:hover {
+            border-color: var(--surreal-gold, #c9a227);
+            color: var(--surreal-gold, #c9a227);
+            transform: scale(1.1);
+        }
+
+        .audio-toggle.muted {
+            opacity: 0.5;
+        }
+
+        .audio-toggle.muted .audio-on { display: none !important; }
+        .audio-toggle.muted .audio-off { display: inline !important; }
+
+        /* Audio Toggle - Labyrinth Nav */
+        .audio-toggle-lab {
+            background: transparent;
+            border: none;
+            color: var(--surreal-ghost, #9988bb);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .audio-toggle-lab:hover {
+            color: var(--surreal-gold, #c9a227);
+            transform: scale(1.1);
+        }
+
+        .audio-toggle-lab.muted {
+            opacity: 0.5;
+        }
+
+        .audio-toggle-lab.muted .audio-on { display: none !important; }
+        .audio-toggle-lab.muted .audio-off { display: inline !important; }
+
+        .audio-icon {
+            pointer-events: none;
+        }
+
         /* Nav back link */
         .nav-back {
             text-decoration: none;
