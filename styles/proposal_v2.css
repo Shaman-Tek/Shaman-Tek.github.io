@@ -415,3 +415,26 @@ header {
         font-size: 3rem;
     }
 }
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01s !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01s !important;
+        scroll-behavior: auto !important;
+    }
+
+    .glass-card:hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    .world-transition,
+    .transition-zoom,
+    .transition-text {
+        display: none !important;
+    }
+}

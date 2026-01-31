@@ -215,3 +215,25 @@
 .magnetic-btn {
     transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .tunnel-char,
+    .tunnel-char.animating,
+    .logo:hover .logo-shaman,
+    .logo:hover .logo-tek,
+    .logo-underscore,
+    .logo:hover .logo-underscore,
+    .interactive-subtitle,
+    .interactive-subtitle:hover {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+        filter: none !important;
+    }
+
+    .tunnel-char {
+        opacity: 1 !important;
+        color: var(--text-main) !important;
+        -webkit-text-fill-color: var(--text-main) !important;
+    }
+}
