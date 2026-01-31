@@ -1,0 +1,448 @@
+/**
+ * PDF Download Button & Print Styles for ShamanTek Articles
+ *
+ * AI EXPLANATION:
+ * This file contains both the download button styles and comprehensive
+ * print styles that transform the dark-themed articles into readable
+ * black-on-white PDFs when printed.
+ */
+
+/* ========================================
+   DOWNLOAD BUTTON STYLES
+   ======================================== */
+
+.pdf-download-container {
+    position: fixed;
+    bottom: 6rem;
+    right: 2rem;
+    z-index: 90;
+}
+
+.pdf-download-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.pdf-download-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.pdf-download-btn .pdf-icon {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+@media (max-width: 768px) {
+    .pdf-download-container {
+        bottom: 1rem;
+        right: 1rem;
+    }
+
+    .pdf-download-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.7rem;
+    }
+
+    .pdf-download-btn .pdf-text {
+        display: none;
+    }
+
+    .pdf-download-btn .pdf-icon {
+        font-size: 1.2rem;
+    }
+}
+
+/* ========================================
+   PRINT STYLES - Transform for PDF
+   ======================================== */
+
+@media print {
+    /* Reset page settings */
+    @page {
+        margin: 2cm;
+        size: A4;
+    }
+
+    /* Override CSS variables */
+    :root {
+        --bg-primary: white !important;
+        --bg-secondary: white !important;
+        --bg-tertiary: white !important;
+        --text-primary: #1a1a1a !important;
+        --text-secondary: #333 !important;
+        --text-muted: #555 !important;
+        --void: white !important;
+        --void-light: white !important;
+    }
+
+    /* Hide pseudo-elements that create overlays */
+    body::before,
+    body::after,
+    main::before,
+    main::after {
+        display: none !important;
+        content: none !important;
+    }
+
+    /* Hide UI elements */
+    .pdf-download-container,
+    .pdf-download-btn,
+    .nav,
+    .nav-toggle,
+    .nav-header,
+    .nav-section,
+    .nav-link,
+    .toc-progress,
+    .toc-dot,
+    .progress-bar,
+    .back-link,
+    .back-link-home,
+    #related-articles-container,
+    .scroll-indicator,
+    .footer-nav,
+    .year-index,
+    .year-index-mobile,
+    .background,
+    .grid-bg,
+    .helix-container,
+    .helix-svg,
+    .intro-scroll,
+    .intro-badge,
+    .event-dot,
+    .event-connector,
+    .crossover-lines,
+    header,
+    footer,
+    nav,
+    #print-instruction,
+    [class*="toggle"],
+    [class*="progress"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    /* Reset body completely */
+    body {
+        background: white !important;
+        background-color: white !important;
+        background-image: none !important;
+        color: #1a1a1a !important;
+        font-family: Georgia, 'Times New Roman', serif !important;
+        font-size: 11pt !important;
+        line-height: 1.6 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* Force ALL elements to be readable */
+    *,
+    *::before,
+    *::after {
+        color: #1a1a1a !important;
+        background: white !important;
+        background-color: white !important;
+        background-image: none !important;
+        -webkit-text-fill-color: #1a1a1a !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+        border-color: #ccc !important;
+    }
+
+    /* Main content containers */
+    main,
+    article,
+    .main,
+    .container,
+    section {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        float: none !important;
+        position: static !important;
+    }
+
+    /* Headings */
+    h1, h2, h3, h4, h5, h6 {
+        color: #1a1a1a !important;
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+        margin-top: 1.5em !important;
+        margin-bottom: 0.5em !important;
+        font-weight: bold !important;
+    }
+
+    h1 {
+        font-size: 24pt !important;
+        border-bottom: 2px solid #1a1a1a !important;
+        padding-bottom: 0.3em !important;
+    }
+
+    h2 {
+        font-size: 18pt !important;
+        border-bottom: 1px solid #666 !important;
+        padding-bottom: 0.2em !important;
+    }
+
+    h3 {
+        font-size: 14pt !important;
+    }
+
+    /* Paragraphs */
+    p {
+        margin: 0.8em 0 !important;
+        page-break-inside: avoid !important;
+        orphans: 3 !important;
+        widows: 3 !important;
+    }
+
+    /* Links - show URL */
+    a {
+        color: #1a1a1a !important;
+        text-decoration: underline !important;
+    }
+
+    a[href^="http"]:after {
+        content: " (" attr(href) ")";
+        font-size: 9pt;
+        color: #666 !important;
+    }
+
+    a[href^="#"]:after,
+    a[href^="/"]:after {
+        content: none;
+    }
+
+    /* Blockquotes */
+    blockquote {
+        border-left: 3px solid #666 !important;
+        margin: 1em 0 !important;
+        padding: 0.5em 0 0.5em 1em !important;
+        font-style: italic !important;
+        page-break-inside: avoid !important;
+        background: #f5f5f5 !important;
+    }
+
+    /* Code blocks */
+    pre, code {
+        font-family: 'Courier New', monospace !important;
+        font-size: 9pt !important;
+        background: #f5f5f5 !important;
+        border: 1px solid #ddd !important;
+        padding: 0.5em !important;
+        page-break-inside: avoid !important;
+        white-space: pre-wrap !important;
+        word-wrap: break-word !important;
+    }
+
+    /* Lists */
+    ul, ol {
+        margin: 0.8em 0 !important;
+        padding-left: 2em !important;
+    }
+
+    li {
+        margin: 0.3em 0 !important;
+    }
+
+    /* Images */
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+        page-break-inside: avoid !important;
+    }
+
+    /* Tables */
+    table {
+        border-collapse: collapse !important;
+        width: 100% !important;
+        page-break-inside: avoid !important;
+    }
+
+    th, td {
+        border: 1px solid #666 !important;
+        padding: 0.5em !important;
+        text-align: left !important;
+    }
+
+    th {
+        background: #f0f0f0 !important;
+        font-weight: bold !important;
+    }
+
+    /* Callouts and special boxes */
+    .callout,
+    .highlight,
+    .note,
+    .warning,
+    .data-highlight,
+    .emphasis-block {
+        border: 1px solid #666 !important;
+        padding: 1em !important;
+        margin: 1em 0 !important;
+        page-break-inside: avoid !important;
+        background: #f9f9f9 !important;
+    }
+
+    /* Timeline events (for Moléculas y Máquinas) */
+    .event,
+    .event.molecule,
+    .event.machine,
+    .event.crossover {
+        border-bottom: 1px solid #ddd !important;
+        padding: 1em 0 !important;
+        page-break-inside: avoid !important;
+        background: white !important;
+    }
+
+    .event-year,
+    .event-title,
+    .event h3,
+    .event h4 {
+        font-weight: bold !important;
+        color: #1a1a1a !important;
+        -webkit-text-fill-color: #1a1a1a !important;
+        background: none !important;
+        background-clip: unset !important;
+        -webkit-background-clip: unset !important;
+    }
+
+    .event-content,
+    .event p,
+    .event span {
+        margin-top: 0.5em !important;
+        color: #1a1a1a !important;
+    }
+
+    /* Molecule/Machine specific colors - reset all */
+    .molecule,
+    .machine,
+    .crossover,
+    [class*="molecule"],
+    [class*="machine"],
+    [class*="crossover"],
+    [class*="event-"],
+    .intro,
+    .intro-content,
+    .timeline-container {
+        background: white !important;
+        color: #1a1a1a !important;
+    }
+
+    /* Reset gradient text */
+    .header-title,
+    [class*="title"],
+    [class*="header"] {
+        background: none !important;
+        -webkit-background-clip: unset !important;
+        background-clip: unset !important;
+        -webkit-text-fill-color: #1a1a1a !important;
+        color: #1a1a1a !important;
+    }
+
+    /* La Llave specific elements */
+    .main,
+    .section,
+    .content-section,
+    .part-header,
+    .chapter-title,
+    .part-number,
+    .part-title {
+        background: white !important;
+        color: #1a1a1a !important;
+    }
+
+    .highlight,
+    .inline-link,
+    strong,
+    em,
+    b,
+    i {
+        color: #1a1a1a !important;
+        -webkit-text-fill-color: #1a1a1a !important;
+    }
+
+    /* Inline styles override */
+    [style*="color"] {
+        color: #1a1a1a !important;
+    }
+
+    [style*="background"] {
+        background: white !important;
+    }
+
+    /* Sections */
+    section {
+        page-break-inside: avoid !important;
+        margin-bottom: 1em !important;
+    }
+
+    /* Hero sections */
+    .hero,
+    .hero-title,
+    .hero-subtitle {
+        text-align: center !important;
+        margin-bottom: 1em !important;
+    }
+
+    /* Part headers */
+    .part-header,
+    .chapter-title {
+        page-break-after: avoid !important;
+        margin-top: 2em !important;
+    }
+
+    /* Override any remaining dark backgrounds */
+    div, section, article, aside, main, span, p, a, h1, h2, h3, h4, h5, h6, li, ul, ol, blockquote, pre, code, table, tr, td, th {
+        color: #1a1a1a !important;
+        background-color: white !important;
+        -webkit-text-fill-color: #1a1a1a !important;
+    }
+
+    /* Hide SVG and decorative elements */
+    svg,
+    canvas,
+    video,
+    audio,
+    iframe {
+        display: none !important;
+    }
+
+    /* Ensure reading time and metadata are visible */
+    .reading-time {
+        display: block !important;
+        text-align: center !important;
+        margin-bottom: 2em !important;
+        font-style: italic !important;
+    }
+
+    /* Separator styling */
+    .separator,
+    .divider,
+    hr {
+        border: none !important;
+        border-top: 1px solid #ccc !important;
+        margin: 1.5em 0 !important;
+    }
+}
