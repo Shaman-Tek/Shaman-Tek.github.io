@@ -436,6 +436,7 @@
         // Fade in del volumen
         function fadeInAudio(duration = 3000) {
             audio.volume = 0;
+            audio.currentTime = 190; // Empezar en 3:10
             audio.play().catch(e => console.log('Audio blocked:', e));
 
             const steps = 30;
