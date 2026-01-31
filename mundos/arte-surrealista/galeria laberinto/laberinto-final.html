@@ -99,6 +99,7 @@
                 <span class="audio-icon audio-on">♪</span>
                 <span class="audio-icon audio-off" style="display:none;">♪̸</span>
             </button>
+            <a href="../Threshold of the Amethyst Gate.mp3" download class="nav-sigil nav-download-audio" title="Descargar música">⤓</a>
             <div class="nav-sigil" id="reset-btn" title="Reiniciar">&#9675;</div>
         </nav>
 
@@ -128,6 +129,11 @@
                     <div class="layer-dot" data-layer="2"></div>
                     <div class="layer-dot" data-layer="3"></div>
                 </div>
+                <div class="artwork-download">
+                    <a href="umbral-capa1.png" download="umbral-capa1.png" title="Descargar capa 1">⤓1</a>
+                    <a href="umbral-capa2.png" download="umbral-capa2.png" title="Descargar capa 2">⤓2</a>
+                    <a href="umbral-capa3.png" download="umbral-capa3.png" title="Descargar capa 3">⤓3</a>
+                </div>
             </div>
 
             <div class="portals">
@@ -153,6 +159,11 @@
                     <div class="layer-dot active" data-layer="1"></div>
                     <div class="layer-dot" data-layer="2"></div>
                     <div class="layer-dot" data-layer="3"></div>
+                </div>
+                <div class="artwork-download">
+                    <a href="agua-capa1.png" download="agua-capa1.png" title="Descargar capa 1">⤓1</a>
+                    <a href="agua-capa2.png" download="agua-capa2.png" title="Descargar capa 2">⤓2</a>
+                    <a href="agua-capa3.png" download="agua-capa3.png" title="Descargar capa 3">⤓3</a>
                 </div>
             </div>
 
@@ -180,6 +191,11 @@
                     <div class="layer-dot" data-layer="2"></div>
                     <div class="layer-dot" data-layer="3"></div>
                 </div>
+                <div class="artwork-download">
+                    <a href="espejo-capa1.png" download="espejo-capa1.png" title="Descargar capa 1">⤓1</a>
+                    <a href="espejo-capa2.png" download="espejo-capa2.png" title="Descargar capa 2">⤓2</a>
+                    <a href="espejo-capa3.png" download="espejo-capa3.png" title="Descargar capa 3">⤓3</a>
+                </div>
             </div>
 
             <div class="portals">
@@ -206,6 +222,11 @@
                     <div class="layer-dot" data-layer="2"></div>
                     <div class="layer-dot" data-layer="3"></div>
                 </div>
+                <div class="artwork-download">
+                    <a href="bosque-capa1.png" download="bosque-capa1.png" title="Descargar capa 1">⤓1</a>
+                    <a href="bosque-capa2.png" download="bosque-capa2.png" title="Descargar capa 2">⤓2</a>
+                    <a href="bosque-capa3.png" download="bosque-capa3.png" title="Descargar capa 3">⤓3</a>
+                </div>
             </div>
 
             <div class="portals">
@@ -231,6 +252,11 @@
                     <div class="layer-dot active" data-layer="1"></div>
                     <div class="layer-dot" data-layer="2"></div>
                     <div class="layer-dot" data-layer="3"></div>
+                </div>
+                <div class="artwork-download">
+                    <a href="abismo-capa1.png" download="abismo-capa1.png" title="Descargar capa 1">⤓1</a>
+                    <a href="abismo-capa2.png" download="abismo-capa2.png" title="Descargar capa 2">⤓2</a>
+                    <a href="abismo-capa3.png" download="abismo-capa3.png" title="Descargar capa 3">⤓3</a>
                 </div>
             </div>
 
@@ -567,6 +593,57 @@
 
         .audio-icon {
             pointer-events: none;
+        }
+
+        /* Nav Download Audio */
+        .nav-download-audio {
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-download-audio:hover {
+            color: var(--surreal-gold, #c9a227);
+            transform: scale(1.1);
+        }
+
+        /* Artwork Download Buttons */
+        .artwork-download {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .artwork-container:hover .artwork-download {
+            opacity: 1;
+        }
+
+        .artwork-download a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: rgba(10, 8, 16, 0.8);
+            border: 1px solid var(--surreal-ghost, #9988bb);
+            border-radius: 4px;
+            color: var(--surreal-ghost, #9988bb);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .artwork-download a:hover {
+            background: var(--surreal-gold, #c9a227);
+            border-color: var(--surreal-gold, #c9a227);
+            color: var(--surreal-void, #0a0810);
+            transform: translateY(-2px);
         }
 
         /* Nav back link */
