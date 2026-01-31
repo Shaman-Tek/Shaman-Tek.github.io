@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--
+    ╔══════════════════════════════════════════════════════════════════════╗
+    ║                                                                      ║
+    ║  "El universo no solo tiene una historia, tiene muchas historias,    ║
+    ║   una para cada observador."                                         ║
+    ║                                                — Carlo Rovelli       ║
+    ║                                                                      ║
+    ║  Bienvenido al código fuente. Si estás aquí, eres un explorador.     ║
+    ║                                                                      ║
+    ╚══════════════════════════════════════════════════════════════════════╝
+-->
+<html lang="es">
+<head>
+    <!--
+        "The cosmos is within us. We are made of star-stuff. 
+         We are a way for the universe to know itself."
+                                                — Carl Sagan
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShamanTek — Portal</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="ShamanTek: Un portal de exploración donde convergen IA, espiritualidad y arte surrealista. Recuerda que hemos venido a explorar.">
+    <meta name="keywords" content="ShamanTek, IA, inteligencia artificial, espiritualidad, arte surrealista, tecnología, exploración, consciencia">
+    <meta name="author" content="ShamanTek">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://shamantek.com/">
+    <meta property="og:title" content="ShamanTek — Portal">
+    <meta property="og:description" content="Un portal de exploración donde convergen IA, espiritualidad y arte surrealista. Recuerda que hemos venido a explorar.">
+    <meta property="og:image" content="https://shamantek.com/og-image.png">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://shamantek.com/">
+    <meta name="twitter:title" content="ShamanTek — Portal">
+    <meta name="twitter:description" content="Un portal de exploración donde convergen IA, espiritualidad y arte surrealista. Recuerda que hemos venido a explorar.">
+    <meta name="twitter:image" content="https://shamantek.com/og-image.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/portal.css">
+</head>
+<body>
+    <!-- Loader -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">CARGANDO UNIVERSO...</div>
+        </div>
+    </div>
+
+    <!-- Canvas del cosmos -->
+    <canvas id="cosmos"></canvas>
+
+    <!-- Velo de profundidad -->
+    <div class="depth-veil"></div>
+
+    <!-- Líneas de constelación -->
+    <svg class="constellation-lines" id="constellation">
+        <!-- Se generan dinámicamente -->
+    </svg>
+
+    <!-- Centro luminoso -->
+    <div class="center-light">
+        <div class="light-source">
+            <div class="light-rays"></div>
+            <div class="light-outer"></div>
+            <div class="light-middle"></div>
+            <div class="light-core"></div>
+        </div>
+        <h1 class="site-title">SHAMANTEK</h1>
+        <p class="site-mantra">Recuerda que hemos venido a explorar</p>
+    </div>
+
+    <!-- Estrellas navegables -->
+    <nav aria-label="Navegación por mundos">
+        <a href="mundos/ia-futuro/index.html" class="nav-star star-ia" data-world="ia" onclick="event.preventDefault(); enterWorld('ia')" aria-label="Explorar mundo IA y Futuro: Navegando el código del mañana">
+            <div class="star-point" aria-hidden="true"></div>
+            <div class="star-label" aria-hidden="true">
+                <div class="star-name">IA & Futuro</div>
+                <div class="star-subtitle">Navegando el código del mañana</div>
+            </div>
+        </a>
+
+        <a href="mundos/espiritualidad/index.html" class="nav-star star-spirit" data-world="spirit" onclick="event.preventDefault(); enterWorld('spirit')" aria-label="Explorar mundo Espiritualidad: El viaje es hacia adentro">
+            <div class="star-point" aria-hidden="true"></div>
+            <div class="star-label" aria-hidden="true">
+                <div class="star-name">Espiritualidad</div>
+                <div class="star-subtitle">El viaje es hacia adentro</div>
+            </div>
+        </a>
+
+        <a href="mundos/arte-surrealista/index.html" class="nav-star star-art" data-world="art" onclick="event.preventDefault(); enterWorld('art')" aria-label="Explorar mundo Arte Surrealista: Donde lo imposible respira">
+            <div class="star-point" aria-hidden="true"></div>
+            <div class="star-label" aria-hidden="true">
+                <div class="star-name">Arte Surrealista</div>
+                <div class="star-subtitle">Donde lo imposible respira</div>
+            </div>
+        </a>
+    </nav>
+
+    <!-- Hint de navegación -->
+    <div class="nav-hint">Sigue las estrellas</div>
+
+    <!-- Transiciones -->
+    <div class="world-transition transition-ia" id="transition-ia">
+        <div class="transition-zoom"></div>
+        <div class="transition-text">IA & Futuro</div>
+    </div>
+
+    <div class="world-transition transition-spirit" id="transition-spirit">
+        <div class="transition-zoom"></div>
+        <div class="transition-text">Espiritualidad</div>
+    </div>
+
+    <div class="world-transition transition-art" id="transition-art">
+        <div class="transition-zoom"></div>
+        <div class="transition-text">Arte Surrealista</div>
+    </div>
+
+    <script src="scripts/navigation.js"></script>
+    <script src="scripts/cosmos.js"></script>
+</body>
+</html>
+<!--
+    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+    
+    MENSAJE PARA QUIEN LLEGÓ HASTA AQUÍ:
+    
+    "Conocerse a sí mismo es el principio de toda sabiduría."
+                                                    — Aristóteles
+    
+    "El mapa no es el territorio."
+                                                    — Alfred Korzybski
+    
+    "Reality is that which, when you stop believing in it, 
+     doesn't go away."
+                                                    — Philip K. Dick
+    
+    Cada estrella que ves es un universo esperando ser explorado.
+    Cada click es una decisión. Cada decisión, un mundo.
+    
+    El código es poesía. La poesía es código.
+    
+    ∞
+    
+    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+-->

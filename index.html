@@ -1,127 +1,113 @@
 <!DOCTYPE html>
-<!--
-    ╔══════════════════════════════════════════════════════════════════════╗
-    ║                                                                      ║
-    ║  "El universo no solo tiene una historia, tiene muchas historias,    ║
-    ║   una para cada observador."                                         ║
-    ║                                                — Carlo Rovelli       ║
-    ║                                                                      ║
-    ║  Bienvenido al código fuente. Si estás aquí, eres un explorador.     ║
-    ║                                                                      ║
-    ╚══════════════════════════════════════════════════════════════════════╝
--->
 <html lang="es">
 <head>
-    <!--
-        "The cosmos is within us. We are made of star-stuff. 
-         We are a way for the universe to know itself."
-                                                — Carl Sagan
-    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShamanTek — Portal</title>
+    <title>ShamanTek — Portal Interactivo (V3)</title>
     
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="ShamanTek: Un portal de exploración donde convergen IA, espiritualidad y arte surrealista. Recuerda que hemos venido a explorar.">
-    <meta name="keywords" content="ShamanTek, IA, inteligencia artificial, espiritualidad, arte surrealista, tecnología, exploración, consciencia">
-    <meta name="author" content="ShamanTek">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://shamantek.com/">
-    <meta property="og:title" content="ShamanTek — Portal">
-    <meta property="og:description" content="Un portal de exploración donde convergen IA, espiritualidad y arte surrealista. Recuerda que hemos venido a explorar.">
-    <meta property="og:image" content="https://shamantek.com/og-image.png">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://shamantek.com/">
-    <meta name="twitter:title" content="ShamanTek — Portal">
-    <meta name="twitter:description" content="Un portal de exploración donde convergen IA, espiritualidad y arte surrealista. Recuerda que hemos venido a explorar.">
-    <meta name="twitter:image" content="https://shamantek.com/og-image.png">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/portal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Raleway:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/proposal_v2.css">
+    <link rel="stylesheet" href="styles/interactive_v3.css">
 </head>
 <body>
-    <!-- Loader -->
-    <div id="loader" class="loader">
-        <div class="loader-content">
-            <div class="loader-spinner"></div>
-            <div class="loader-text">CARGANDO UNIVERSO...</div>
-        </div>
-    </div>
 
-    <!-- Canvas del cosmos -->
+    <!-- 1. Canvas Cosmos -->
     <canvas id="cosmos"></canvas>
+    
+    <!-- 2. Spotlight Layer (New) -->
+    <div class="cursor-spotlight"></div>
 
-    <!-- Velo de profundidad -->
-    <div class="depth-veil"></div>
+    <!-- 3. Constellation SVG -->
+    <svg id="constellation" style="position:fixed; top:0; left:0; pointer-events:none; width:100%; height:100%;"></svg>
 
-    <!-- Líneas de constelación -->
-    <svg class="constellation-lines" id="constellation">
-        <!-- Se generan dinámicamente -->
-    </svg>
+    <!-- 4. Scanlines Overlay -->
+    <div class="scanlines"></div>
 
-    <!-- Centro luminoso -->
-    <div class="center-light">
-        <div class="light-source">
-            <div class="light-rays"></div>
-            <div class="light-outer"></div>
-            <div class="light-middle"></div>
-            <div class="light-core"></div>
-        </div>
-        <h1 class="site-title">SHAMANTEK</h1>
-        <p class="site-mantra">Recuerda que hemos venido a explorar</p>
+    <div class="main-wrapper">
+        <header>
+            <div class="logo"><span class="logo-shaman">Shaman</span><span class="logo-tek">Tek</span><span class="logo-underscore">_</span></div>
+            <nav class="nav-links">
+                <a href="acerca.html" class="magnetic-btn">Archivo</a>
+                <a href="contacto.html" class="magnetic-btn">Señales</a>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="center-light"></div>
+            <!-- Scramble Text Effect on H1 -->
+            <h1 class="scramble-text">El universo tiene<br>muchas historias.</h1>
+            <p class="interactive-subtitle">Bienvenido al código fuente de la realidad.</p>
+        </section>
+
+        <!-- Bento Grid with Tilt Cards -->
+        <main class="bento-grid">
+            
+            <a href="mundos/ia-futuro/index.html" class="glass-card area-ia nav-star tilt-card" data-world="ia" onclick="event.preventDefault(); enterWorld('ia')">
+                <div class="shine"></div> <!-- Shine Layer -->
+                <div class="card-bg-gradient" style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.4), transparent);"></div>
+                <div class="card-icon"><i data-lucide="cpu"></i></div>
+                <h3>IA & Futuro</h3>
+                <p>Navegando el código del mañana.</p>
+            </a>
+
+            <a href="mundos/espiritualidad/index.html" class="glass-card area-spirit nav-star tilt-card" data-world="spirit" onclick="event.preventDefault(); enterWorld('spirit')">
+                <div class="shine"></div>
+                <div class="card-bg-gradient" style="background: linear-gradient(135deg, rgba(244, 63, 94, 0.4), transparent);"></div>
+                <div class="card-icon"><i data-lucide="eye"></i></div>
+                <h3>Espiritualidad</h3>
+                <p>El viaje es hacia adentro.</p>
+            </a>
+
+            <a href="mundos/arte-surrealista/index.html" class="glass-card area-art nav-star tilt-card" data-world="art" onclick="event.preventDefault(); enterWorld('art')">
+                <div class="shine"></div>
+                <div class="card-bg-gradient" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.4), transparent);"></div>
+                <div class="card-icon"><i data-lucide="palette"></i></div>
+                <h3>Arte Surrealista</h3>
+                <p>Donde lo imposible respira.</p>
+            </a>
+
+            <div class="glass-card area-quote tilt-card">
+                <div class="shine"></div>
+                <blockquote>"El mapa no es el territorio."</blockquote>
+            </div>
+
+            <!-- Newsletter Card -->
+            <div class="glass-card area-newsletter tilt-card">
+                <div class="shine"></div>
+                <div class="newsletter-content">
+                    <h3>Únete al Círculo</h3>
+                    <p>Recibe señales del futuro y actualizaciones del portal en tu bandeja de entrada.</p>
+                </div>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Gracias por unirte al círculo. Pronto recibirás nuestra señal.');">
+                    <input type="email" placeholder="tu@email.com" class="newsletter-input" required>
+                    <button type="submit" class="newsletter-btn magnetic-btn">Suscribirse</button>
+                </form>
+            </div>
+
+        </main>
+
+        <footer>
+            <p>SHAMANTEK // 2026</p>
+        </footer>
     </div>
 
-    <!-- Estrellas navegables -->
-    <nav aria-label="Navegación por mundos">
-        <a href="mundos/ia-futuro/index.html" class="nav-star star-ia" data-world="ia" onclick="event.preventDefault(); enterWorld('ia')" aria-label="Explorar mundo IA y Futuro: Navegando el código del mañana">
-            <div class="star-point" aria-hidden="true"></div>
-            <div class="star-label" aria-hidden="true">
-                <div class="star-name">IA & Futuro</div>
-                <div class="star-subtitle">Navegando el código del mañana</div>
-            </div>
-        </a>
-
-        <a href="mundos/espiritualidad/index.html" class="nav-star star-spirit" data-world="spirit" onclick="event.preventDefault(); enterWorld('spirit')" aria-label="Explorar mundo Espiritualidad: El viaje es hacia adentro">
-            <div class="star-point" aria-hidden="true"></div>
-            <div class="star-label" aria-hidden="true">
-                <div class="star-name">Espiritualidad</div>
-                <div class="star-subtitle">El viaje es hacia adentro</div>
-            </div>
-        </a>
-
-        <a href="mundos/arte-surrealista/index.html" class="nav-star star-art" data-world="art" onclick="event.preventDefault(); enterWorld('art')" aria-label="Explorar mundo Arte Surrealista: Donde lo imposible respira">
-            <div class="star-point" aria-hidden="true"></div>
-            <div class="star-label" aria-hidden="true">
-                <div class="star-name">Arte Surrealista</div>
-                <div class="star-subtitle">Donde lo imposible respira</div>
-            </div>
-        </a>
-    </nav>
-
-    <!-- Hint de navegación -->
-    <div class="nav-hint">Sigue las estrellas</div>
-
-    <!-- Transiciones -->
+    <!-- Transitions -->
     <div class="world-transition transition-ia" id="transition-ia">
         <div class="transition-zoom"></div>
         <div class="transition-text">IA & Futuro</div>
     </div>
-
     <div class="world-transition transition-spirit" id="transition-spirit">
         <div class="transition-zoom"></div>
         <div class="transition-text">Espiritualidad</div>
     </div>
-
     <div class="world-transition transition-art" id="transition-art">
         <div class="transition-zoom"></div>
         <div class="transition-text">Arte Surrealista</div>
@@ -129,29 +115,10 @@
 
     <script src="scripts/navigation.js"></script>
     <script src="scripts/cosmos.js"></script>
+    <script src="scripts/interactive_v3.js"></script>
+    
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
-<!--
-    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-    
-    MENSAJE PARA QUIEN LLEGÓ HASTA AQUÍ:
-    
-    "Conocerse a sí mismo es el principio de toda sabiduría."
-                                                    — Aristóteles
-    
-    "El mapa no es el territorio."
-                                                    — Alfred Korzybski
-    
-    "Reality is that which, when you stop believing in it, 
-     doesn't go away."
-                                                    — Philip K. Dick
-    
-    Cada estrella que ves es un universo esperando ser explorado.
-    Cada click es una decisión. Cada decisión, un mundo.
-    
-    El código es poesía. La poesía es código.
-    
-    ∞
-    
-    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
--->

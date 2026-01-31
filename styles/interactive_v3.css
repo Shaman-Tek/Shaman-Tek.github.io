@@ -1,0 +1,217 @@
+/* V3 Additions */
+
+/* 1. TUNNEL REVEAL EFFECT */
+.scramble-text {
+    opacity: 0;
+}
+
+.tunnel-text {
+    display: block;
+    opacity: 1;
+}
+
+.tunnel-char {
+    display: inline-block;
+    opacity: 0;
+    background: linear-gradient(to bottom, #F8FAFC 30%, #A78BFA 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    transform-origin: center center;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.2s ease;
+    cursor: default;
+}
+
+.tunnel-char.animating {
+    will-change: transform, opacity, filter;
+    animation: tunnelIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.tunnel-char.reveal-complete {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 5px rgba(124, 58, 237, 0.2));
+}
+
+.tunnel-char.reveal-complete:hover {
+    transform: translateY(-8px) scale(1.1);
+    filter: drop-shadow(0 0 15px rgba(167, 139, 250, 0.6)) brightness(1.2);
+    cursor: default;
+}
+
+@keyframes tunnelIn {
+    0% {
+        opacity: 0;
+        transform: scale(3.5);
+        filter: blur(12px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px rgba(124, 58, 237, 0.2));
+    }
+}
+
+/* 2. SUBTITLE: HOVER SCRAMBLE STYLES */
+.interactive-subtitle {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background 0.3s;
+    cursor: crosshair;
+    /* Adds a bit of 'hacker' feel */
+}
+
+.interactive-subtitle:hover {
+    background: rgba(255, 255, 255, 0.05);
+    /* Subtle highlight box */
+    color: var(--accent);
+    /* Turn neon rose on hover */
+}
+
+.interactive-subtitle span.dud {
+    color: var(--secondary);
+    opacity: 0.7;
+}
+
+/* 3. LOGO: GLITCH VANISH */
+.logo {
+    cursor: pointer;
+    position: relative;
+}
+
+.logo-shaman,
+.logo-tek {
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+/* Hover: Shaman stays & glows (Golden Sun Rays), TEK glitches out, Underscore drops */
+.logo:hover .logo-shaman {
+    /* Golden Sun Rays Glow */
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.8),
+        /* Inner Gold */
+        0 0 20px rgba(255, 165, 0, 0.6),
+        /* Orange/Sun */
+        0 0 40px rgba(255, 140, 0, 0.4);
+    /* Deep Amber */
+    color: #FFF8E1 !important;
+    /* Warm White/Cream */
+    transform: scale(1.1);
+    animation: pulse-gold 2s infinite ease-in-out;
+}
+
+@keyframes pulse-gold {
+
+    0%,
+    100% {
+        text-shadow:
+            0 0 10px rgba(255, 215, 0, 0.8),
+            0 0 20px rgba(255, 165, 0, 0.6),
+            0 0 40px rgba(255, 140, 0, 0.4);
+        transform: scale(1.1);
+    }
+
+    50% {
+        text-shadow:
+            0 0 20px rgba(255, 215, 0, 1),
+            0 0 40px rgba(255, 140, 0, 0.8),
+            0 0 70px rgba(255, 69, 0, 0.6);
+        transform: scale(1.15);
+        /* Slight breathe */
+    }
+}
+
+.logo:hover .logo-tek {
+    animation: glitch-vanish 0.8s forwards;
+}
+
+.logo-underscore {
+    display: inline-block;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.logo:hover .logo-underscore {
+    transform: translateY(20px) rotate(180deg);
+    /* Falls down */
+    opacity: 0;
+    color: var(--accent);
+    /* Changes color as it falls */
+}
+
+@keyframes glitch-vanish {
+    0% {
+        opacity: 1;
+        transform: translate(0) skew(0);
+        text-shadow: 2px 0 #f43f5e, -2px 0 #38bdf8;
+    }
+
+    20% {
+        opacity: 1;
+        transform: translate(-3px, 2px) skew(10deg);
+        text-shadow: -2px 0 #f43f5e, 2px 0 #38bdf8;
+    }
+
+    40% {
+        opacity: 0.8;
+        transform: translate(3px, -2px) skew(-10deg);
+        filter: blur(2px);
+    }
+
+    60% {
+        opacity: 0.4;
+        transform: translate(-3px, 0) skew(20deg);
+        text-shadow: 5px 0 #f43f5e, -5px 0 #38bdf8;
+        filter: blur(4px);
+    }
+
+    80% {
+        opacity: 0.2;
+        transform: translate(5px, 0) scale(1.1) skew(-5deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(0) scale(0.9);
+        filter: blur(10px);
+    }
+}
+
+/* 3D Tilt Cards (Existing) */
+.tilt-card {
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+    will-change: transform;
+    transition: transform 0.1s ease-out;
+}
+
+.shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    mix-blend-mode: overlay;
+}
+
+.cursor-spotlight {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: screen;
+}
+
+.magnetic-btn {
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
