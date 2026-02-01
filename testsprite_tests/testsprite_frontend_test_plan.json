@@ -1,0 +1,295 @@
+[
+  {
+    "id": "TC001",
+    "title": "Landing Page Animation and Interaction Load",
+    "description": "Verify that landing page animations including tunnel reveal, interactive subtitle scramble, spotlight cursor, and 3D card tilting operate smoothly and without glitches across supported browsers and devices.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the portal landing page (index.html) on Chrome, Firefox, Safari, and Edge."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the tunnel reveal animation plays smoothly on page load without jank or frame drops."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the interactive subtitle scramble text effect animates correctly and updates as expected."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that the spotlight cursor effect follows mouse movement fluidly without delay."
+      },
+      {
+        "type": "action",
+        "description": "Hover over bento grid navigation cards and check 3D card tilting activates properly."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure all animations remain consistent across different screen sizes (375px, 768px, 1024px, 1440px)."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate that CRT scanlines overlay and starfield background render correctly and do not degrade performance."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Newsletter Subscription Email Validation",
+    "description": "Ensure newsletter subscription form validates user email address format correctly and displays appropriate confirmation or error messages.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the landing page and locate the newsletter subscription form."
+      },
+      {
+        "type": "action",
+        "description": "Enter a valid email address and submit using the magnetic submit button."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the form accepts the input and shows a confirmation alert."
+      },
+      {
+        "type": "action",
+        "description": "Enter various invalid email formats (missing '@', missing domain, empty input)."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that validation rejects invalid inputs and prevents submission."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that no page reload occurs during validation errors."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Navigation Through Thematic World Hubs",
+    "description": "Validate the navigation from landing page to each of the three thematic world hubs and the visual zoom effect on transition.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "On the landing page, click on the IA & Futuro card."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the portal transitions with a zoom effect into the IA & Futuro hub."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the world hub renders correct terminal cyberpunk visuals, status indicators, and article cards with metadata and tags."
+      },
+      {
+        "type": "action",
+        "description": "Return to the landing page and repeat steps for Espiritualidad hub."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm mystical gold accents, glowing orbs, and rotating mantra messages are present."
+      },
+      {
+        "type": "action",
+        "description": "Return and navigate to Arte Surrealista hub."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify surrealistic pink accents, particle effects, and interactive art galleries including the maze game are available."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Article Page Functionality and Visuals",
+    "description": "Check that interactive article pages load with correct world-themed backgrounds, scroll progress bar, navigation sidebar, blockquotes, related article links, and thematic footer mantras.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "From each world hub, select an article card to open the article page."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the background reflects the thematic world's style."
+      },
+      {
+        "type": "assertion",
+        "description": "Scroll through the article and verify the scroll progress bar updates accordingly."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure the content navigation sidebar links highlight according to current scroll position."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that blockquotes and related article links appear correctly and function as expected."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify thematic footer mantras are displayed."
+      },
+      {
+        "type": "action",
+        "description": "Click related article links and confirm navigation occurs without errors."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Laberinto Onírico Maze Interaction and Completion",
+    "description": "Test interactive maze with 5 hidden easter egg nodes, progress tracking, and completion messaging in Arte Surrealista world.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Arte Surrealista world hub and access the Laberinto Onírico maze gallery."
+      },
+      {
+        "type": "action",
+        "description": "Interact with maze nodes to discover hidden easter eggs."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify each easter egg node reveals unique content or effect upon interaction."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm progress tracking updates correctly as easter eggs are found."
+      },
+      {
+        "type": "action",
+        "description": "Complete the maze by finding all easter egg nodes."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate that a completion message is displayed at the end of the maze experience."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Interactive UI Element Hover and Click Responses",
+    "description": "Verify all interactive UI elements including hover effects, magnetic buttons, hamburger menu toggle, particle effects, and labyrinth nodes respond correctly to user input.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Hover over all navigation cards on landing page and confirm hover animation triggers."
+      },
+      {
+        "type": "action",
+        "description": "Engage magnetic submit button by moving mouse cursor around and validate the magnetic effect."
+      },
+      {
+        "type": "action",
+        "description": "Click hamburger menu on mobile viewport to open and close navigation."
+      },
+      {
+        "type": "assertion",
+        "description": "Check navigation menu visibility toggles correctly."
+      },
+      {
+        "type": "action",
+        "description": "Observe particle effects on Arte Surrealista hub for animation consistency."
+      },
+      {
+        "type": "action",
+        "description": "Hover and click labyrinth nodes within the maze to verify interaction activation."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Accessibility Compliance - Keyboard Navigation and Reduced Motion",
+    "description": "Ensure site supports keyboard navigation and respects user preference for reduced motion according to WCAG 2.1 AA standards.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Use keyboard (Tab, Shift+Tab, Enter, Space) to navigate through all interactive elements on landing page and world hubs."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm focus indicators are visible and navigation order is logical and complete."
+      },
+      {
+        "type": "action",
+        "description": "Enable operating system or browser setting for reduced motion."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that animations on landing page and world hubs respect reduced motion preference by minimizing or disabling animations."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that all interactive functions remain accessible and usable without motion effects."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Cross-Browser and Responsive Layout Rendering",
+    "description": "Validate consistent rendering and functionality across supported modern browsers and defined responsive layout breakpoints.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open all major pages (index.html, worlds hubs, articles, maze) on Chrome (90+), Firefox (88+), Safari (14+), and Edge (90+)."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that all visual elements, animations, and interactions render correctly and behave as expected."
+      },
+      {
+        "type": "action",
+        "description": "Resize browser viewport or use device emulators to test breakpoints at 375px, 768px, 1024px, and 1440px widths."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate that responsive layouts adjust correctly with no layout breakage or overflow."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Performance Metrics Verification",
+    "description": "Ensure performance targets are met including First Contentful Paint under 1.5 seconds, Time to Interactive under 3 seconds, and Lighthouse performance score above 85.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Using Chrome DevTools or Lighthouse, measure performance metrics on loading the landing page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify First Contentful Paint is below 1.5 seconds."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm Time to Interactive is under 3 seconds."
+      },
+      {
+        "type": "assertion",
+        "description": "Check Lighthouse performance score is above 85."
+      },
+      {
+        "type": "action",
+        "description": "Repeat measurements for each thematic world hub page and an article page."
+      }
+    ]
+  }
+]

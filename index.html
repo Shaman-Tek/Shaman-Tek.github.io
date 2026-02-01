@@ -5,17 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShamanTek — Portal Interactivo (V3)</title>
     
-    <!-- Fonts -->
+    <!-- Critical CSS -->
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --primary: #7C3AED;
+            --text-main: #F8FAFC;
+            --font-heading: 'Lora', serif;
+            --font-body: 'Raleway', sans-serif;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            font-family: var(--font-body);
+            overflow-x: hidden;
+        }
+        .main-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .hero {
+            text-align: center;
+            margin: 4rem 0 6rem;
+        }
+        .hero h1 {
+            font-size: 4.5rem;
+            font-family: var(--font-heading);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            /* Fallback while scramble script loads */
+            opacity: 1; 
+        }
+        #cosmos {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+    </style>
+
+    <!-- Fonts: Preconnect and Async Load -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Raleway:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Raleway:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" media="print" onload="this.media='all'">
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="styles/proposal_v2.css">
-    <link rel="stylesheet" href="styles/interactive_v3.css">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+
+    <!-- Aggressive Performance: Non-blocking CSS -->
+    <link rel="stylesheet" href="styles/proposal_v2.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="styles/interactive_v3.css" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="styles/proposal_v2.css">
+        <link rel="stylesheet" href="styles/interactive_v3.css">
+    </noscript>
 </head>
 <body>
 
@@ -35,7 +86,7 @@
         <header>
             <div class="logo"><span class="logo-shaman">Shaman</span><span class="logo-tek">Tek</span><span class="logo-underscore">_</span></div>
             <nav class="nav-links">
-                <a href="acerca.html" class="magnetic-btn">Archivo</a>
+                <a href="mundos/ia-futuro/index.html" class="magnetic-btn">Mundos</a>
                 <a href="contacto.html" class="magnetic-btn">Señales</a>
             </nav>
         </header>
@@ -74,7 +125,7 @@
                 <p>Donde lo imposible respira.</p>
             </a>
 
-            <div class="glass-card area-quote tilt-card">
+            <div class="glass-card area-quote tilt-card" tabindex="0">
                 <div class="shine"></div>
                 <blockquote>"El mapa no es el territorio."</blockquote>
             </div>
@@ -87,15 +138,18 @@
                     <p>Recibe señales del futuro y actualizaciones del portal en tu bandeja de entrada.</p>
                 </div>
                 <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Gracias por unirte al círculo. Pronto recibirás nuestra señal.');">
-                    <input type="email" placeholder="tu@email.com" class="newsletter-input" required>
+                    <input type="email" placeholder="tu@email.com" class="newsletter-input" required aria-label="Correo electrónico para newsletter">
                     <button type="submit" class="newsletter-btn magnetic-btn">Suscribirse</button>
                 </form>
             </div>
 
         </main>
 
-        <footer>
+        <footer style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--glass-border); padding-top: 2rem;">
             <p>SHAMANTEK // 2026</p>
+            <div class="footer-links">
+                <a href="mundos/arte-surrealista/galeria%20laberinto/laberinto-final.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.8rem; font-family: var(--font-mono);">[ LABERINTO ONÍRICO ]</a>
+            </div>
         </footer>
     </div>
 
@@ -113,12 +167,14 @@
         <div class="transition-text">Arte Surrealista</div>
     </div>
 
-    <script src="scripts/navigation.js"></script>
-    <script src="scripts/cosmos.js"></script>
-    <script src="scripts/interactive_v3.js"></script>
+    <script src="scripts/navigation.js" defer></script>
+    <script src="scripts/cosmos.js" defer></script>
+    <script src="scripts/interactive_v3.js" defer></script>
     
     <script>
-        lucide.createIcons();
+        window.addEventListener('load', () => {
+            lucide.createIcons();
+        });
     </script>
 </body>
 </html>

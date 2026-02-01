@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "project": "ShamanTek - Portal Digital Interactivo",
+    "date": "2026-01-31",
+    "prepared_by": "lalop"
+  },
+  "product_overview": "ShamanTek is an interactive digital portal exploring the convergence of technology, spirituality, and art through a visually-driven, mystical, cyberpunk-themed content platform. It serves as a static website showcasing philosophical, spiritual, and artistic worlds through rich multimedia experiences and interactive elements.",
+  "core_goals": [
+    "Create an engaging, aesthetic landing portal introducing three thematic worlds: IA & Futuro, Espiritualidad, and Arte Surrealista.",
+    "Provide immersive, thematic hubs for exploring articles and multimedia content in each world.",
+    "Enable intuitive navigation with interactive UI elements like animated cards, progress bars, and hover effects.",
+    "Support an exploratory user journey through content discovery, interactive art experiences, and newsletter subscription.",
+    "Maintain high performance, accessibility, and responsive design across devices."
+  ],
+  "key_features": [
+    "Landing page with animated tunnel reveal, interactive subtitle scramble, bento grid navigation, starfield background, spotlight cursor effect, CRT scanlines overlay, and 3D card tilting.",
+    "Newsletter subscription form with email validation and magnetic submit button.",
+    "Three thematic 'world' hubs each with distinct visual themes and curated articles or galleries:",
+    "- IA & Futuro: Terminal cyberpunk visuals, status indicators, article cards with metadata and tags.",
+    "- Espiritualidad: Mystical gold accents, glowing orbs, rotating mantra messages.",
+    "- Arte Surrealista: Surrealistic pink accents, particle effects, interactive art galleries including a maze game.",
+    "Interactive article pages with world-themed backgrounds, scroll progress bar, content navigation sidebar, blockquotes, related article links, and thematic footer mantras.",
+    "Laberinto Onírico interactive maze with 5 hidden easter egg nodes, progress tracking, and completion messaging.",
+    "Consistent design system including color palette, typography, and animation timing specifications.",
+    "Browser support for modern major browsers and responsive layouts optimized for mobile to large desktop screens."
+  ],
+  "user_flow_summary": [
+    "User lands on portal landing page, experiences animation effects, and navigates through world cards to select a thematic world.",
+    "In a world hub, user browses article cards and selects an article to read, using scroll progress and navigation features.",
+    "User explores related articles or returns to world hub or portal landing.",
+    "User ventures into the Arte Surrealista world to access the Laberinto Onírico gallery, interacting with the maze nodes and completing the experience.",
+    "User submits email address via newsletter subscription form and receives confirmation alert."
+  ],
+  "validation_criteria": [
+    "Landing page animations including tunnel reveal, text scramble, spotlight cursor, and card tilt operate smoothly and without glitches.",
+    "All three worlds' hubs are accessible from the portal and world transitions perform visual zoom effect.",
+    "Articles load correctly with metadata, tags, and navigation components functioning as expected.",
+    "Newsletter subscription validates email format and displays confirmation alert upon submit.",
+    "Interactive elements including hover effects, hamburger menu, particle effects, and labyrinth nodes respond correctly.",
+    "Site renders consistently across supported browsers (Chrome 90+, Firefox 88+, Safari 14+, Edge 90+) and responsive breakpoints (375px, 768px, 1024px, 1440px).",
+    "Accessibility standards per WCAG 2.1 AA are met with keyboard navigation support and reduced motion preference respected.",
+    "Performance targets are met: First Contentful Paint under 1.5 seconds, Time to Interactive under 3 seconds, Lighthouse performance score above 85.",
+    "Known limitations such as newsletter backend integration and limited art galleries acknowledged for future roadmap implementation."
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "Remotion",
+      "http-server"
+    ],
+    "features": [
+      {
+        "name": "Landing Page",
+        "description": "The main entry point of the Shaman-Tek project, showcasing the brand and navigation.",
+        "files": [
+          "index.html"
+        ]
+      },
+      {
+        "name": "About Page",
+        "description": "Information about the Shaman-Tek vision and mission.",
+        "files": [
+          "acerca.html"
+        ]
+      },
+      {
+        "name": "Contact Page",
+        "description": "Contact information and form for user inquiries.",
+        "files": [
+          "contacto.html"
+        ]
+      },
+      {
+        "name": "Speculative Worlds Portfolio",
+        "description": "A collection of speculative and scientific 'worlds' or projects.",
+        "files": [
+          "mundos/index.html",
+          "mundos/posts/"
+        ]
+      },
+      {
+        "name": "Promo Reel",
+        "description": "An interactive or video promo reel showcasing the project's aesthetic.",
+        "files": [
+          "promo_reel.html",
+          "video/"
+        ]
+      },
+      {
+        "name": "Design System",
+        "description": "Consistent styling and CSS variables used across the project.",
+        "files": [
+          "styles/globals.css",
+          "styles/theme.css"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+    "tech_stack": [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "Remotion",
+        "http-server"
+    ],
+    "features": [
+        {
+            "name": "Landing Page",
+            "description": "The main entry point of the Shaman-Tek project, showcasing the brand and navigation.",
+            "files": [
+                "index.html"
+            ]
+        },
+        {
+            "name": "About Page",
+            "description": "Information about the Shaman-Tek vision and mission.",
+            "files": [
+                "acerca.html"
+            ]
+        },
+        {
+            "name": "Contact Page",
+            "description": "Contact information and form for user inquiries.",
+            "files": [
+                "contacto.html"
+            ]
+        },
+        {
+            "name": "Speculative Worlds Portfolio",
+            "description": "A collection of speculative and scientific 'worlds' or projects.",
+            "files": [
+                "mundos/index.html",
+                "mundos/posts/"
+            ]
+        },
+        {
+            "name": "Promo Reel",
+            "description": "An interactive or video promo reel showcasing the project's aesthetic.",
+            "files": [
+                "promo_reel.html",
+                "video/"
+            ]
+        },
+        {
+            "name": "Design System",
+            "description": "Consistent styling and CSS variables used across the project.",
+            "files": [
+                "styles/globals.css",
+                "styles/theme.css"
+            ]
+        }
+    ]
+}

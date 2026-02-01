@@ -137,6 +137,7 @@ header {
     font-family: var(--font-heading);
     background: linear-gradient(to bottom right, #fff, var(--secondary));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     line-height: 1.2;
     margin-bottom: 1rem;
@@ -302,6 +303,22 @@ header {
     border-color: var(--primary);
     box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
     background: rgba(255, 255, 255, 0.1);
+}
+
+/* Accessibility: Focus Indicators */
+:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.tilt-card:focus-visible {
+    outline-offset: -4px;
+    border-radius: 20px;
+}
+
+.newsletter-btn:focus-visible {
+    outline: 3px solid var(--accent);
 }
 
 .newsletter-btn {

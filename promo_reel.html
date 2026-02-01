@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShamanTek Promo Reel</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --primary: #7C3AED;
+            --accent: #F43F5E;
+            --text-main: #F8FAFC;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* Mobile Container (9:16 Aspect Ratio approximation for desktop view) */
+        #reel-container {
+            width: 100%;
+            height: 100%;
+            max-width: 540px; /* Max width for vertical feel on desktop */
+            position: relative;
+            background: #000;
+            overflow: hidden;
+            border-left: 1px solid #333;
+            border-right: 1px solid #333;
+        }
+
+        /* Canvas Background */
+        #cosmos {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.5;
+        }
+
+        /* Content Layer */
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Animations Timeline */
+        
+        /* Scene 1: Statement */
+        .statement {
+            font-size: 1.5rem;
+            position: absolute;
+            width: 80%;
+            opacity: 0;
+        }
+
+        /* Part 1: "El mapa..." */
+        #text-1 {
+            animation: fadeInOut 3s forwards 0.5s;
+        }
+        
+        /* Part 2: "...no es el territorio" */
+        #text-2 {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            color: var(--primary);
+            animation: fadeInOut 3s forwards 3.5s;
+        }
+
+        /* Scene 2: Explosion/Glitch */
+        .glitch-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            opacity: 0;
+            mix-blend-mode: overlay;
+            pointer-events: none;
+            z-index: 20;
+            animation: flash 0.2s forwards 6.5s;
+        }
+
+        /* Scene 3: Logo Reveal */
+        .brand-reveal {
+            position: absolute;
+            opacity: 0;
+            animation: riseUp 5s forwards 6.7s;
+        }
+
+        .brand-title {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-sub {
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        /* Scene 4: Keywords */
+        .keyword {
+            position: absolute;
+            font-size: 3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            opacity: 0;
+            color: rgba(255,255,255,0.1);
+            z-index: 5;
+        }
+
+        #kw-1 { top: 20%; left: 10%; animation: flashWord 0.5s forwards 8s; }
+        #kw-2 { top: 70%; right: 10%; animation: flashWord 0.5s forwards 8.5s; animation-delay: 8.5s; }
+        #kw-3 { top: 40%; left: 50%; transform: translateX(-50%); animation: flashWord 0.5s forwards 9s; animation-delay: 9s; }
+
+        /* Scene 5: URL */
+        .final-url {
+            position: absolute;
+            bottom: 10%;
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: fadeIn 2s forwards 10s;
+        }
+
+        /* Keyframes */
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(10px); filter: blur(4px); }
+            20% { opacity: 1; transform: translateY(0); filter: blur(0); }
+            80% { opacity: 1; transform: translateY(0); filter: blur(0); }
+            100% { opacity: 0; transform: translateY(-10px); filter: blur(4px); }
+        }
+
+        @keyframes flash {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes riseUp {
+            0% { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        }
+
+        @keyframes flashWord {
+            0% { opacity: 0; transform: scale(2); }
+            10% { opacity: 0.8; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.5); }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Scanlines */
+        .scanlines {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%);
+            background-size: 100% 4px;
+            z-index: 15;
+            pointer-events: none;
+        }
+
+        /* Play Button Overlay (for starting audio/video if needed) */
+        #play-overlay {
+            position: absolute;
+            z-index: 100;
+            background: rgba(0,0,0,0.8);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="play-overlay" onclick="startReel()">
+        <div style="border: 1px solid var(--primary); padding: 1rem 2rem; color: #fff;">
+            CLICK TO START REEL (REC 🔴)
+        </div>
+    </div>
+
+    <div id="reel-container">
+        <canvas id="cosmos"></canvas>
+        <div class="scanlines"></div>
+        <div class="glitch-overlay"></div>
+
+        <div class="content-layer">
+            <div id="text-1" class="statement">El universo tiene muchas historias...</div>
+            <div id="text-2" class="statement">...pero el código es la verdad.</div>
+
+            <div class="brand-reveal">
+                <div class="brand-title">ShamanTek</div>
+                <div class="brand-sub">Portal V3.0</div>
+            </div>
+
+            <div id="kw-1" class="keyword">FUTURO</div>
+            <div id="kw-2" class="keyword">ALMA</div>
+            <div id="kw-3" class="keyword">DATA</div>
+
+            <div class="final-url">shamantek.com</div>
+        </div>
+    </div>
+
+    <!-- Reuse existing script for particles -->
+    <script src="scripts/cosmos.js"></script>
+    <script>
+        function startReel() {
+            document.getElementById('play-overlay').style.display = 'none';
+            // Reset animations by reflowing (simple hack: reload page or just let it play if it's CSS)
+            // Ideally, we add classes here to start animations if they weren't auto-running,
+            // but CSS @keyframes run on load. Simply hiding overlay reveals them properly synced?
+            // Actually, best to reload the content to sync frame 0.
+            
+            const container = document.querySelector('.content-layer');
+            const clone = container.cloneNode(true);
+            container.parentNode.replaceChild(clone, container);
+            
+            // Also restart flash
+            const flash = document.querySelector('.glitch-overlay');
+            const flashClone = flash.cloneNode(true);
+            flash.parentNode.replaceChild(flashClone, flash);
+        }
+    </script>
+</body>
+</html>

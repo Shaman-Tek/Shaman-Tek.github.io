@@ -2,7 +2,8 @@
 
 /* 1. TUNNEL REVEAL EFFECT */
 .scramble-text {
-    opacity: 0;
+    opacity: 1;
+    /* Improved FCP: show text during initial paint */
 }
 
 .tunnel-text {
@@ -217,6 +218,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     .tunnel-char,
     .tunnel-char.animating,
     .logo:hover .logo-shaman,

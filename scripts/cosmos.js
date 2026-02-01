@@ -118,17 +118,24 @@ window.addEventListener('resize', () => {
 });
 
 // ============================================
-// INICIALIZACIÓN
+// INICIALIZACIÓN (Deferred for TTI optimization)
 // ============================================
-if (canvas) {
-    resize();
-    renderStars(0);
+function initCosmos() {
+    if (canvas) {
+        resize();
+        renderStars(0);
+    }
+    updateConstellationLines();
 }
 
-// Actualizar líneas y ocultar loader cuando todo esté cargado
-window.addEventListener('load', () => {
-    updateConstellationLines();
+if (window.requestIdleCallback) {
+    window.requestIdleCallback(initCosmos);
+} else {
+    setTimeout(initCosmos, 1);
+}
 
+// Ocultar loader cuando todo esté cargado
+window.addEventListener('load', () => {
     const loader = document.getElementById('loader');
     if (loader) {
         setTimeout(() => {
@@ -136,7 +143,7 @@ window.addEventListener('load', () => {
             setTimeout(() => {
                 loader.style.display = 'none';
             }, 800);
-        }, 500); // Pequeño delay extra para asegurar fluidez
+        }, 500);
     }
 });
 
