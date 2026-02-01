@@ -76,8 +76,15 @@ body {
 }
 
 @keyframes starsTwinkle {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 0.7; }
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
 }
 
 #ritual-screen.hidden {
@@ -120,8 +127,15 @@ body {
 }
 
 @keyframes questionFade {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .question-text {
@@ -252,7 +266,26 @@ body {
     color: var(--surreal-gold, #c9a227);
 }
 
-/* Indicador de nodos */
+#fullscreen-btn {
+    background: rgba(10, 8, 16, 0.8);
+    border: 1px solid var(--surreal-ghost, #9988bb);
+    color: var(--surreal-ghost, #9988bb);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+#fullscreen-btn svg {
+    transition: transform 0.3s ease;
+}
+
+#fullscreen-btn:hover svg {
+    transform: scale(1.1);
+}
+
+/* Indicador de nodos (FIXED OVERLAP) */
 .node-indicator {
     position: fixed;
     top: 2rem;
@@ -297,7 +330,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 4rem 2rem;
+    padding: 2rem;
     position: relative;
     overflow: hidden;
 }
@@ -317,33 +350,62 @@ body {
 }
 
 .dream-number {
-    position: absolute;
-    top: 2rem;
-    right: 6rem;
+    position: fixed;
+    top: 3.5rem;
+    /* Ajustado para no pisar los puntos */
+    right: 2rem;
     font-family: 'Space Mono', monospace;
     font-size: 0.7rem;
     color: var(--surreal-ghost, #9988bb);
     opacity: 0.5;
     letter-spacing: 0.2em;
+    z-index: 90;
 }
 
 .node-title {
-    font-size: 0.75rem;
+    font-size: calc(0.75rem + 2px);
+    /* 2 puntos más grande */
     font-weight: 300;
     letter-spacing: 0.5em;
     text-transform: uppercase;
     color: var(--surreal-ghost, #9988bb);
-    margin-bottom: 2rem;
-    opacity: 0.6;
+    margin-bottom: 0;
+    /* Espacio manejado por el gap */
+    opacity: 0.8;
+    /* Un poco más visible */
+    text-align: center;
 }
 
 /* ============================================
    ARTWORK CONTAINER
    ============================================ */
 
+/* ============================================
+   NODE CORE (SIDE BY SIDE LAYOUT)
+   ============================================ */
+
+.node-core {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+    width: 95vw;
+    max-width: 1300px;
+}
+
+.artwork-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    flex: 1;
+    max-width: 900px;
+}
+
 .artwork-container {
     position: relative;
-    width: min(85vw, 900px);
+    width: 100%;
     aspect-ratio: 16/9;
     cursor: crosshair;
     overflow: hidden;
@@ -392,8 +454,8 @@ body {
     z-index: 10;
     pointer-events: none;
     background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-        rgba(201, 162, 39, 0.08) 0%,
-        transparent 50%);
+            rgba(201, 162, 39, 0.08) 0%,
+            transparent 50%);
     opacity: 0;
     transition: opacity 0.4s ease;
 }
@@ -418,6 +480,8 @@ body {
 .artwork-container:hover .layer-indicator {
     opacity: 1;
 }
+
+
 
 .layer-dot {
     width: 6px;
@@ -454,8 +518,15 @@ body {
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.8; }
+
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
 }
 
 /* ============================================
@@ -464,10 +535,11 @@ body {
 
 .portals {
     display: flex;
-    gap: 2rem;
-    margin-top: 3rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
     justify-content: center;
+    min-width: 180px;
 }
 
 .portal {
@@ -503,29 +575,70 @@ body {
    ============================================ */
 
 .whisper {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
+    bottom: 0;
+    left: auto;
+    transform: none;
     font-family: 'Space Mono', monospace;
     font-size: 0.65rem;
     color: var(--surreal-ghost, #9988bb);
-    opacity: 0.5;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    transition: opacity 0.6s ease;
     text-align: center;
+    z-index: 10;
+    pointer-events: none;
+    width: 100%;
+    margin-top: 0;
+}
+
+.whisper-content {
+    display: none;
+    opacity: 0;
+    transition: opacity 1s ease, transform 1s ease;
+    transform: translateY(10px);
+}
+
+.whisper-content.active {
+    display: block;
+    opacity: 0.6;
+    transform: translateY(0);
+    animation: whisperPulse 4s ease-in-out infinite;
+}
+
+@keyframes whisperPulse {
+
+    0%,
+    100% {
+        opacity: 0.4;
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translateY(-2px) scale(1.02);
+    }
+}
+
+.whisper-icon {
+    display: inline-block;
+    margin-right: 0.5rem;
+    color: var(--surreal-gold, #c9a227);
+    animation: iconSpin 8s linear infinite;
+}
+
+@keyframes iconSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .whisper.fade {
     opacity: 0;
-}
-
-.whisper-hint {
-    display: block;
-    margin-top: 0.5rem;
-    opacity: 0.6;
-    font-size: 0.6rem;
+    transition: opacity 2s ease;
 }
 
 /* ============================================
@@ -552,8 +665,13 @@ body {
 }
 
 @keyframes oracleReveal {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .oracle-title {
@@ -631,8 +749,15 @@ body {
 }
 
 @keyframes responseReveal {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .oracle-image {
@@ -670,41 +795,55 @@ body {
     color: var(--surreal-gold, #c9a227);
 }
 
-/* Trigger del oráculo */
+/* Trigger del oráculo (Sustituido por firma SHAMANTEK) */
 .oracle-trigger {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    width: 24px;
-    height: 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--surreal-ghost, #9988bb);
     opacity: 0.08;
     cursor: help;
-    transition: opacity 0.6s ease;
+    transition: all 0.6s ease;
     z-index: 50;
+    user-select: none;
+    white-space: nowrap;
 }
 
 .oracle-trigger:hover {
-    opacity: 0.5;
+    opacity: 0.4;
+    color: var(--surreal-gold, #c9a227);
+    letter-spacing: 0.5em;
+    /* Sutil expansión al hover */
 }
 
-.oracle-trigger svg {
-    width: 100%;
-    height: 100%;
-    fill: var(--surreal-ghost, #9988bb);
-}
 
 /* ============================================
    ANIMACIONES
    ============================================ */
 
 @keyframes nodeTransition {
-    0% { opacity: 0; filter: blur(20px); }
-    100% { opacity: 1; filter: blur(0); }
+    0% {
+        opacity: 0;
+        filter: blur(20px);
+    }
+
+    100% {
+        opacity: 1;
+        filter: blur(0);
+    }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .dream-node.exiting {
@@ -712,21 +851,43 @@ body {
 }
 
 @keyframes nodeExit {
-    0% { opacity: 1; filter: blur(0); }
-    100% { opacity: 0; filter: blur(20px); }
+    0% {
+        opacity: 1;
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 0;
+        filter: blur(20px);
+    }
 }
 
 /* ============================================
    RESPONSIVE
    ============================================ */
 
-@media (max-width: 768px) {
-    .question-text {
-        font-size: 1.4rem;
+@media (max-width: 1024px) {
+    .node-core {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .portals {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        min-width: auto;
     }
 
     .artwork-container {
         width: 95vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .question-text {
+        font-size: 1.4rem;
     }
 
     .portals {

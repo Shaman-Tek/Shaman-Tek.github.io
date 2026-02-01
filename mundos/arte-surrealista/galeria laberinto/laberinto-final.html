@@ -101,6 +101,9 @@
             </button>
             <a href="../Threshold of the Amethyst Gate.mp3" download class="nav-sigil nav-download-audio" title="Descargar música">⤓</a>
             <div class="nav-sigil" id="reset-btn" title="Reiniciar">&#9675;</div>
+            <button id="fullscreen-btn" class="nav-sigil" title="Pantalla Completa">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+            </button>
         </nav>
 
         <!-- Indicador de nodos visitados -->
@@ -117,29 +120,45 @@
              ============================================ -->
         <section class="dream-node active" data-node="umbral" id="node-umbral">
             <span class="dream-number">I</span>
-            <div class="node-title">El Umbral</div>
+            <div class="node-core">
+                <div class="artwork-center">
+                    <div class="node-title">El Umbral</div>
+                    
+                    <div class="whisper">
+                        <div class="whisper-content active" data-hint="hover">
+                            <span class="whisper-icon">◈</span> pasá el cursor sobre la imagen para revelar el velo
+                        </div>
+                        <div class="whisper-content" data-hint="hold">
+                            <span class="whisper-icon">❂</span> mantené presionado para descender a lo profundo
+                        </div>
+                        <div class="whisper-content" data-hint="move">
+                            <span class="whisper-icon">✦</span> explorá los rincones con tu presencia
+                        </div>
+                    </div>
 
-            <div class="artwork-container" data-artwork="umbral">
-                <div class="loading-state"></div>
-                <div class="artwork-layer layer-base" style="background-image: url('umbral-capa1.png');"></div>
-                <div class="artwork-layer layer-hidden" style="background-image: url('umbral-capa2.png');"></div>
-                <div class="artwork-layer layer-deep" style="background-image: url('umbral-capa3.png');"></div>
-                <div class="layer-indicator">
-                    <div class="layer-dot active" data-layer="1"></div>
-                    <div class="layer-dot" data-layer="2"></div>
-                    <div class="layer-dot" data-layer="3"></div>
+                    <div class="artwork-container" data-artwork="umbral">
+                        <div class="loading-state"></div>
+                        <div class="artwork-layer layer-base" style="background-image: url('umbral-capa1.png');"></div>
+                        <div class="artwork-layer layer-hidden" style="background-image: url('umbral-capa2.png');"></div>
+                        <div class="artwork-layer layer-deep" style="background-image: url('umbral-capa3.png');"></div>
+                        <div class="layer-indicator">
+                            <div class="layer-dot active" data-layer="1"></div>
+                            <div class="layer-dot" data-layer="2"></div>
+                            <div class="layer-dot" data-layer="3"></div>
+                        </div>
+                        <div class="artwork-download">
+                            <a href="umbral-capa1.png" download="umbral-capa1.png" title="Descargar capa 1">⤓1</a>
+                            <a href="umbral-capa2.png" download="umbral-capa2.png" title="Descargar capa 2">⤓2</a>
+                            <a href="umbral-capa3.png" download="umbral-capa3.png" title="Descargar capa 3">⤓3</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="artwork-download">
-                    <a href="umbral-capa1.png" download="umbral-capa1.png" title="Descargar capa 1">⤓1</a>
-                    <a href="umbral-capa2.png" download="umbral-capa2.png" title="Descargar capa 2">⤓2</a>
-                    <a href="umbral-capa3.png" download="umbral-capa3.png" title="Descargar capa 3">⤓3</a>
-                </div>
-            </div>
 
-            <div class="portals">
-                <a class="portal" data-target="agua">hacia el agua</a>
-                <a class="portal" data-target="espejo">hacia el espejo</a>
-                <a class="portal" data-target="bosque">hacia el bosque</a>
+                <div class="portals">
+                    <a class="portal" data-target="agua">hacia el agua</a>
+                    <a class="portal" data-target="espejo">hacia el espejo</a>
+                    <a class="portal" data-target="bosque">hacia el bosque</a>
+                </div>
             </div>
         </section>
 
@@ -148,29 +167,45 @@
              ============================================ -->
         <section class="dream-node" data-node="agua" id="node-agua">
             <span class="dream-number">II</span>
-            <div class="node-title">El Agua</div>
+            <div class="node-core">
+                <div class="artwork-center">
+                    <div class="node-title">El Agua</div>
+                    
+                    <div class="whisper">
+                        <div class="whisper-content active" data-hint="hover">
+                            <span class="whisper-icon">◈</span> pasá el cursor sobre la imagen para revelar el velo
+                        </div>
+                        <div class="whisper-content" data-hint="hold">
+                            <span class="whisper-icon">❂</span> mantené presionado para descender a lo profundo
+                        </div>
+                        <div class="whisper-content" data-hint="move">
+                            <span class="whisper-icon">✦</span> explorá los rincones con tu presencia
+                        </div>
+                    </div>
 
-            <div class="artwork-container" data-artwork="agua">
-                <div class="loading-state"></div>
-                <div class="artwork-layer layer-base" style="background-image: url('agua-capa1.png');"></div>
-                <div class="artwork-layer layer-hidden" style="background-image: url('agua-capa2.png');"></div>
-                <div class="artwork-layer layer-deep" style="background-image: url('agua-capa3.png');"></div>
-                <div class="layer-indicator">
-                    <div class="layer-dot active" data-layer="1"></div>
-                    <div class="layer-dot" data-layer="2"></div>
-                    <div class="layer-dot" data-layer="3"></div>
+                    <div class="artwork-container" data-artwork="agua">
+                        <div class="loading-state"></div>
+                        <div class="artwork-layer layer-base" style="background-image: url('agua-capa1.png');"></div>
+                        <div class="artwork-layer layer-hidden" style="background-image: url('agua-capa2.png');"></div>
+                        <div class="artwork-layer layer-deep" style="background-image: url('agua-capa3.png');"></div>
+                        <div class="layer-indicator">
+                            <div class="layer-dot active" data-layer="1"></div>
+                            <div class="layer-dot" data-layer="2"></div>
+                            <div class="layer-dot" data-layer="3"></div>
+                        </div>
+                        <div class="artwork-download">
+                            <a href="agua-capa1.png" download="agua-capa1.png" title="Descargar capa 1">⤓1</a>
+                            <a href="agua-capa2.png" download="agua-capa2.png" title="Descargar capa 2">⤓2</a>
+                            <a href="agua-capa3.png" download="agua-capa3.png" title="Descargar capa 3">⤓3</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="artwork-download">
-                    <a href="agua-capa1.png" download="agua-capa1.png" title="Descargar capa 1">⤓1</a>
-                    <a href="agua-capa2.png" download="agua-capa2.png" title="Descargar capa 2">⤓2</a>
-                    <a href="agua-capa3.png" download="agua-capa3.png" title="Descargar capa 3">⤓3</a>
-                </div>
-            </div>
 
-            <div class="portals">
-                <a class="portal" data-target="umbral">volver al umbral</a>
-                <a class="portal" data-target="espejo">atravesar hacia el espejo</a>
-                <a class="portal" data-target="abismo">descender al abismo</a>
+                <div class="portals">
+                    <a class="portal" data-target="umbral">volver al umbral</a>
+                    <a class="portal" data-target="espejo">atravesar hacia el espejo</a>
+                    <a class="portal" data-target="abismo">descender al abismo</a>
+                </div>
             </div>
         </section>
 
@@ -179,29 +214,45 @@
              ============================================ -->
         <section class="dream-node" data-node="espejo" id="node-espejo">
             <span class="dream-number">III</span>
-            <div class="node-title">El Espejo</div>
+            <div class="node-core">
+                <div class="artwork-center">
+                    <div class="node-title">El Espejo</div>
+                    
+                    <div class="whisper">
+                        <div class="whisper-content active" data-hint="hover">
+                            <span class="whisper-icon">◈</span> pasá el cursor sobre la imagen para revelar el velo
+                        </div>
+                        <div class="whisper-content" data-hint="hold">
+                            <span class="whisper-icon">❂</span> mantené presionado para descender a lo profundo
+                        </div>
+                        <div class="whisper-content" data-hint="move">
+                            <span class="whisper-icon">✦</span> explorá los rincones con tu presencia
+                        </div>
+                    </div>
 
-            <div class="artwork-container" data-artwork="espejo">
-                <div class="loading-state"></div>
-                <div class="artwork-layer layer-base" style="background-image: url('espejo-capa1.png');"></div>
-                <div class="artwork-layer layer-hidden" style="background-image: url('espejo-capa2.png');"></div>
-                <div class="artwork-layer layer-deep" style="background-image: url('espejo-capa3.png');"></div>
-                <div class="layer-indicator">
-                    <div class="layer-dot active" data-layer="1"></div>
-                    <div class="layer-dot" data-layer="2"></div>
-                    <div class="layer-dot" data-layer="3"></div>
+                    <div class="artwork-container" data-artwork="espejo">
+                        <div class="loading-state"></div>
+                        <div class="artwork-layer layer-base" style="background-image: url('espejo-capa1.png');"></div>
+                        <div class="artwork-layer layer-hidden" style="background-image: url('espejo-capa2.png');"></div>
+                        <div class="artwork-layer layer-deep" style="background-image: url('espejo-capa3.png');"></div>
+                        <div class="layer-indicator">
+                            <div class="layer-dot active" data-layer="1"></div>
+                            <div class="layer-dot" data-layer="2"></div>
+                            <div class="layer-dot" data-layer="3"></div>
+                        </div>
+                        <div class="artwork-download">
+                            <a href="espejo-capa1.png" download="espejo-capa1.png" title="Descargar capa 1">⤓1</a>
+                            <a href="espejo-capa2.png" download="espejo-capa2.png" title="Descargar capa 2">⤓2</a>
+                            <a href="espejo-capa3.png" download="espejo-capa3.png" title="Descargar capa 3">⤓3</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="artwork-download">
-                    <a href="espejo-capa1.png" download="espejo-capa1.png" title="Descargar capa 1">⤓1</a>
-                    <a href="espejo-capa2.png" download="espejo-capa2.png" title="Descargar capa 2">⤓2</a>
-                    <a href="espejo-capa3.png" download="espejo-capa3.png" title="Descargar capa 3">⤓3</a>
-                </div>
-            </div>
 
-            <div class="portals">
-                <a class="portal" data-target="umbral">escapar al umbral</a>
-                <a class="portal" data-target="bosque">internarse en el bosque</a>
-                <a class="portal" data-target="abismo">caer al abismo</a>
+                <div class="portals">
+                    <a class="portal" data-target="umbral">escapar al umbral</a>
+                    <a class="portal" data-target="bosque">internarse en el bosque</a>
+                    <a class="portal" data-target="abismo">caer al abismo</a>
+                </div>
             </div>
         </section>
 
@@ -210,29 +261,45 @@
              ============================================ -->
         <section class="dream-node" data-node="bosque" id="node-bosque">
             <span class="dream-number">IV</span>
-            <div class="node-title">El Bosque</div>
+            <div class="node-core">
+                <div class="artwork-center">
+                    <div class="node-title">El Bosque</div>
+                    
+                    <div class="whisper">
+                        <div class="whisper-content active" data-hint="hover">
+                            <span class="whisper-icon">◈</span> pasá el cursor sobre la imagen para revelar el velo
+                        </div>
+                        <div class="whisper-content" data-hint="hold">
+                            <span class="whisper-icon">❂</span> mantené presionado para descender a lo profundo
+                        </div>
+                        <div class="whisper-content" data-hint="move">
+                            <span class="whisper-icon">✦</span> explorá los rincones con tu presencia
+                        </div>
+                    </div>
 
-            <div class="artwork-container" data-artwork="bosque">
-                <div class="loading-state"></div>
-                <div class="artwork-layer layer-base" style="background-image: url('bosque-capa1.png');"></div>
-                <div class="artwork-layer layer-hidden" style="background-image: url('bosque-capa2.png');"></div>
-                <div class="artwork-layer layer-deep" style="background-image: url('bosque-capa3.png');"></div>
-                <div class="layer-indicator">
-                    <div class="layer-dot active" data-layer="1"></div>
-                    <div class="layer-dot" data-layer="2"></div>
-                    <div class="layer-dot" data-layer="3"></div>
+                    <div class="artwork-container" data-artwork="bosque">
+                        <div class="loading-state"></div>
+                        <div class="artwork-layer layer-base" style="background-image: url('bosque-capa1.png');"></div>
+                        <div class="artwork-layer layer-hidden" style="background-image: url('bosque-capa2.png');"></div>
+                        <div class="artwork-layer layer-deep" style="background-image: url('bosque-capa3.png');"></div>
+                        <div class="layer-indicator">
+                            <div class="layer-dot active" data-layer="1"></div>
+                            <div class="layer-dot" data-layer="2"></div>
+                            <div class="layer-dot" data-layer="3"></div>
+                        </div>
+                        <div class="artwork-download">
+                            <a href="bosque-capa1.png" download="bosque-capa1.png" title="Descargar capa 1">⤓1</a>
+                            <a href="bosque-capa2.png" download="bosque-capa2.png" title="Descargar capa 2">⤓2</a>
+                            <a href="bosque-capa3.png" download="bosque-capa3.png" title="Descargar capa 3">⤓3</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="artwork-download">
-                    <a href="bosque-capa1.png" download="bosque-capa1.png" title="Descargar capa 1">⤓1</a>
-                    <a href="bosque-capa2.png" download="bosque-capa2.png" title="Descargar capa 2">⤓2</a>
-                    <a href="bosque-capa3.png" download="bosque-capa3.png" title="Descargar capa 3">⤓3</a>
-                </div>
-            </div>
 
-            <div class="portals">
-                <a class="portal" data-target="umbral">regresar al umbral</a>
-                <a class="portal" data-target="espejo">reflejarse en el espejo</a>
-                <a class="portal" data-target="abismo">la grieta hacia el abismo</a>
+                <div class="portals">
+                    <a class="portal" data-target="umbral">regresar al umbral</a>
+                    <a class="portal" data-target="espejo">reflejarse en el espejo</a>
+                    <a class="portal" data-target="abismo">la grieta hacia el abismo</a>
+                </div>
             </div>
         </section>
 
@@ -241,41 +308,53 @@
              ============================================ -->
         <section class="dream-node" data-node="abismo" id="node-abismo">
             <span class="dream-number">V</span>
-            <div class="node-title">El Abismo</div>
+            <div class="node-core">
+                <div class="artwork-center">
+                    <div class="node-title">El Abismo</div>
+                    
+                    <div class="whisper">
+                        <div class="whisper-content active" data-hint="hover">
+                            <span class="whisper-icon">◈</span> pasá el cursor sobre la imagen para revelar el velo
+                        </div>
+                        <div class="whisper-content" data-hint="hold">
+                            <span class="whisper-icon">❂</span> mantené presionado para descender a lo profundo
+                        </div>
+                        <div class="whisper-content" data-hint="move">
+                            <span class="whisper-icon">✦</span> explorá los rincones con tu presencia
+                        </div>
+                    </div>
 
-            <div class="artwork-container" data-artwork="abismo">
-                <div class="loading-state"></div>
-                <div class="artwork-layer layer-base" style="background-image: url('abismo-capa1.png');"></div>
-                <div class="artwork-layer layer-hidden" style="background-image: url('abismo-capa2.png');"></div>
-                <div class="artwork-layer layer-deep" style="background-image: url('abismo-capa3.png');"></div>
-                <div class="layer-indicator">
-                    <div class="layer-dot active" data-layer="1"></div>
-                    <div class="layer-dot" data-layer="2"></div>
-                    <div class="layer-dot" data-layer="3"></div>
+                    <div class="artwork-container" data-artwork="abismo">
+                        <div class="loading-state"></div>
+                        <div class="artwork-layer layer-base" style="background-image: url('abismo-capa1.png');"></div>
+                        <div class="artwork-layer layer-hidden" style="background-image: url('abismo-capa2.png');"></div>
+                        <div class="artwork-layer layer-deep" style="background-image: url('abismo-capa3.png');"></div>
+                        <div class="layer-indicator">
+                            <div class="layer-dot active" data-layer="1"></div>
+                            <div class="layer-dot" data-layer="2"></div>
+                            <div class="layer-dot" data-layer="3"></div>
+                        </div>
+                        <div class="artwork-download">
+                            <a href="abismo-capa1.png" download="abismo-capa1.png" title="Descargar capa 1">⤓1</a>
+                            <a href="abismo-capa2.png" download="abismo-capa2.png" title="Descargar capa 2">⤓2</a>
+                            <a href="abismo-capa3.png" download="abismo-capa3.png" title="Descargar capa 3">⤓3</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="artwork-download">
-                    <a href="abismo-capa1.png" download="abismo-capa1.png" title="Descargar capa 1">⤓1</a>
-                    <a href="abismo-capa2.png" download="abismo-capa2.png" title="Descargar capa 2">⤓2</a>
-                    <a href="abismo-capa3.png" download="abismo-capa3.png" title="Descargar capa 3">⤓3</a>
-                </div>
-            </div>
 
-            <div class="portals">
-                <a class="portal" data-target="umbral">despertar</a>
-                <a class="portal" data-target="agua">emerger en el agua</a>
-                <a class="portal" data-target="bosque">ascender al bosque</a>
+                <div class="portals">
+                    <a class="portal" data-target="umbral">despertar</a>
+                    <a class="portal" data-target="agua">emerger en el agua</a>
+                    <a class="portal" data-target="bosque">ascender al bosque</a>
+                </div>
             </div>
         </section>
 
-        <!-- Instrucciones sutiles -->
-        <div class="whisper" id="whisper">
-            pasá el cursor sobre la imagen
-            <span class="whisper-hint">mantené presionado para revelar lo oculto</span>
-        </div>
+
 
         <!-- Trigger oculto del oráculo -->
-        <div class="oracle-trigger" id="oracle-trigger" title="&#8258;">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><circle cx="12" cy="4" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="4" cy="12" r="1.5"/><circle cx="20" cy="12" r="1.5"/></svg>
+        <div class="oracle-trigger" id="oracle-trigger" title="Consultar al Oráculo">
+            SHAMANTEK
         </div>
     </div>
 

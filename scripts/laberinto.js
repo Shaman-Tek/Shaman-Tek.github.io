@@ -6,7 +6,7 @@
  * y ritual de entrada personalizado.
  */
 
-(function() {
+(function () {
     'use strict';
 
     // ============================================
@@ -18,7 +18,8 @@
         DEEP_REVEAL_DURATION: 2000,  // ms que permanece la capa profunda
         WHISPER_FADE_DELAY: 10000,   // ms antes de ocultar instrucciones
         RITUAL_QUESTIONS: 4,
-        SKIP_CLICKS_REQUIRED: 3
+        SKIP_CLICKS_REQUIRED: 3,
+        HINT_CYCLE_INTERVAL: 8000    // ms entre rotación de hints
     };
 
     // Fragmentos oraculares
@@ -50,7 +51,13 @@
         currentQuestion: 1,
         currentNode: 'umbral',
         visitedNodes: new Set(['umbral']),
-        skipClickCount: 0
+        skipClickCount: 0,
+        hintIndex: 0,
+        interactions: {
+            hovered: false,
+            held: false,
+            moved: false
+        }
     };
 
     // ============================================
@@ -180,6 +187,8 @@
                     currentLayer = 2;
                     updateLayerIndicator(2);
                 }
+                state.interactions.hovered = true;
+                UIModule.updateHints();
             });
 
             container.addEventListener('mouseleave', () => {
@@ -199,6 +208,8 @@
                     container.classList.add('deep-reveal');
                     currentLayer = 3;
                     updateLayerIndicator(3);
+                    state.interactions.held = true;
+                    UIModule.updateHints();
                 }, CONFIG.DEEP_REVEAL_DELAY);
             });
 
@@ -222,6 +233,11 @@
                 const y = ((e.clientY - rect.top) / rect.height) * 100;
                 container.style.setProperty('--mouse-x', `${x}%`);
                 container.style.setProperty('--mouse-y', `${y}%`);
+
+                if (!state.interactions.moved && state.interactions.hovered) {
+                    state.interactions.moved = true;
+                    UIModule.updateHints();
+                }
             });
 
             // Touch support
@@ -330,6 +346,23 @@
                     dot.classList.add('visited');
                 }
             });
+        },
+
+        bindFullscreen() {
+            const fsBtn = document.getElementById('fullscreen-btn');
+            if (fsBtn) {
+                fsBtn.addEventListener('click', () => {
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().catch(err => {
+                            console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+                        });
+                    } else {
+                        if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                        }
+                    }
+                });
+            }
         }
     };
 
@@ -401,11 +434,47 @@
         },
 
         setupWhisperFade() {
-            const whisper = document.getElementById('whisper');
-            if (whisper) {
+            // Ya no dependemos de un ID "whisper" único
+            // El intervalo sigue siendo global, pero rotateHints es inteligente
+            this.hintInterval = setInterval(() => {
+                this.rotateHints();
+            }, CONFIG.HINT_CYCLE_INTERVAL);
+        },
+
+        rotateHints() {
+            const activeNode = document.querySelector('.dream-node.active');
+            if (!activeNode) return;
+
+            const whisper = activeNode.querySelector('.whisper');
+            if (!whisper) return;
+
+            const hints = whisper.querySelectorAll('.whisper-content');
+            if (hints.length === 0) return;
+
+            // Quitar active del actual
+            let activeIdx = Array.from(hints).findIndex(h => h.classList.contains('active'));
+            if (activeIdx !== -1) {
+                hints[activeIdx].classList.remove('active');
+            }
+
+            // Rotar al siguiente
+            activeIdx = (activeIdx + 1) % hints.length;
+            hints[activeIdx].classList.add('active');
+        },
+
+        updateHints() {
+            const activeNode = document.querySelector('.dream-node.active');
+            if (!activeNode) return;
+
+            const whisper = activeNode.querySelector('.whisper');
+            if (!whisper || whisper.classList.contains('fade')) return;
+
+            // Si el usuario ya dominó las interacciones básicas, ocultar hints gradualmente
+            if (state.interactions.hovered && state.interactions.held && state.interactions.moved) {
                 setTimeout(() => {
                     whisper.classList.add('fade');
-                }, CONFIG.WHISPER_FADE_DELAY);
+                    // El intervalo puede seguir corriendo, no afecta si el contenedor está fade/invisible
+                }, 3000);
             }
         }
     };
@@ -418,6 +487,7 @@
         RitualModule.init();
         ArtworkModule.init();
         NavigationModule.init();
+        NavigationModule.bindFullscreen();
         OracleModule.init();
         UIModule.init();
     }
