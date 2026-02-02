@@ -1,12 +1,40 @@
 // Navigation toggle
 const navToggle = document.getElementById('navToggle');
 const nav = document.getElementById('nav');
+const navClose = document.getElementById('navClose');
 
 if (navToggle && nav) {
+    // Function to update toggle button visibility
+    const updateToggleVisibility = () => {
+        if (window.innerWidth >= 1024) {
+            // On desktop, show toggle only when nav is closed
+            if (nav.classList.contains('closed')) {
+                navToggle.style.display = 'flex';
+            } else {
+                navToggle.style.display = 'none';
+            }
+        } else {
+            // On mobile, always show toggle
+            navToggle.style.display = 'flex';
+        }
+    };
+
     navToggle.addEventListener('click', () => {
         navToggle.classList.toggle('active');
         nav.classList.toggle('open');
+        nav.classList.remove('closed'); // Remove closed state when opening
+        updateToggleVisibility();
     });
+
+    // Close button functionality
+    if (navClose) {
+        navClose.addEventListener('click', () => {
+            nav.classList.add('closed');
+            nav.classList.remove('open');
+            navToggle.classList.remove('active');
+            updateToggleVisibility();
+        });
+    }
 
     // Close nav when clicking a link (mobile)
     document.querySelectorAll('.nav-link').forEach(link => {
@@ -14,9 +42,16 @@ if (navToggle && nav) {
             if (window.innerWidth < 1024) {
                 navToggle.classList.remove('active');
                 nav.classList.remove('open');
+                updateToggleVisibility();
             }
         });
     });
+
+    // Initial visibility check
+    updateToggleVisibility();
+
+    // Update on window resize
+    window.addEventListener('resize', updateToggleVisibility);
 }
 
 // Progress bar

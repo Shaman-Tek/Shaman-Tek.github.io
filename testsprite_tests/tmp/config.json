@@ -1,8 +1,8 @@
 {
-  "status": "commited",
+  "status": "init",
   "type": "frontend",
   "scope": "codebase",
-  "localEndpoint": "http://localhost:3000/c:\\\\Users\\\\lalop\\\\Documents\\\\Personal\\\\blog\\\\shamantek-completov1\\\\shamantek",
+  "localEndpoint": "http://localhost:3000/",
   "executionArgs": {
     "projectName": "shamantek",
     "projectPath": "c:\\Users\\lalop\\Documents\\Personal\\blog\\shamantek-completov1\\shamantek",
@@ -15,5 +15,6 @@
       "API_KEY": "sk-user-CSq469h4L1xvagNWe05_QRCclAKnSv9lf9BCWDX6tK9zu85sFy4s6CABx3GGt7FfZjKytgZvlP0jl5PucLhQt5QpSg-pvHORTnKorqQWg7TvnQgF6hvMHo4rFpg-ozEp65s"
     }
   },
-  "proxy": "http://bc287ee3-fe5a-4890-afb3-99268ec062ba:0s5QhaymAqiHQclk55b5v3FuXzqgsex2@tun.testsprite.com:8080"
+  "proxy": "http://bc287ee3-fe5a-4890-afb3-99268ec062ba:0s5QhaymAqiHQclk55b5v3FuXzqgsex2@tun.testsprite.com:8080",
+  "serverPort": 62082
 }

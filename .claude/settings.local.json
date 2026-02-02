@@ -2,7 +2,23 @@
   "permissions": {
     "allow": [
       "Bash(python -m http.server:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "mcp__github__list_pull_requests",
+      "mcp__github__list_commits",
+      "Bash(curl:*)",
+      "mcp__github__get_file_contents",
+      "Bash(findstr:*)",
+      "Bash(Select-String -Pattern \"ICE|EEUU|deporta\" -CaseSensitive:$false)",
+      "Bash(gh api:*)",
+      "Bash(gh run view:*)",
+      "Bash(git rm:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfix: remove video submodule to fix GitHub Pages build\n\nThe video directory was incorrectly tracked as a submodule without\na .gitmodules file, causing GitHub Pages builds to fail.\n\n- Remove video from git tracking\n- Add video/ to .gitignore \\(kept locally for skills\\)\n\n🤖 Generated with [Claude Code]\\(https://claude.ai/code\\)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push)",
+      "Bash(npx:*)",
+      "WebFetch(domain:shaman-tek.github.io)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat\\(laberinto\\): enhance UX with side-by-side layout, fullscreen, and rotating hints\n\nMajor improvements to the interactive labyrinth gallery:\n\n- Add side-by-side layout: portals now display alongside artwork\n- Add fullscreen button for immersive experience\n- Implement rotating contextual whispers/hints for each node\n- Track user interactions \\(hover, hold, move\\) to hide hints after mastery\n- Replace oracle SVG trigger with SHAMANTEK text signature\n- Improve responsive design for medium screens \\(1024px breakpoint\\)\n- Fix layout overlaps and spacing issues\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)"
     ]
   }
 }
